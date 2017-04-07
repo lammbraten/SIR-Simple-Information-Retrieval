@@ -30,9 +30,8 @@ public class SimpleInformationRetrieval {
 		if(!corpus.isDirectory())
 			throw new IllegalArgumentException("Quelldatei muss ein Ordner sein!");
 		
-		for(File f : corpus.listFiles())
-			System.out.println(f);
-		
+		//for(File f : corpus.listFiles())
+		//	System.out.println(f);
 	}
 
 	public static void main(String[] args) {
@@ -49,7 +48,7 @@ public class SimpleInformationRetrieval {
 	}
 
 	private void startInformationRetrieval() {
-
+		
 		
 		
 	}
