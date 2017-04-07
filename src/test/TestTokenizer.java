@@ -14,7 +14,7 @@ public class TestTokenizer {
 	
 	@Test
 	public void test() {
-		File f = new File(baspath + "\\Mann im Mond.txt");
+		File f = new File(baspath + "\\Aladin und die Wunderlampe.txt");
 		Tokenizer t = new Tokenizer();
 		List<String> output = null;
 		try {

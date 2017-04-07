@@ -15,10 +15,9 @@ public class Tokenizer {
 	private static String DEFAULT_SPLIT_CHARS = ". ,;:!?\"\n";
 	
 	public List<String> tokenize(File f) throws IOException{
-		String filestr = Files.asCharSource(f, Charsets.UTF_8).read();
-
+		String filestr = Files.asCharSource(f, Charsets.UTF_8).read()
+				.toLowerCase();
 		return split(filestr);
-		
 	}
 	
 	private List<String> split(String str){
@@ -26,7 +25,5 @@ public class Tokenizer {
 				.omitEmptyStrings()
 				.trimResults()
 				.split(str));
-
 	}
-	
 }
