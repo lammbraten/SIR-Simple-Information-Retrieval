@@ -9,8 +9,7 @@ public class Query {
 		this.queryitems = queryitems;
 	}
 	
-	
-	//TODO: Getter setters;
+
 	
 	
 	public String toString(){

@@ -15,6 +15,8 @@ public abstract class QueryItem {
 		this.name = name;
 	}
 	
+	public abstract void invert();
+	
 	/**
 	 * Create a QueryItem for the given name. 
 	 * @param name

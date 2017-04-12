@@ -9,13 +9,20 @@ public class TestQueryHandler {
 
 	@Test
 	public void test() {
-		Query q = QueryHandler.parseQuery("Hallo Welt");
-		assertTrue(q.toString().equals("hallo welt ;"));
+		Query q;
+		
 		q = QueryHandler.parseQuery("Hexe");
-		assertTrue(q.toString().equals("hexe ;"));
-		q = QueryHandler.parseQuery("Hexe AND Prinzessin");
-		assertTrue(q.toString().equals("hexe AND prinzessin ;"));
 		System.out.println(q);
+		assertTrue(q.toString().equals("hexe ;"));
+		
+		q = QueryHandler.parseQuery("Hexe AND Prinzessin");
+		System.out.println(q);
+		assertTrue(q.toString().equals("hexe AND prinzessin ;"));
+		
+		q = QueryHandler.parseQuery("Hexe AND NOT NOT Prinzessin");
+		System.out.println(q);
+		assertTrue(q.toString().equals("hexe AND prinzessin ;"));
+
 
 	}
 

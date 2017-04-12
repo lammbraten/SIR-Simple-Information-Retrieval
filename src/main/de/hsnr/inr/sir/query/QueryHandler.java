@@ -9,10 +9,26 @@ public class QueryHandler {
 	public static Query parseQuery(String query){
 		List<String> queryStringList = QueryTokenizer.tokenize(query);
 		LinkedList<QueryItem> queryitems = new LinkedList<QueryItem>();
+		int notCounter = 0;
 		
-		for(String queryStringItem : queryStringList)
-			queryitems.add(QueryItem.create(queryStringItem));
+		for(String queryStringItem : queryStringList){
+			
+			if(isNot(queryStringItem))
+				notCounter ++;
+			else{
+				QueryItem qui = QueryItem.create(queryStringItem);				
+				if((notCounter % 2) == 1)
+					qui.invert();
+					
+				queryitems.add(qui);
+			}
+				
+		}
 		
 		return new Query(queryitems);
+	}
+	
+	private static boolean isNot(String str){
+		return str.equals(QueryConjunction.NOT);
 	}
 }

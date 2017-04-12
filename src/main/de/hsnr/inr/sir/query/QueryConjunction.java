@@ -1,9 +1,9 @@
 package de.hsnr.inr.sir.query;
 
 public class QueryConjunction extends QueryItem {
-	private static final String and = "AND";
-	private static final String or = "OR";
-	private static final String not = "NOT";
+	public static final String AND = "AND";
+	public static final String OR = "OR";
+	public static final String NOT = "NOT";
 	
 	QueryConjunction(String name){
 		super(name);
@@ -11,11 +11,9 @@ public class QueryConjunction extends QueryItem {
 	}
 	
 	static boolean isParseable(String candidate){
-		if(candidate.equals(and))
+		if(candidate.equals(AND))
 			return true;
-		if(candidate.equals(or))
-			return true;
-		if(candidate.equals(not))
+		if(candidate.equals(OR))
 			return true;
 		return false;
 	}
@@ -27,5 +25,14 @@ public class QueryConjunction extends QueryItem {
 		if(!isParseable(name))
 			throw new IllegalArgumentException();
 		return new QueryConjunction(name);
+	}
+
+	@Override
+	public void invert() {
+		if(name.equals("AND")) 
+			name = "OR";
+		if(name.equals("OR"))
+			name = "AND";
+		
 	}
 }
