@@ -1,6 +1,5 @@
 package de.hsnr.inr.sir.query;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.google.common.base.CharMatcher;
