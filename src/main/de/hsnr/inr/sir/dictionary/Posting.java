@@ -13,10 +13,9 @@ public class Posting implements Comparable<Object>{
 
 	@Override
 	public int compareTo(Object o) {
-		String str;
-		if(o instanceof String){
-			str = (String) o;
-			return value.compareTo(str);			
+		if(o instanceof Posting){
+			Posting p = (Posting) o;
+			return value.compareTo(p.getValue());			
 		}
 		throw new ClassCastException("Couldn't compare these classes");
 	}

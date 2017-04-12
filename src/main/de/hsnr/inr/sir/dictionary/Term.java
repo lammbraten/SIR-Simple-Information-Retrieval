@@ -26,8 +26,29 @@ public class Term implements Comparable<Term>{
 		this.postings.addAll(postings);		
 	}
 
+	public boolean hasPosting(Posting p){
+		return this.postings.contains(p);
+	}
+	
 	@Override
 	public int compareTo(Term o) {
-		return this.value.compareTo(o.value);
+		if(o instanceof Term){
+			Term t = (Term) o;
+			return value.compareTo(t.getValue());			
+		}
+		throw new ClassCastException("Couldn't compare these classes");
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Term){
+			Term t = (Term) o;
+			return t.value.equals(this.value);
+		}
+		return false;
+	}
+
+	public String getValue() {
+		return value;
 	}
 }
