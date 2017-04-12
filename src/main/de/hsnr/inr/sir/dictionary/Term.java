@@ -4,7 +4,7 @@ import com.google.common.collect.TreeMultiset;
 
 public class Term implements Comparable<Term>{
 	private String value;
-	TreeMultiset<Posting> postings;
+	private TreeMultiset<Posting> postings;
 	
 	
 	public Term(String value){

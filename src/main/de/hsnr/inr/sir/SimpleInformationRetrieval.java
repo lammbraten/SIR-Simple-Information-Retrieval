@@ -13,10 +13,12 @@ public class SimpleInformationRetrieval {
 	private static String dir_path;
 	
 	private File corpus;
+	//Statisch private QueryHandler qh;
 	
 	public SimpleInformationRetrieval(){
 		System.out.println("Verarbeitung gestart!");
 		handleFiles();
+		System.out.println("Dateien eingelesen!");
 		
 	}
 
@@ -44,7 +46,16 @@ public class SimpleInformationRetrieval {
 		System.out.println("Ordnerpfad: " + dir_path);
 		
 		SimpleInformationRetrieval sir = new SimpleInformationRetrieval();
+
+		sir.askForQuery();
 		sir.startInformationRetrieval();
+	}
+
+	private void askForQuery() {
+		// TODO Auto-generated method stub
+		System.out.println("Was soll im Märchen vorkommen?");
+		//TODO: System.in
+		
 	}
 
 	private void startInformationRetrieval() {
