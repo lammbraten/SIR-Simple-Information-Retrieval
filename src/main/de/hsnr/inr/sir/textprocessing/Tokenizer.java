@@ -14,13 +14,13 @@ public class Tokenizer {
 
 	private static String DEFAULT_SPLIT_CHARS = ". ,;:!?\"\n";
 	
-	public List<String> tokenize(File f) throws IOException{
+	public static List<String> tokenize(File f) throws IOException{
 		String filestr = Files.asCharSource(f, Charsets.UTF_8).read()
 				.toLowerCase();
 		return split(filestr);
 	}
 	
-	private List<String> split(String str){
+	private static List<String> split(String str){
 		return Lists.newArrayList(Splitter.on(CharMatcher.anyOf(DEFAULT_SPLIT_CHARS))
 				.omitEmptyStrings()
 				.trimResults()

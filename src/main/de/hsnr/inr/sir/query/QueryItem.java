@@ -25,7 +25,7 @@ public abstract class QueryItem {
 		try{
 			return QueryConjunction.create(name);
 		}catch(IllegalArgumentException e) {
-			return QueryTerm.create(name);			
+			return QueryTerm.create(name.toLowerCase());			
 		}
 	}
 	 
