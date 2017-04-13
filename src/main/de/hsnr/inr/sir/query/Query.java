@@ -17,27 +17,32 @@ public class Query {
 	 * A AND D;
 	 * @return
 	 */
-	public HashSet<LinkedList<QueryTerm>> getAndConjunctions(){
-		HashSet<LinkedList<QueryTerm>> conjunctionsSet = new HashSet<LinkedList<QueryTerm>>();
+	public LinkedList<LinkedList<QueryTerm>> getAndConjunctions(){
+		LinkedList<LinkedList<QueryTerm>> conjunctions = new LinkedList<LinkedList<QueryTerm>>();
 		LinkedList<QueryTerm> terms = new LinkedList<QueryTerm>();
 		
 		for(QueryItem qui : queryitems){
 			if(qui instanceof QueryConjunction){
-				conjunctionsSet.add((LinkedList<QueryTerm>) terms.clone());
-				terms = new LinkedList<QueryTerm>();
+				if(qui.getName().equals(QueryConjunction.OR)){
+					conjunctions.add((LinkedList<QueryTerm>) terms.clone());
+					terms = new LinkedList<QueryTerm>();
+				}
 			} else 
 				terms.add((QueryTerm) qui);
 		}
-		conjunctionsSet.add(terms);
-		return conjunctionsSet;
+		conjunctions.add(terms);
+		return conjunctions;
 	}
 
 	
 	
 	public String toString(){
 		String lstStr = "";
-		for(QueryItem qui : queryitems)
+		for(QueryItem qui : queryitems){
+			if(qui.getName().equals(QueryConjunction.OR))
+				lstStr += "\n";
 			lstStr += qui.toString();
+		}
 		
 		lstStr += ";";
 		return lstStr;

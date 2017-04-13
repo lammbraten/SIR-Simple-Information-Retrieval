@@ -1,9 +1,14 @@
 package de.hsnr.inr.sir;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hsnr.inr.sir.query.Query;
+import de.hsnr.inr.sir.query.QueryHandler;
 import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class SimpleInformationRetrieval {
@@ -52,9 +57,19 @@ public class SimpleInformationRetrieval {
 	}
 
 	private void askForQuery() {
-		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Query q = null;
 		System.out.println("Was soll im Märchen vorkommen?");
-		//TODO: System.in
+
+
+		try {
+			q = QueryHandler.parseQuery(br.readLine());
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		System.out.println(q);
+
 		
 	}
 

@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -29,8 +30,9 @@ public class TestQueryHandler {
 		System.out.println(q);
 		assertTrue(q.toString().equals("hexe AND prinzessin OR frosch AND könig AND tellerlein ;"));
 
-		Set<?> s = q.getAndConjunctions();
-		System.out.println(q.getAndConjunctions());
+		List s = q.getAndConjunctions();
+		
+		System.out.println(s);
 	}
 
 }
