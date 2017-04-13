@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
 import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryHandler;
+import de.hsnr.inr.sir.query.QueryTerm;
 import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class SimpleInformationRetrieval {
@@ -89,10 +91,12 @@ public class SimpleInformationRetrieval {
 		System.out.println("Die Märchen liegen in: " + dir_path);
 		
 		SimpleInformationRetrieval sir = new SimpleInformationRetrieval();
-
-		sir.askForQuery();
-		System.out.println("Spieglein, Spieglein an der Wand, hast du solche Märchen zur Hand? \n" + sir.getQuery());
-		sir.startInformationRetrieval();
+		
+		while(true){
+			sir.askForQuery();
+			System.out.println("Spieglein, Spieglein an der Wand, hast du solche Märchen zur Hand? \n" + sir.getQuery());
+			sir.startInformationRetrieval();
+		}
 	}
 
 	private void askForQuery() {
@@ -110,11 +114,19 @@ public class SimpleInformationRetrieval {
 		} while(query == null || query.isEmpty());
 	}
 
-	private void startInformationRetrieval() {
-		
-		
-		
-		
+	public void startInformationRetrieval() {
+		HashSet<String> documents = new HashSet<String>();
+		for(List<QueryTerm> qtl : query.getAndConjunctions()){
+			intersectQueryTerm(documents, qtl);
+		}
+		System.out.println(documents);
+	}
+
+	private void intersectQueryTerm(HashSet<String> documents, List<QueryTerm> qtl) {
+		for(QueryTerm qt : qtl){
+			for(Posting p : index.getTerm(qt.getName()).getPostings())
+			documents.add(p.getValue());
+		}
 	}
 
 	private static boolean parseArgs(String[] args) {

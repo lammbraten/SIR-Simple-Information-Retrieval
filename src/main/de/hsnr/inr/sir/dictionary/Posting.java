@@ -21,6 +21,15 @@ public class Posting implements Comparable<Object>{
 	}
 	
 	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Posting){
+			Posting p = (Posting) o;
+			return value.equals(p.getValue());			
+		}
+		throw new ClassCastException("Couldn't compare these classes");
+	}
+	
+	@Override
 	public String toString(){
 		return value;
 	}
