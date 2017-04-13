@@ -48,4 +48,7 @@ public class Query {
 		return lstStr;
 		
 	}
+	public boolean isEmpty() {
+		return queryitems.isEmpty();
+	}
 }

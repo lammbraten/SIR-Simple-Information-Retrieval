@@ -13,6 +13,11 @@ public class Term implements Comparable<Term>{
 		postings = TreeMultiset.create();
 	}
 	
+	public Term(String value, Posting posting){
+		this(value);
+		postings.add(posting);
+	}
+	
 	@Override
 	public int hashCode(){
 		return value.hashCode();
@@ -47,8 +52,14 @@ public class Term implements Comparable<Term>{
 		}
 		return false;
 	}
+	
+	@Override
+	public String toString(){
+		return value +": " + postings;
+	}
 
 	public String getValue() {
 		return value;
 	}
+	
 }

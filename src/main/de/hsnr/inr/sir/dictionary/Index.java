@@ -1,6 +1,9 @@
 package de.hsnr.inr.sir.dictionary;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.google.common.collect.TreeMultiset;
 
@@ -25,6 +28,11 @@ public class Index {
 			dictionary.add(t);
 	}
 	
+	public void addAll(List<Term> terms){
+		for(Term t : terms)
+			add(t);
+	}
+	
 	public Term getTerm(String termval){
 		return getTerm(new Term(termval));
 	}
@@ -36,4 +44,21 @@ public class Index {
 		throw new IllegalArgumentException("No such term found");
 	}
 	
+	@Override
+	public String toString(){
+		String dict = "";
+		for(Term t : dictionary)
+			dict += t + "\n";
+		return dict;
+	}
+	
+	public void write(String filename){
+		try{
+		    PrintWriter writer = new PrintWriter(filename, "UTF-8");
+		    writer.write(this.toString());
+		    writer.close();
+		} catch (IOException e) {
+		   System.err.println("Couldn't write Index to File " + filename);
+		}
+	}
 }

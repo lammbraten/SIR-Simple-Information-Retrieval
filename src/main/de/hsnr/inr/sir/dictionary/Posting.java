@@ -19,4 +19,10 @@ public class Posting implements Comparable<Object>{
 		}
 		throw new ClassCastException("Couldn't compare these classes");
 	}
+	
+	@Override
+	public String toString(){
+		return value;
+	}
+
 }
