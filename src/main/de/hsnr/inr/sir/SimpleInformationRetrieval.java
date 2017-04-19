@@ -9,8 +9,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.collect.TreeMultiset;
 import com.google.common.io.Files;
 
+import de.hsnr.inr.sir.algorithm.Intersect;
+import de.hsnr.inr.sir.algorithm.QueryProcessor;
 import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
@@ -28,6 +31,7 @@ public class SimpleInformationRetrieval {
 	private File corpus;
 	private Index index;
 	private Query query = null;
+	private QueryProcessor qp = null;
 	
 	public Query getQuery() {
 		return query;
@@ -40,9 +44,10 @@ public class SimpleInformationRetrieval {
 	public SimpleInformationRetrieval(){
 		System.out.println("Fülle Froschteich!");
 		handleFiles();
-		System.out.println("Hänge den Spiegel an die Wand!");
+		System.out.println("Hänge Spieglein an die Wand!");
 		buildIndex();
 		System.out.println("Alle Wesen an ihren Platz!");
+		qp = new QueryProcessor(index);
 		
 	}
 
@@ -56,7 +61,8 @@ public class SimpleInformationRetrieval {
 				System.err.println("Märchen " + f.getName() + " ist verflucht und konnte nicht geöffnet werden!");
 			}
 		}
-		index.write("TestIndex.txt");
+		index.buildPostingList();
+		//index.write("TestIndex.txt");
 	}
 	
 	private List<Term> extractTerms(File f) throws IOException{
@@ -108,26 +114,18 @@ public class SimpleInformationRetrieval {
 			try {
 				query = QueryHandler.parseQuery(br.readLine());
 			} catch (IOException e) {
-	
 				e.printStackTrace();
 			}
 		} while(query == null || query.isEmpty());
 	}
 
 	public void startInformationRetrieval() {
-		HashSet<String> documents = new HashSet<String>();
-		for(List<QueryTerm> qtl : query.getAndConjunctions()){
-			intersectQueryTerm(documents, qtl);
-		}
+		HashSet<Posting> documents = qp.process(query);
+
 		System.out.println(documents);
 	}
 
-	private void intersectQueryTerm(HashSet<String> documents, List<QueryTerm> qtl) {
-		for(QueryTerm qt : qtl){
-			for(Posting p : index.getTerm(qt.getName()).getPostings())
-			documents.add(p.getValue());
-		}
-	}
+
 
 	private static boolean parseArgs(String[] args) {
 		for(int i = 0; i < (args.length - 1); i=i+2)			

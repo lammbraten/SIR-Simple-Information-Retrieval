@@ -16,14 +16,18 @@ public class TestIntersect {
 		pl1.add(new Posting("Test1"));
 		pl1.add(new Posting("Test2"));
 		pl1.add(new Posting("Test3"));
+		pl1.add(new Posting("Test5"));
+		pl1.add(new Posting("Test18"));
+		
 		
 		LinkedList<Posting> pl2 = new LinkedList<Posting>();
 		pl2.add(new Posting("Test1"));
 		pl2.add(new Posting("Test3"));
 		pl2.add(new Posting("Test6"));
 		
-		System.out.println(Intersect.merge(pl1, pl2));
+		System.out.println(Intersect.and(pl1, pl2));
 		
+		System.out.println(Intersect.andNot(pl1, pl2));
 		
 		
 		/*

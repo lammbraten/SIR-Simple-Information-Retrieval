@@ -11,10 +11,12 @@ public class Query {
 	public Query(LinkedList<QueryItem> queryitems){
 		this.queryitems = queryitems;
 	}
+	
 	/**
-	 * A AND B AND C 
-	 * OR
-	 * A AND D;
+	 * TO KNF </br></br>
+	 * A AND B AND C </br>
+	 * OR </br>
+	 * A AND D; </br>
 	 * @return
 	 */
 	public LinkedList<LinkedList<QueryTerm>> getAndConjunctions(){
@@ -33,9 +35,15 @@ public class Query {
 		conjunctions.add(terms);
 		return conjunctions;
 	}
+	
+	public LinkedList<QueryItem> getQueryitems() {
+		return queryitems;
+	}
 
-	
-	
+	public void setQueryitems(LinkedList<QueryItem> queryitems) {
+		this.queryitems = queryitems;
+	}
+
 	public String toString(){
 		String lstStr = "";
 		for(QueryItem qui : queryitems){

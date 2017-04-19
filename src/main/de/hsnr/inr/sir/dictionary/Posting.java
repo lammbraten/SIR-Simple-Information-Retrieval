@@ -1,21 +1,21 @@
 package de.hsnr.inr.sir.dictionary;
 
 public class Posting implements Comparable<Object>{
-	private String value;
+	private String name;
 	
-	public Posting(String value){
-		this.value = value;
+	public Posting(String name){
+		this.name = name;
 	}
 	
-	public String getValue(){
-		return value;
+	public String getName(){
+		return name;
 	}
 
 	@Override
 	public int compareTo(Object o) {
 		if(o instanceof Posting){
 			Posting p = (Posting) o;
-			return value.compareTo(p.getValue());			
+			return name.compareTo(p.getName());			
 		}
 		throw new ClassCastException("Couldn't compare these classes");
 	}
@@ -24,14 +24,14 @@ public class Posting implements Comparable<Object>{
 	public boolean equals(Object o) {
 		if(o instanceof Posting){
 			Posting p = (Posting) o;
-			return value.equals(p.getValue());			
+			return name.equals(p.getName());			
 		}
 		throw new ClassCastException("Couldn't compare these classes");
 	}
 	
 	@Override
 	public String toString(){
-		return value;
+		return name;
 	}
 
 }
