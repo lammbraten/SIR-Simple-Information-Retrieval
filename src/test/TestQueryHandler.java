@@ -26,9 +26,13 @@ public class TestQueryHandler {
 		System.out.println(q);
 		assertTrue(q.toString().equals("hexe AND NOT prinzessin ;"));
 		
+		q = QueryHandler.parseQuery("NOT Prinzessin AND NOT Kater");
+		System.out.println(q);
+		assertTrue(q.toString().equals("NOT prinzessin AND NOT kater ;"));
+		
 		q = QueryHandler.parseQuery("Hexe AND Prinzessin OR Frosch AND König AND Tellerlein");
 		System.out.println(q);
-		assertTrue(q.toString().equals("hexe AND prinzessin OR frosch AND könig AND tellerlein ;"));
+		assertTrue(q.toString().equals("hexe AND prinzessin \nOR frosch AND könig AND tellerlein ;"));
 
 		List s = q.getAndConjunctions();
 		

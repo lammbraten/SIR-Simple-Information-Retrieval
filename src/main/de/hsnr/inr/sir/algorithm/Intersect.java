@@ -63,9 +63,18 @@ public class Intersect {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	//TODO ANDNOT
+
 	//TODO OR
 	//TODO NOT
+	
+	public static HashSet<Posting> not(LinkedList<Posting> pl) {
+		HashSet<Posting> answer = new HashSet<Posting>();
+		Iterator<Posting> p1 = pl.iterator();
+		Posting doc1 = hasNextSetNext(p1);
+		
+		return answer;
+	}
+
 	
 	private static Posting hasNextSetNext(Iterator<Posting> p){
 		if(p.hasNext())

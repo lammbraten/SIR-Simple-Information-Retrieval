@@ -57,7 +57,7 @@ public class QueryProcessor {
 	}
 
 	private void processTupleQueryTermList(HashSet<Posting> documents, LinkedList<QueryTerm> qtl) {
-		QueryTerm qt0 = qtl.get(1);	
+		QueryTerm qt0 = qtl.get(0);	
 		QueryTerm qt1 = qtl.get(1);	
 		LinkedList<Posting> pl0 = getPostingList(qt0);
 		LinkedList<Posting> pl1 = getPostingList(qt1);

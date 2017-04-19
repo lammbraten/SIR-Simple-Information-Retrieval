@@ -21,6 +21,7 @@ public class QueryHandler {
 					qui.invert();
 					
 				queryitems.add(qui);
+				notCounter = 0;
 			}
 				
 		}
