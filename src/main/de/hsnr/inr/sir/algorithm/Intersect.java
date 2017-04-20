@@ -1,6 +1,5 @@
 package de.hsnr.inr.sir.algorithm;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,8 +32,8 @@ public class Intersect {
 		return answer;
 	}
 
-	public static HashSet<Posting> andNot(LinkedList<Posting> pl1, LinkedList<Posting> pl2) {
-		HashSet<Posting> answer = new HashSet<Posting>();
+	public static LinkedList<Posting> andNot(LinkedList<Posting> pl1, LinkedList<Posting> pl2) {
+		LinkedList<Posting> answer = new LinkedList<Posting>();
 		Iterator<Posting> p1 = pl1.iterator();
 		Iterator<Posting> p2 = pl2.iterator();
 		
@@ -63,7 +62,7 @@ public class Intersect {
 
 	//TODO OR
 
-	public static HashSet<Posting> notAndNot(LinkedList<Posting> pl1, LinkedList<Posting> pl2, LinkedList<Posting> plAll) {
+	public static LinkedList<Posting> notAndNot(LinkedList<Posting> pl1, LinkedList<Posting> pl2, LinkedList<Posting> plAll) {
 		return andNot(not(pl1, plAll), pl2);
 	}
 
@@ -97,7 +96,7 @@ public class Intersect {
 		return null;
 	}	
 
-	private static void concatenate(HashSet<Posting> answer, Iterator<Posting> p) {
+	private static void concatenate(LinkedList<Posting> answer, Iterator<Posting> p) {
 		while(p.hasNext())
 			answer.add(p.next());
 	}
