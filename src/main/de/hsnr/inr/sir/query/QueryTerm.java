@@ -1,13 +1,28 @@
 package de.hsnr.inr.sir.query;
 
+import java.util.LinkedList;
+
+import com.google.common.collect.TreeMultiset;
+
+import de.hsnr.inr.sir.dictionary.Posting;
+
 public class QueryTerm extends QueryItem {
 	
+	private LinkedList<Posting> postings;	
 	private boolean positive = true;
+	private boolean ghost = true;
 		
 	QueryTerm(String name){
 		super(name);
 	}
 	
+	QueryTerm(String name, LinkedList<Posting> postings){
+		super(name);
+		this.setPostings(postings);
+		this.ghost = false;
+	}
+	
+
 	public void invert(){
 		if(positive)
 			positive = false;
@@ -19,6 +34,10 @@ public class QueryTerm extends QueryItem {
 		return positive;
 	}
 	
+	public boolean isGhost(){
+		return ghost;
+	}
+	
 	public static QueryItem create(String name){
 		return new QueryTerm(name);
 	}
@@ -28,6 +47,26 @@ public class QueryTerm extends QueryItem {
 		if(positive)
 			return name + " ";
 		return "NOT " + name + " ";
+	}
+
+	public LinkedList<Posting> getPostings() {
+		if(isGhost())
+			throw new IllegalStateException("Tried to get some postings of a ghost term");
+		return postings;
+	}
+
+	public void setPostings(LinkedList<Posting> postings) {
+		this.postings = postings;
+		ghost = false;
+	}
+
+	public void setPostings(TreeMultiset<Posting> postings) {
+		this.postings = new LinkedList<Posting>();
+		
+		for(Posting p : postings)
+			this.postings.add(p);
+		
+		ghost = false;
 	}
 	
 }

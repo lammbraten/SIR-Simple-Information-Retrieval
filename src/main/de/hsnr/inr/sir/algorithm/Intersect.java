@@ -42,7 +42,6 @@ public class Intersect {
 		Posting doc2 = hasNextSetNext(p2);
 		
 		while(doc1 != null && doc2 != null){
-			System.err.println(doc1.compareTo(doc2));
 			if(doc1.equals(doc2)){
 				doc1 = hasNextSetNext(p1);
 				doc2 = hasNextSetNext(p2);

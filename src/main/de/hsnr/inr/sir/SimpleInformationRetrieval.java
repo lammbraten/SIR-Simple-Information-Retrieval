@@ -120,9 +120,14 @@ public class SimpleInformationRetrieval {
 	}
 
 	public void startInformationRetrieval() {
-		HashSet<Posting> documents = qp.process(query);
+		try {
+			HashSet<Posting> documents = qp.process(query);
+			System.out.println("\n" + documents);
+		} catch (IllegalArgumentException e){
+			//TODO: Log this.
+			System.out.println("\nKeine Solchen Märchen gefunden. :( \nVersuch es mit einem anderen Wort.\n");
+		}
 
-		System.out.println(documents);
 	}
 
 

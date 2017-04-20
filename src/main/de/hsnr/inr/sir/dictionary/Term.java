@@ -18,6 +18,10 @@ public class Term implements Comparable<Term>{
 		postings.add(posting);
 	}
 	
+	public int getFrequence(){
+		return postings.entrySet().size();
+	}
+	
 	@Override
 	public int hashCode(){
 		return value.hashCode();
