@@ -1,6 +1,8 @@
 package de.hsnr.inr.sir.query;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.NavigableSet;
 
 import com.google.common.collect.TreeMultiset;
 
@@ -18,7 +20,13 @@ public class QueryTerm extends QueryItem {
 	
 	QueryTerm(String name, LinkedList<Posting> postings){
 		super(name);
-		this.setPostings(postings);
+		this.postings = postings;
+		this.ghost = false;
+	}
+	
+	public QueryTerm(LinkedList<Posting> postings){ //Dummy
+		super(null);
+		this.postings = new LinkedList<Posting>(new HashSet<Posting>(postings)); //deep copy
 		this.ghost = false;
 	}
 	
@@ -55,8 +63,8 @@ public class QueryTerm extends QueryItem {
 		return postings;
 	}
 
-	public void setPostings(LinkedList<Posting> postings) {
-		this.postings = postings;
+	public void setPostings(NavigableSet<Posting> postings) {
+		this.postings = new LinkedList<Posting>(postings);
 		ghost = false;
 	}
 

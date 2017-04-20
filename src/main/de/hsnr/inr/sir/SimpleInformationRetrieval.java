@@ -121,7 +121,7 @@ public class SimpleInformationRetrieval {
 
 	public void startInformationRetrieval() {
 		try {
-			LinkedList<Posting> documents = qp.process(query);
+			HashSet<Posting> documents = qp.process(query);
 			System.out.println("\n" + documents);
 		} catch (IllegalArgumentException e){
 			//TODO: Log this.

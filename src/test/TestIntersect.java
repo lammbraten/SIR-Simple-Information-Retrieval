@@ -12,30 +12,33 @@ import de.hsnr.inr.sir.dictionary.Posting;
 
 public class TestIntersect {
 
-	@Ignore
+
 	@Test
 	public void testAnd() {
 		LinkedList<Posting> pl1 = new LinkedList<Posting>();
 		pl1.add(new Posting("Test1"));
 		pl1.add(new Posting("Test2"));
-		pl1.add(new Posting("Test3"));
-		pl1.add(new Posting("Test5"));
-		pl1.add(new Posting("Test18"));
+		//pl1.add(new Posting("Test3"));
+		//pl1.add(new Posting("Test5"));
+		//pl1.add(new Posting("Test18"));
 		
 		LinkedList<Posting> pl2 = new LinkedList<Posting>();
 		pl2.add(new Posting("Test1"));
-		pl2.add(new Posting("Test3"));
-		pl2.add(new Posting("Test6"));
+		//pl2.add(new Posting("Test3"));
+		//pl2.add(new Posting("Test6"));
 		
-		HashSet<Posting> postings = Intersect.and(pl1, pl2);
+		LinkedList<Posting> postings = Intersect.and(pl1, pl2);
 		
 		System.out.println("AND: " + postings);
-		assertTrue(postings.contains((new Posting("Test1"))));
+		/*assertTrue(postings.contains((new Posting("Test1"))));
 		assertTrue(postings.contains((new Posting("Test3"))));
-		assertFalse(postings.contains((new Posting("Test6"))));
+		assertFalse(postings.contains((new Posting("Test6"))));*/
+		
+		assertTrue(postings.contains((new Posting("Test1"))));
+		assertFalse(postings.contains((new Posting("Test2"))));
 	}
 	
-	@Ignore
+
 	@Test
 	public void testAndNot() {
 		LinkedList<Posting> pl1 = new LinkedList<Posting>();
@@ -50,7 +53,7 @@ public class TestIntersect {
 		pl2.add(new Posting("Test3"));
 		pl2.add(new Posting("Test6"));
 		
-		HashSet<Posting> postings = Intersect.andNot(pl1, pl2);
+		LinkedList<Posting> postings = Intersect.andNot(pl1, pl2);
 		
 		System.out.println("ANDNOT: " + postings);
 		assertTrue(postings.contains((new Posting("Test2"))));
@@ -59,7 +62,7 @@ public class TestIntersect {
 		assertFalse(postings.contains((new Posting("Test6"))));
 	}
 	
-	@Ignore
+
 	@Test
 	public void testNot() {
 		LinkedList<Posting> pl1 = new LinkedList<Posting>();
@@ -103,7 +106,7 @@ public class TestIntersect {
 		pl2.add(new Posting("Test18"));
 
 		
-		HashSet<Posting> postings = Intersect.notAndNot(pl1, pl2, plall);
+		LinkedList<Posting> postings = Intersect.notAndNot(pl1, pl2, plall);
 		
 		System.out.println("NOTANDNOT: " + postings);
 		assertTrue(postings.contains((new Posting("Test2"))));
