@@ -69,7 +69,7 @@ public class QueryProcessor {
 		else if(!qt0.isPositive() && qt1.isPositive()) //qt0 negative, qt1 positive
 			documents.addAll(Intersect.andNot(pl1, pl0));
 		else if(!qt0.isPositive() && !qt1.isPositive()) //qt0 negative, qt1 negative
-			documents.addAll(Intersect.notAndNot(pl1, pl0));
+			documents.addAll(Intersect.notAndNot(pl1, pl0, index.getPostings()));
 	}
 
 	private void processSingleQueryTermList(HashSet<Posting> documents, List<QueryTerm> qtl) {

@@ -42,6 +42,7 @@ public class Intersect {
 		Posting doc2 = hasNextSetNext(p2);
 		
 		while(doc1 != null && doc2 != null){
+			System.err.println(doc1.compareTo(doc2));
 			if(doc1.equals(doc2)){
 				doc1 = hasNextSetNext(p1);
 				doc2 = hasNextSetNext(p2);
@@ -53,24 +54,39 @@ public class Intersect {
 			}
 		}
 		
-		if(doc1 != null)
+		if(doc1 != null){
+			answer.add(doc1);
 			concatenate(answer, p1);
+		}
 		
 		return answer;
 	}
 
-	public static HashSet<Posting> notAndNot(LinkedList<Posting> pl1, LinkedList<Posting> pl2) {
-		// TODO Auto-generated method stub
-		return null;
+	//TODO OR
+
+	public static HashSet<Posting> notAndNot(LinkedList<Posting> pl1, LinkedList<Posting> pl2, LinkedList<Posting> plAll) {
+		return andNot(not(pl1, plAll), pl2);
 	}
 
 	//TODO OR
-	//TODO NOT
-	
-	public static HashSet<Posting> not(LinkedList<Posting> pl) {
-		HashSet<Posting> answer = new HashSet<Posting>();
+
+	public static LinkedList<Posting> not(LinkedList<Posting> pl, LinkedList<Posting> plAll) {
+		LinkedList<Posting> answer = new LinkedList<Posting>(plAll); 
+		Iterator<Posting> p0 = plAll.iterator();
 		Iterator<Posting> p1 = pl.iterator();
+		Posting doc0 = hasNextSetNext(p0);
 		Posting doc1 = hasNextSetNext(p1);
+		
+		while(doc0 != null && doc1 != null){
+			if(doc0.equals(doc1)){
+				answer.remove(doc1);
+				doc0 = hasNextSetNext(p0);
+				doc1 = hasNextSetNext(p1);
+			} else //if(doc0.compareTo(doc1) < 1){
+				//answer.add(doc0);
+				doc0 = hasNextSetNext(p0);
+			//}
+		}
 		
 		return answer;
 	}
