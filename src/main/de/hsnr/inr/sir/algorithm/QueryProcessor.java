@@ -18,11 +18,12 @@ public class QueryProcessor {
 		this.setIndex(index);
 	}
 	
+	
 	public HashSet<Posting> process(Query query){
 		LinkedList<Posting> documents = new LinkedList<Posting>();
 		
 		for(LinkedList<QueryTerm> qtl : query.getAndConjunctions()){
-			intersectQueryTerm(documents, qtl);
+			documents.addAll(intersectQueryTerm(qtl));
 		}
 		
 		return new HashSet<Posting>(documents);
@@ -32,19 +33,17 @@ public class QueryProcessor {
 	
 
 
-	private void intersectQueryTerm(LinkedList<Posting> documents, LinkedList<QueryTerm> qtl) {
+	private LinkedList<Posting> intersectQueryTerm(LinkedList<QueryTerm> qtl) {
 		switch(qtl.size()){
 			case 0: throw new IllegalArgumentException("EmptyQuery");
-			case 1: processSingleQueryTermList(documents, qtl);
-				break;
-			case 2: processTupleQueryTermList(documents, qtl);
-				break;
-			default: processMuliQueryTermList(documents, qtl);
+			case 1: return processSingleQueryTermList(qtl.getFirst());
+			case 2: return processTupleQueryTermList(qtl);
+			default: return processMuliQueryTermList(qtl);
 				
 		}
 	}
 
-	private void processMuliQueryTermList(LinkedList<Posting> documents, LinkedList<QueryTerm> qtl) {
+	private LinkedList<Posting> processMuliQueryTermList(LinkedList<QueryTerm> qtl) {
 		PriorityQueue<QueryTerm> terms = getTermsSortedByFrequency(qtl);
 		LinkedList<Posting> result = new LinkedList<Posting>();
 		while(!terms.isEmpty()){
@@ -52,11 +51,11 @@ public class QueryProcessor {
 			result = qt0.getPostings();
 			if(!terms.isEmpty()){
 				QueryTerm qt1 = terms.poll();
-				decideAndCallAndMethod(result, qt0, qt1);
+				result = decideAndCallAndMethod(qt0, qt1);
 				terms.add(new QueryTerm(result));
 			}
 		}
-		documents.addAll(result);
+		return result;
 		
 	}
 
@@ -71,31 +70,35 @@ public class QueryProcessor {
 		return terms;
 	}
 
-	private void processTupleQueryTermList(LinkedList<Posting> documents, LinkedList<QueryTerm> qtl) {
+	private LinkedList<Posting> processTupleQueryTermList(LinkedList<QueryTerm> qtl) {
+		//TODO: Change List-parameter to tuple
 		QueryTerm qt0 = qtl.get(0);	
 		QueryTerm qt1 = qtl.get(1);	
 		getPostingList(qt0);
 		getPostingList(qt1);
 		
-		decideAndCallAndMethod(documents, qt0, qt1);
+		return decideAndCallAndMethod(qt0, qt1);
 	}
 	
-	private void decideAndCallAndMethod(LinkedList<Posting> documents, QueryTerm qt0, QueryTerm qt1) {
+	private LinkedList<Posting> decideAndCallAndMethod(QueryTerm qt0, QueryTerm qt1) {
 		if(qt0.isPositive() && qt1.isPositive()) //both positive
-			documents.addAll(Intersect.and(qt0.getPostings(), qt1.getPostings()));
+			return Intersect.and(qt0.getPostings(), qt1.getPostings());
 		else if(qt0.isPositive() && !qt1.isPositive()) //qt0 positive, qt1 negative
-			documents.addAll(Intersect.andNot(qt0.getPostings(), qt1.getPostings()));
+			return Intersect.andNot(qt0.getPostings(), qt1.getPostings());
 		else if(!qt0.isPositive() && qt1.isPositive()) //qt0 negative, qt1 positive
-			documents.addAll(Intersect.andNot(qt1.getPostings(), qt0.getPostings()));
+			return Intersect.andNot(qt1.getPostings(), qt0.getPostings());
 		else if(!qt0.isPositive() && !qt1.isPositive()) //qt0 negative, qt1 negative
-			documents.addAll(Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), index.getPostings()));
+			return Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), index.getPostings());
+		throw new IllegalStateException("Something went terrible wrong!");
 	}
 
-	private void processSingleQueryTermList(LinkedList<Posting> documents, List<QueryTerm> qtl) {
-		for(QueryTerm qt : qtl){
-			getPostingList(qt);
-			documents.addAll(qt.getPostings());
-		}
+	private LinkedList<Posting> processSingleQueryTermList(QueryTerm qt) {
+		getPostingList(qt);
+		if(qt.isPositive())
+			return qt.getPostings();
+		else
+			return Intersect.not(qt.getPostings(), index.getPostings());
+
 	}
 	
 	
