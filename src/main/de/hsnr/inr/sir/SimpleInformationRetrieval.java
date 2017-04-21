@@ -4,30 +4,23 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.collect.TreeMultiset;
 import com.google.common.io.Files;
 
-import de.hsnr.inr.sir.algorithm.Intersect;
 import de.hsnr.inr.sir.algorithm.QueryProcessor;
 import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
 import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryHandler;
-import de.hsnr.inr.sir.query.QueryTerm;
 import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class SimpleInformationRetrieval {
 
-	private static final String DIR_PATH_PAR = "-p";
-
-	private static String dir_path;
-	
+	private String dirPath;
 	private File corpus;
 	private Index index;
 	private Query query = null;
@@ -40,15 +33,19 @@ public class SimpleInformationRetrieval {
 	public void setQuery(Query query) {
 		this.query = query;
 	}
+	
+	public void setQuery(String query) {
+		this.query = QueryHandler.parseQuery(query);
+	}
 
-	public SimpleInformationRetrieval(){
+	public SimpleInformationRetrieval(String dirPath){
+		this.dirPath = dirPath;
 		System.out.println("Fülle Froschteich!");
 		handleFiles();
 		System.out.println("Hänge Spieglein an die Wand!");
 		buildIndex();
 		System.out.println("Alle Wesen an ihren Platz!");
 		qp = new QueryProcessor(index);
-		
 	}
 
 	private void buildIndex() {
@@ -75,7 +72,7 @@ public class SimpleInformationRetrieval {
 
 	private void handleFiles() {
 		System.out.println("Lerne Geschichten auswendig!");
-		corpus = new File(dir_path);
+		corpus = new File(dirPath);
 		checkIfDir();
 	}
 	
@@ -87,70 +84,28 @@ public class SimpleInformationRetrieval {
 		//	System.out.println(f);
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Hallo Märchenwelt!");
-		if(!parseArgs(args))
-			throw new IllegalArgumentException("Oh, eine Hexe hat deine Argumente verflucht!");		
-		if(dir_path == null || dir_path.isEmpty())
-			throw new IllegalArgumentException("Leider konnte ich keine Märchen finden. :-( Probier's doch mal so: -p C:\\pfad\\zum\\Märchenordner");
-		
-		System.out.println("Die Märchen liegen in: " + dir_path);
-		
-		SimpleInformationRetrieval sir = new SimpleInformationRetrieval();
-		
-		while(true){
-			sir.askForQuery();
-			System.out.println("Spieglein, Spieglein an der Wand, hast du solche Märchen zur Hand? \n" + sir.getQuery());
-			sir.startInformationRetrieval();
-		}
-	}
 
-	private void askForQuery() {
+
+	void askForQuery() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		query = null;
 
 		do {
 			System.out.println("Was soll im Märchen vorkommen?");
 			try {
-				query = QueryHandler.parseQuery(br.readLine());
+				 setQuery(br.readLine());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} while(query == null || query.isEmpty());
 	}
 
-	public void startInformationRetrieval() {
-		try {
-			HashSet<Posting> documents = qp.process(query);
-			System.out.println("\n" + documents);
-		} catch (IllegalArgumentException e){
-			//TODO: Log this.
-			System.out.println("\nKeine Solchen Märchen gefunden. :( \nVersuch es mit einem anderen Wort.\n");
-		}
-
+	public HashSet<Posting> startInformationRetrieval() {
+		 return qp.process(query);
 	}
 
 
 
-	private static boolean parseArgs(String[] args) {
-		for(int i = 0; i < (args.length - 1); i=i+2)			
-			if(!parseKeyValue(args[i], args[i+1]))
-				return false;
-		return true;
-	}
 
-	private static boolean parseKeyValue(String key, String value) {
-		if(isDPsetDP(key, value))
-			return true;
-		return false;
-	}
-
-	private static boolean isDPsetDP(String key, String value) {
-		if(key.equals(DIR_PATH_PAR)){
-			dir_path = value;
-			return true;
-		}
-		return false;
-	}
 
 }
