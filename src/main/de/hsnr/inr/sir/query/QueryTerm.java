@@ -63,8 +63,8 @@ public class QueryTerm extends QueryItem {
 		return postings;
 	}
 
-	public void setPostings(NavigableSet<Posting> postings) {
-		this.postings = new LinkedList<Posting>(postings);
+	public void setPostings(LinkedList<Posting> postings) {
+		this.postings = postings;
 		ghost = false;
 	}
 

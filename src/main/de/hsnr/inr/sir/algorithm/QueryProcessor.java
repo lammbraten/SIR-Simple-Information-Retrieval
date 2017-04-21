@@ -105,7 +105,7 @@ public class QueryProcessor {
 
 	private void getPostingList(QueryTerm qt){
 		if(qt.isGhost())
-			qt.setPostings(index.getTerm(qt.getName()).getPostings().elementSet());
+			qt.setPostings(index.getTerm(qt.getName()).getPostings());
 	}
 	
 	/*

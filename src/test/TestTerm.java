@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import java.util.LinkedList;
+
 import org.junit.Test;
 
 import com.google.common.collect.TreeMultiset;
@@ -17,7 +19,7 @@ public class TestTerm {
 		assertTrue(t.getPostings().isEmpty());
 		
 		
-		TreeMultiset<Posting> postings = TreeMultiset.create();
+		LinkedList<Posting> postings = new LinkedList<Posting>();
 		
 		postings.add(new Posting("Doc1"));
 		t.append(postings);
