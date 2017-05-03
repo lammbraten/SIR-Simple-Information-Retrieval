@@ -45,7 +45,7 @@ public class QueryTerm extends QueryItem {
 	}
 	
 	public static QueryItem create(String name){
-		return new QueryTerm(name);
+		return new QueryTerm(name.toLowerCase());
 	}
 	
 	@Override

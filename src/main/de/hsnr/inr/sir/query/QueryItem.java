@@ -19,6 +19,7 @@ public abstract class QueryItem {
 	
 	/**
 	 * Create a QueryItem for the given name. 
+	 * 
 	 * @param name
 	 * @return -A QueryConjunction if name is parseable, \n
 	 * - A QuerTerm elsewhen.
@@ -27,7 +28,11 @@ public abstract class QueryItem {
 		try{
 			return QueryConjunction.create(name);
 		}catch(IllegalArgumentException e) {
-			return QueryTerm.create(name.toLowerCase());			
+			try{
+				return PhraseQuery.create(name);
+			}catch(IllegalArgumentException e2) {
+				return QueryTerm.create(name);	
+			}
 		}
 	}
 	 

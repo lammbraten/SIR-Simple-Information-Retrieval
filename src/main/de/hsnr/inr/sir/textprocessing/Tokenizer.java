@@ -12,7 +12,7 @@ import com.google.common.io.Files;
 
 public class Tokenizer {
 
-	private static String DEFAULT_SPLIT_CHARS = ". ,;:!?\"\n";
+	private static String DEFAULT_SPLIT_CHARS = ". ,;:'!?\"\n";
 	
 	public static List<String> tokenize(File f) throws IOException{
 		String filestr = Files.asCharSource(f, Charsets.UTF_8).read()

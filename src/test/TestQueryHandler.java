@@ -1,6 +1,8 @@
 import static org.junit.Assert.*;
 
 import java.util.LinkedList;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.hsnr.inr.sir.query.Query;
@@ -9,6 +11,7 @@ import de.hsnr.inr.sir.query.QueryTerm;
 
 public class TestQueryHandler {
 
+	@Ignore
 	@Test
 	public void test() {
 		Query q;
@@ -36,6 +39,13 @@ public class TestQueryHandler {
 		LinkedList<LinkedList<QueryTerm>> s = q.getAndConjunctions();
 		
 		System.out.println(s);
+	}
+	
+	@Test public void test2(){
+		Query q;
+		q = QueryHandler.parseQuery("\"Böse Hexe\" AND \"hübsche Prinzessin\"");
+		System.out.println(q);
+		assertTrue(q.toString().equals("\"böse hexe \" AND \"hübsche prinzessin \" ;"));
 	}
 
 }
