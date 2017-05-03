@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
-import com.google.common.collect.TreeMultiset;
-
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
 

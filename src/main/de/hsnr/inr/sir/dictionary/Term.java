@@ -2,8 +2,6 @@ package de.hsnr.inr.sir.dictionary;
 
 import java.util.LinkedList;
 
-import com.google.common.collect.TreeMultiset;
-
 public class Term implements Comparable<Term>{
 	private String value;
 	private LinkedList<Posting> postings; 

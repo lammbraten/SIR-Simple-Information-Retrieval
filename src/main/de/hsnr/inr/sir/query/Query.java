@@ -1,9 +1,6 @@
 package de.hsnr.inr.sir.query;
 
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 public class Query {
 	private LinkedList<QueryItem> queryitems;
@@ -19,6 +16,7 @@ public class Query {
 	 * A AND D; </br>
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public LinkedList<LinkedList<QueryTerm>> getAndConjunctions(){
 		LinkedList<LinkedList<QueryTerm>> conjunctions = new LinkedList<LinkedList<QueryTerm>>();
 		LinkedList<QueryTerm> terms = new LinkedList<QueryTerm>();

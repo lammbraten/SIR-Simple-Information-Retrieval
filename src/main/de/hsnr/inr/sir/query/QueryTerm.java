@@ -2,8 +2,6 @@ package de.hsnr.inr.sir.query;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.NavigableSet;
-
 import com.google.common.collect.TreeMultiset;
 
 import de.hsnr.inr.sir.dictionary.Posting;

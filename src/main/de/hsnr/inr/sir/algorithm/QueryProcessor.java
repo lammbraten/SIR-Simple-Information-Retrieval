@@ -2,7 +2,6 @@ package de.hsnr.inr.sir.algorithm;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 import de.hsnr.inr.sir.dictionary.Index;
@@ -36,7 +35,7 @@ public class QueryProcessor {
 	private LinkedList<Posting> intersectQueryTerm(LinkedList<QueryTerm> qtl) {
 		switch(qtl.size()){
 			case 0: throw new IllegalArgumentException("EmptyQuery");
-			case 1: return processSingleQueryTermList(qtl.getFirst());
+			case 1: return processSingleQueryTerm(qtl.getFirst());
 			case 2: return processTupleQueryTermList(qtl);
 			default: return processMuliQueryTermList(qtl);
 				
@@ -92,7 +91,7 @@ public class QueryProcessor {
 		throw new IllegalStateException("Something went terrible wrong!");
 	}
 
-	private LinkedList<Posting> processSingleQueryTermList(QueryTerm qt) {
+	private LinkedList<Posting> processSingleQueryTerm(QueryTerm qt) {
 		getPostingList(qt);
 		if(qt.isPositive())
 			return qt.getPostings();

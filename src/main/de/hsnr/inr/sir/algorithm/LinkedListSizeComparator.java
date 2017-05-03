@@ -3,8 +3,6 @@ package de.hsnr.inr.sir.algorithm;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import de.hsnr.inr.sir.dictionary.Posting;
-
 public class LinkedListSizeComparator implements Comparator<LinkedList<?>> {
 
 	@Override

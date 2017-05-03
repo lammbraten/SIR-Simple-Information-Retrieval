@@ -2,7 +2,6 @@ package de.hsnr.inr.sir.dictionary;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Posting implements Comparable<Object>{
 	private String name;

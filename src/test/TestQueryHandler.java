@@ -1,12 +1,11 @@
 import static org.junit.Assert.*;
 
-import java.util.List;
-import java.util.Set;
-
+import java.util.LinkedList;
 import org.junit.Test;
 
 import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryHandler;
+import de.hsnr.inr.sir.query.QueryTerm;
 
 public class TestQueryHandler {
 
@@ -34,7 +33,7 @@ public class TestQueryHandler {
 		System.out.println(q);
 		assertTrue(q.toString().equals("hexe AND prinzessin \nOR frosch AND könig AND tellerlein ;"));
 
-		List s = q.getAndConjunctions();
+		LinkedList<LinkedList<QueryTerm>> s = q.getAndConjunctions();
 		
 		System.out.println(s);
 	}
