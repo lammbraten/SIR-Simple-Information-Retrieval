@@ -46,7 +46,7 @@ public class Posting implements Comparable<Object>{
 		this.positions = positions;
 		Collections.sort(this.positions);
 	}
-
+	
 	public String getName(){
 		return name;
 	}
@@ -82,7 +82,7 @@ public class Posting implements Comparable<Object>{
 		return name.hashCode();
 	}
 
-	public List<Integer> getPosition() {
+	public LinkedList<Integer> getPositions() {
 		return positions;
 	}
 

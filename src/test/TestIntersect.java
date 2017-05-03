@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -8,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import de.hsnr.inr.sir.algorithm.Intersect;
+import de.hsnr.inr.sir.algorithm.Occurrence;
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public class TestIntersect {
@@ -115,6 +117,26 @@ public class TestIntersect {
 		assertFalse(postings.contains((new Posting("Test1"))));
 	}
 	
+	@Test
+	public void testPositional() {
+		LinkedList<Posting> pl1 = new LinkedList<Posting>();
+
+		pl1.add(new Posting("Test1", new LinkedList<Integer>(Arrays.asList(1, 2, 5, 6))));
+		pl1.add(new Posting("Test2", new LinkedList<Integer>(Arrays.asList(1, 2, 5, 6))));
+		
+		LinkedList<Posting> pl2 = new LinkedList<Posting>();
+		pl2.add(new Posting("Test1", new LinkedList<Integer>(Arrays.asList(6))));
+		pl1.add(new Posting("Test2", new LinkedList<Integer>(Arrays.asList(100, 200, 500, 600))));
+		
+		LinkedList<Occurrence> occurrences = Intersect.positional(pl1, pl2, 2);
+		
+		System.out.println("Positional: " + occurrences);
+
+		
+		assertTrue(occurrences.contains((new Occurrence("Test1", 5, 6))));
+		assertTrue(occurrences.contains((new Occurrence("Test1", 6, 6))));
+		assertFalse(occurrences.contains((new Occurrence("Test2", 100, 200))));
+	}
 	
 
 }

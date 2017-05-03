@@ -87,6 +87,55 @@ public class Intersect {
 		return answer;
 	}
 
+	/**
+	 * if Term A in PostingList pl1 and Term B in PostingList pl2 have a maximum distance of k then they will added to the return-list; 
+	 * @param pl1: PostingList1
+	 * @param pl2: PostingList2
+	 * @param k: maximum distance
+	 * @return list of matched postings;
+	 */
+	public static LinkedList<Occurrence> positional(LinkedList<Posting> pl1, LinkedList<Posting> pl2, int k){
+		LinkedList<Occurrence> answer = new LinkedList<Occurrence>();
+		Iterator<Posting> p1 = pl1.iterator();
+		Iterator<Posting> p2 = pl2.iterator();
+		
+		Posting doc1 = hasNextSetNext(p1); //p1
+		Posting doc2 = hasNextSetNext(p2); //p2
+		
+		while(doc1 != null && doc2 != null){
+			if(doc1.equals(doc2)){
+				LinkedList<Integer> l = new LinkedList<Integer>();
+				LinkedList<Integer> pp1 = new LinkedList<Integer>(doc1.getPositions());
+				LinkedList<Integer> pp2 = new LinkedList<Integer>(doc2.getPositions());
+				while(!pp1.isEmpty()){
+					while(!pp2.isEmpty()){
+						if(Math.abs(pp1.getFirst() - pp2.getFirst()) <= k){
+							l.add(pp2.getFirst());
+						} else if (pp2.getFirst() > pp1.getFirst()){
+							break;
+						}
+						pp2.removeFirst();	//pp2 <- next(pp2);
+					}
+					while(!l.isEmpty() && Math.abs(l.getFirst() - pp1.getFirst()) > k){
+						l.removeFirst(); //do DELETE(l[0])
+					}
+					for(int ps : l){
+						answer.add(new Occurrence(doc1.getName(), pp1.getFirst(), ps)); //do ADD(answer, <docID(p1), pos(pp1), ps>)  
+					}
+					pp1.removeFirst();
+				}
+				doc1 = hasNextSetNext(p1);
+				doc2 = hasNextSetNext(p2);
+			} else if(doc1.compareTo(doc2) < 1){
+				doc1 = hasNextSetNext(p1);
+			} else {
+				doc2 = hasNextSetNext(p2);
+			}
+		}
+		
+		return answer;
+	}
+	
 	
 	private static Posting hasNextSetNext(Iterator<Posting> p){
 		if(p.hasNext())
