@@ -45,8 +45,7 @@ public class PhraseQuery extends QueryItem{
 	}
 
 	private static List<String> split(String str){
-		return Lists.newArrayList(Splitter.on(CharMatcher.anyOf(QueryTokenizer.DEFAULT_SPLIT_CHARS))
-				.on(CharMatcher.anyOf(QueryTokenizer.DEFAULT_PHRASE_SPLIT_CHARS))
+		return Lists.newArrayList(Splitter.on(CharMatcher.anyOf(QueryTokenizer.DEFAULT_SPLIT_CHARS + QueryTokenizer.DEFAULT_PHRASE_SPLIT_CHARS ))
 				.omitEmptyStrings()
 				.trimResults()
 				.split(str));

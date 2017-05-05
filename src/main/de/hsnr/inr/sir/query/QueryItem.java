@@ -25,15 +25,17 @@ public abstract class QueryItem {
 	 * - A QuerTerm elsewhen.
 	 */
 	public static QueryItem create(String name){
+		//TODO: Factory or decorator?
 		try{
 			return QueryConjunction.create(name);
-		}catch(IllegalArgumentException e) {
-			try{
-				return PhraseQuery.create(name);
-			}catch(IllegalArgumentException e2) {
-				return QueryTerm.create(name);	
-			}
-		}
+		}catch(IllegalArgumentException e) {}
+		try{
+			return PhraseQuery.create(name);
+		}catch(IllegalArgumentException e) {}
+		try{
+			return ProximityQuery.create(name);
+		}catch(IllegalArgumentException e) {}
+		return QueryTerm.create(name);
 	}
 	 
 	@Override
