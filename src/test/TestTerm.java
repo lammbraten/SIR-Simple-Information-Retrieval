@@ -8,8 +8,6 @@ import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
 
 public class TestTerm {
-	
-	
 
 	@Test
 	public void testPostingList() {
