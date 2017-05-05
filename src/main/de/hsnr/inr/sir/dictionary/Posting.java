@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class Posting implements Comparable<Object>{
-	private String name;
+	protected String name;
 	private LinkedList<Integer> positions;
 	
 	public Posting(String name){

@@ -6,6 +6,8 @@ import java.util.PriorityQueue;
 
 import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
+import de.hsnr.inr.sir.query.PhraseQuery;
+import de.hsnr.inr.sir.query.ProximityQuery;
 import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryItem;
 import de.hsnr.inr.sir.query.QueryTerm;
@@ -37,13 +39,27 @@ public class QueryProcessor {
 		switch(qil.size()){
 			case 0: throw new IllegalArgumentException("EmptyQuery");
 			case 1: return processSingleQueryItem(qil.getFirst());
-			case 2: return processTupleQueryItemList(qil);
+			case 2: return processTupleQueryItemList(qil.get(0), qil.get(1));
 			default: return processMuliQueryItemList(qil);
 				
 		}
 	}
 
 	private LinkedList<Posting> processMuliQueryItemList(LinkedList<QueryItem> qil) {
+		//Filtern
+		LinkedList<QueryTerm> qtl;
+		LinkedList<PhraseQuery> phql;
+		LinkedList<ProximityQuery> pql;
+		LinkedList<Posting> result = new LinkedList<Posting>();
+		
+		for(QueryItem qi : qil){
+			if(qi instanceof QueryTerm)
+				qtl.add((QueryTerm) qi);
+		}
+		//process queryterms
+		//process phrasequeries
+		//process proximityqueries
+		
 		PriorityQueue<QueryTerm> terms = getTermsSortedByFrequency(qil);
 		LinkedList<Posting> result = new LinkedList<Posting>();
 		while(!terms.isEmpty()){
@@ -59,26 +75,34 @@ public class QueryProcessor {
 		
 	}
 
-	private LinkedList<Posting> processTupleQueryItemList(LinkedList<QueryItem> qil) {
-		//TODO: Change List-parameter to tuple
-		QueryTerm qt0 = qil.get(0);	
-		QueryTerm qt1 = qil.get(1);	
-		getPostingList(qt0);
-		getPostingList(qt1);
-		
-		return decideAndCallAndMethod(qt0, qt1);
+	private LinkedList<Posting> processTupleQueryItemList(QueryItem qi1, QueryItem qi2) {
+		if(qi1 instanceof QueryTerm &&){
+			QueryTerm qt0 = qil.get(0);	
+			QueryTerm qt1 = qil.get(1);	
+			getPostingList(qt0);
+			getPostingList(qt1);
+			
+			return decideAndCallAndMethod(qt0, qt1);
+		}
+		throw new IllegalArgumentException("Couldn't process tuple QueryItem");
 	}
 
-
-	private LinkedList<Posting> processSingleQueryItem(QueryItem queryItem) {
-		//TODO: instanceof QueryTerm, Phrase Query, Proximity Query
-		
-		getPostingList(queryItem);
-		if(queryItem.isPositive())
-			return queryItem.getPostings();
-		else
-			return Intersect.not(queryItem.getPostings(), index.getPostings());
-	
+	private LinkedList<Posting> processSingleQueryItem(QueryItem qi) {
+		if(qi instanceof QueryTerm){
+			QueryTerm qt = (QueryTerm) qi;
+			getPostingList(qt);
+			if(qt.isPositive())
+				return qt.getPostings();
+			else
+				return Intersect.not(qt.getPostings(), index.getPostings());
+		}else if(qi instanceof PhraseQuery){
+			PhraseQuery phq = (PhraseQuery) qi;
+			//TODO: implement this
+		}else if(qi instanceof ProximityQuery){
+			ProximityQuery pq = (ProximityQuery) qi;
+			//TODO: implement this
+		}
+		throw new IllegalArgumentException("Couldn't process QueryItem");
 	}
 
 

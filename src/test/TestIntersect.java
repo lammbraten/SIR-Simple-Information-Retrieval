@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import org.junit.Test;
 
 import de.hsnr.inr.sir.algorithm.Intersect;
-import de.hsnr.inr.sir.algorithm.Occurrence;
+import de.hsnr.inr.sir.dictionary.Occurrence;
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public class TestIntersect {

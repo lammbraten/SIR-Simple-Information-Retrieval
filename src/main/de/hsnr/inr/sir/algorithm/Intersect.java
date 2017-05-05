@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.hsnr.inr.sir.dictionary.Occurrence;
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public class Intersect {

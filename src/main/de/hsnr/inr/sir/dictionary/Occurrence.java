@@ -1,13 +1,11 @@
-package de.hsnr.inr.sir.algorithm;
+package de.hsnr.inr.sir.dictionary;
 
-public class Occurrence {
-
-	private String docId;
+public class Occurrence extends Posting{
 	private int pos1;
 	private int pos2;
 	
 	public Occurrence(String docId, int pos1, int pos2){
-		setDocId(docId);
+		super(docId);
 		setPos1(pos1);
 		setPos2(pos2);
 		
@@ -15,7 +13,7 @@ public class Occurrence {
 	
 	@Override
 	public String toString(){
-		return docId + ": " + pos1 + ", " + pos2;
+		return name + ": " + pos1 + ", " + pos2;
 	}
 	
 	@Override
@@ -25,7 +23,7 @@ public class Occurrence {
 		if(!(o instanceof Occurrence))
 			return false;
 		Occurrence occ = (Occurrence) o;
-		if(this.docId.equals(occ.docId) &&
+		if(this.name.equals(occ.name) &&
 				this.pos1 == occ.pos1 &&
 				this.pos2 == occ.pos2)
 			return true;
@@ -35,11 +33,11 @@ public class Occurrence {
 	
 	
 	public String getDocId() {
-		return docId;
+		return name;
 	}
 
 	public void setDocId(String docId) {
-		this.docId = docId;
+		this.name = docId;
 	}
 
 	public int getPos1() {
