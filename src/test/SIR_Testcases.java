@@ -21,7 +21,7 @@ public class SIR_Testcases {
 		sir = new SimpleInformationRetrieval(TEST_DIR);
 	}
 	
-	@Ignore("temporary")
+//	@Ignore("temporary")
 	@Test
 	public void testAtomTerms() {
 		sir.setQuery("Hexe");
@@ -33,7 +33,7 @@ public class SIR_Testcases {
 		assertFalse(answer.contains(new Posting("Hans im Glück")));
 	}
 	
-	@Ignore("temporary")
+//	@Ignore("temporary")
 	@Test
 	public void testTupleTerms() {
 		sir.setQuery("Hexe AND Prinzessin");
@@ -42,7 +42,7 @@ public class SIR_Testcases {
 		assertTrue(answer.isEmpty());	
 	}
 	
-	@Ignore("temporary")
+//	@Ignore("temporary")
 	@Test
 	public void testTupleTerms2() {
 		sir.setQuery("Kater AND Prinzessin");
@@ -52,7 +52,7 @@ public class SIR_Testcases {
 		assertFalse(answer.contains(new Posting("Aladin und die Wunderlampe")));	
 	}
 	
-	@Ignore("temporary")
+//	@Ignore("temporary")
 	@Test
 	public void testDNFTerms() {
 		sir.setQuery("Hexe AND Prinzessin OR Frosch AND König AND Tellerlein");
@@ -62,7 +62,7 @@ public class SIR_Testcases {
 		assertFalse(answer.contains(new Posting("Aladin und die Wunderlampe")));	
 	}
 	
-	@Ignore("temporary")
+//	@Ignore("temporary")
 	@Test
 	public void testDNFTermsWithNegation() {
 		sir.setQuery("Hexe AND Prinzessin OR NOT Hexe AND König");
@@ -74,7 +74,7 @@ public class SIR_Testcases {
 		assertFalse(answer.contains(new Posting("Ali Baba und die 40 Räuber")));	
 	}
 	
-	@Ignore("temporary")
+//	@Ignore("temporary")
 	@Test
 	public void testDNFTermsWithNegation2() {
 		sir.setQuery("NOT DER AND NOT DIE AND NOT DAS");
@@ -83,7 +83,7 @@ public class SIR_Testcases {
 		assertTrue(answer.isEmpty());	
 	}
 	
-
+	@Ignore("temporary")
 	@Test
 	public void testPhraseQueries() {
 		sir.setQuery("\"sieben Zwerge\"");

@@ -47,21 +47,18 @@ public class QueryProcessor {
 
 	private LinkedList<Posting> processMuliQueryItemList(LinkedList<QueryItem> qil) {
 		//Filtern
-		LinkedList<QueryTerm> qtl;
-		LinkedList<PhraseQuery> phql;
-		LinkedList<ProximityQuery> pql;
+		LinkedList<QueryTerm> qtl = new LinkedList<QueryTerm>();
+		LinkedList<PhraseQuery> phql = new LinkedList<PhraseQuery>();
+		LinkedList<ProximityQuery> pql = new LinkedList<ProximityQuery>();
 		LinkedList<Posting> result = new LinkedList<Posting>();
 		
-		for(QueryItem qi : qil){
-			if(qi instanceof QueryTerm)
-				qtl.add((QueryTerm) qi);
-		}
+		assignQueryItemToMatchingList(qil, qtl, phql, pql);
 		//process queryterms
+		PriorityQueue<QueryTerm> terms = getTermsSortedByFrequency(qtl);
 		//process phrasequeries
 		//process proximityqueries
 		
-		PriorityQueue<QueryTerm> terms = getTermsSortedByFrequency(qil);
-		LinkedList<Posting> result = new LinkedList<Posting>();
+
 		while(!terms.isEmpty()){
 			QueryTerm qt0 = terms.poll();
 			result = qt0.getPostings();
@@ -72,13 +69,39 @@ public class QueryProcessor {
 			}
 		}
 		return result;
-		
+	}
+
+
+	/**
+	 * Filters the list of query items to process them separately
+	 * @param queryItems
+	 * @param queryTerms
+	 * @param phraseQueries
+	 * @param proximityQueries
+	 */
+	private void assignQueryItemToMatchingList(LinkedList<QueryItem> queryItems, LinkedList<QueryTerm> queryTerms,
+			LinkedList<PhraseQuery> phraseQueries, LinkedList<ProximityQuery> proximityQueries){
+		for(QueryItem qi : queryItems){
+			try {
+				if(qi instanceof QueryTerm)
+					queryTerms.add((QueryTerm) qi);
+				else if(qi instanceof PhraseQuery)
+					phraseQueries.add((PhraseQuery) qi);
+				else if(qi instanceof ProximityQuery)
+					proximityQueries.add((ProximityQuery) qi);
+				else
+					throw new Exception("Couldn't assign QueryItem to a processing list");
+			} catch (Exception e) {
+				System.err.println(e);
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private LinkedList<Posting> processTupleQueryItemList(QueryItem qi1, QueryItem qi2) {
-		if(qi1 instanceof QueryTerm &&){
-			QueryTerm qt0 = qil.get(0);	
-			QueryTerm qt1 = qil.get(1);	
+		if(qi1 instanceof QueryTerm && qi2 instanceof QueryTerm){
+			QueryTerm qt0 = (QueryTerm) qi1;	
+			QueryTerm qt1 = (QueryTerm) qi2;	
 			getPostingList(qt0);
 			getPostingList(qt1);
 			
