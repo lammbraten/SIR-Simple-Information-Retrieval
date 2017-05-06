@@ -19,16 +19,23 @@ public abstract class QueryItem {
 	
 	/**
 	 * Create a QueryItem for the given name. 
+	 * 
 	 * @param name
 	 * @return -A QueryConjunction if name is parseable, \n
 	 * - A QuerTerm elsewhen.
 	 */
 	public static QueryItem create(String name){
+		//TODO: Factory or decorator?
 		try{
 			return QueryConjunction.create(name);
-		}catch(IllegalArgumentException e) {
-			return QueryTerm.create(name.toLowerCase());			
-		}
+		}catch(IllegalArgumentException e) {}
+		try{
+			return PhraseQuery.create(name);
+		}catch(IllegalArgumentException e) {}
+		try{
+			return ProximityQuery.create(name);
+		}catch(IllegalArgumentException e) {}
+		return ConcreteQueryTerm.create(name);
 	}
 	 
 	@Override

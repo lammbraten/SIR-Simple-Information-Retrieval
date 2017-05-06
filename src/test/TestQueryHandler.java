@@ -1,12 +1,12 @@
 import static org.junit.Assert.*;
 
-import java.util.List;
-import java.util.Set;
+import java.util.LinkedList;
 
 import org.junit.Test;
 
 import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryHandler;
+import de.hsnr.inr.sir.query.QueryItem;
 
 public class TestQueryHandler {
 
@@ -34,9 +34,25 @@ public class TestQueryHandler {
 		System.out.println(q);
 		assertTrue(q.toString().equals("hexe AND prinzessin \nOR frosch AND könig AND tellerlein ;"));
 
-		List s = q.getAndConjunctions();
+		LinkedList<LinkedList<QueryItem>> s = q.getAndConjunctions();
 		
 		System.out.println(s);
+	}
+	
+	@Test 
+	public void testPhrase(){
+		Query q;
+		q = QueryHandler.parseQuery("\"Böse Hexe\" AND \"hübsche Prinzessin\"");
+		System.out.println(q);
+		assertTrue(q.toString().equals("\"böse hexe \" AND \"hübsche prinzessin \" ;"));
+	}
+	
+	@Test 
+	public void testProximity(){
+		Query q;
+		q = QueryHandler.parseQuery("Kuchen \\5 Wein");
+		System.out.println(q);
+		assertTrue(q.toString().equals("kuchen \\5 wein ;"));
 	}
 
 }

@@ -59,14 +59,17 @@ public class SimpleInformationRetrieval {
 			}
 		}
 		index.buildPostingList();
-		//index.write("TestIndex.txt");
+		index.write("TestIndex.txt");
 	}
 	
 	private List<Term> extractTerms(File f) throws IOException{
 		System.out.println("Lese: " + Files.getNameWithoutExtension(f.getName()));
 		LinkedList<Term> terms = new LinkedList<Term>(); 
-		for(String termStr : Tokenizer.tokenize(f))
-			terms.add(new Term(termStr, new Posting(Files.getNameWithoutExtension(f.getName()))));
+		int position = 0; 
+		for(String termStr : Tokenizer.tokenize(f)){
+			terms.add(new Term(termStr, new Posting(Files.getNameWithoutExtension(f.getName()), position)));
+			position++;
+		}
 		return terms;
 	}
 

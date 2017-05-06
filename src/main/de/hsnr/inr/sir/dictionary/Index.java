@@ -2,11 +2,8 @@ package de.hsnr.inr.sir.dictionary;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.TreeMultiset;
 
 public class Index {
 	
@@ -28,7 +25,7 @@ public class Index {
 				if(!postings.contains(p))
 					postings.add(p);
 		
-		postings.sort(new PostingComparator());
+		//postings.sort(new PostingComparator());
 	}
 
 	public void add(Term t){

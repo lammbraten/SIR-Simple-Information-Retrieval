@@ -1,16 +1,16 @@
 package de.hsnr.inr.sir.dictionary;
 
-import com.google.common.collect.TreeMultiset;
+import java.util.LinkedList;
 
 public class Term implements Comparable<Term>{
 	private String value;
-	private TreeMultiset<Posting> postings; //TODO: Vielleicht ist hier eine LinkedList doch besser
-	
+	private LinkedList<Posting> postings; 
 	
 	public Term(String value){
 		this.value = value;
 		
-		postings = TreeMultiset.create();
+		//postings = TreeMultiset.create();
+		postings = new LinkedList<Posting>();
 	}
 	
 	public Term(String value, Posting posting){
@@ -19,7 +19,7 @@ public class Term implements Comparable<Term>{
 	}
 	
 	public int getFrequence(){
-		return postings.entrySet().size();
+		return postings.size();
 	}
 	
 	@Override
@@ -27,12 +27,19 @@ public class Term implements Comparable<Term>{
 		return value.hashCode();
 	}
 
-	public TreeMultiset<Posting> getPostings() {
+	public LinkedList<Posting> getPostings() {
 		return postings;
 	}
 
-	public void append(TreeMultiset<Posting> postings) {
-		this.postings.addAll(postings);		
+	public void append(LinkedList<Posting> postings) {
+		//this.postings.addAll(postings);		
+		for(Posting p : postings){
+			int pIndex = this.postings.indexOf(p);
+			if(pIndex != -1)
+				this.postings.get(pIndex).mergePositions(p);
+			else
+				this.postings.add(p);
+		}
 	}
 
 	public boolean hasPosting(Posting p){

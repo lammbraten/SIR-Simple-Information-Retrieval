@@ -2,59 +2,41 @@ package de.hsnr.inr.sir.query;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.NavigableSet;
 
 import com.google.common.collect.TreeMultiset;
 
+import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 
-public class QueryTerm extends QueryItem {
+public abstract class AbstractQueryTerm extends QueryItem {
 	
 	private LinkedList<Posting> postings;	
-	private boolean positive = true;
 	private boolean ghost = true;
-		
-	QueryTerm(String name){
+	
+	AbstractQueryTerm(String name){
 		super(name);
 	}
-	
-	QueryTerm(String name, LinkedList<Posting> postings){
+		
+	AbstractQueryTerm(String name, LinkedList<Posting> postings) {
 		super(name);
 		this.postings = postings;
 		this.ghost = false;
 	}
-	
-	public QueryTerm(LinkedList<Posting> postings){ //Dummy
+
+	AbstractQueryTerm(LinkedList<Posting> postings){ //Dummy
 		super(null);
 		this.postings = new LinkedList<Posting>(new HashSet<Posting>(postings)); //deep copy
 		this.ghost = false;
 	}
 	
+	@Override
+	public void invert() {
+		// TODO Auto-generated method stub
 
-	public void invert(){
-		if(positive)
-			positive = false;
-		else
-			positive = true;		
-	}
-	
-	public boolean isPositive(){
-		return positive;
 	}
 	
 	public boolean isGhost(){
 		return ghost;
-	}
-	
-	public static QueryItem create(String name){
-		return new QueryTerm(name);
-	}
-	
-	@Override
-	public String toString(){
-		if(positive)
-			return name + " ";
-		return "NOT " + name + " ";
 	}
 
 	public LinkedList<Posting> getPostings() {
@@ -63,8 +45,8 @@ public class QueryTerm extends QueryItem {
 		return postings;
 	}
 
-	public void setPostings(NavigableSet<Posting> postings) {
-		this.postings = new LinkedList<Posting>(postings);
+	public void setPostings(LinkedList<Posting> postings) {
+		this.postings = postings;
 		ghost = false;
 	}
 
@@ -77,4 +59,5 @@ public class QueryTerm extends QueryItem {
 		ghost = false;
 	}
 	
+	public abstract void setPostingsFromIndex(Index index);
 }

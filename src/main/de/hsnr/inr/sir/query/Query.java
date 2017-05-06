@@ -1,9 +1,6 @@
 package de.hsnr.inr.sir.query;
 
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 public class Query {
 	private LinkedList<QueryItem> queryitems;
@@ -19,18 +16,19 @@ public class Query {
 	 * A AND D; </br>
 	 * @return
 	 */
-	public LinkedList<LinkedList<QueryTerm>> getAndConjunctions(){
-		LinkedList<LinkedList<QueryTerm>> conjunctions = new LinkedList<LinkedList<QueryTerm>>();
-		LinkedList<QueryTerm> terms = new LinkedList<QueryTerm>();
+	@SuppressWarnings("unchecked")
+	public LinkedList<LinkedList<QueryItem>> getAndConjunctions(){
+		LinkedList<LinkedList<QueryItem>> conjunctions = new LinkedList<LinkedList<QueryItem>>();
+		LinkedList<QueryItem> terms = new LinkedList<QueryItem>();
 		
 		for(QueryItem qui : queryitems){
 			if(qui instanceof QueryConjunction){
 				if(qui.getName().equals(QueryConjunction.OR)){
-					conjunctions.add((LinkedList<QueryTerm>) terms.clone());
-					terms = new LinkedList<QueryTerm>();
+					conjunctions.add((LinkedList<QueryItem>) terms.clone());
+					terms = new LinkedList<QueryItem>();
 				}
 			} else 
-				terms.add((QueryTerm) qui);
+				terms.add((ConcreteQueryTerm) qui);
 		}
 		conjunctions.add(terms);
 		return conjunctions;

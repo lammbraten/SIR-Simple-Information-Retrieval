@@ -13,9 +13,9 @@ public class QueryHandler {
 		
 		for(String queryStringItem : queryStringList){
 			
-			if(isNot(queryStringItem))
-				notCounter ++;
-			else{
+			if(isNot(queryStringItem)){
+				notCounter++;
+			}else{
 				QueryItem qui = QueryItem.create(queryStringItem);				
 				if((notCounter % 2) == 1)
 					qui.invert();
