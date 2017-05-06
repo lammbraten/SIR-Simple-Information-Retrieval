@@ -7,14 +7,14 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
-public class PhraseQuery extends QueryItem{
+public class PhraseQuery extends AbstractQueryTerm{
 
 	LinkedList<QueryItem> terms = new LinkedList<QueryItem>();
 	
 	PhraseQuery(String name) {
 		super(name);
 		for(String termName : split(name))
-			terms.add(QueryTerm.create(termName));
+			terms.add(ConcreteQueryTerm.create(termName));
 	}
 
 	@Override

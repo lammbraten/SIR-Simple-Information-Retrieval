@@ -1,6 +1,6 @@
 package de.hsnr.inr.sir.query;
 
-public class ProximityQuery extends QueryItem {
+public class ProximityQuery extends AbstractQueryTerm {
 	
 	private QueryItem termA;
 	private QueryItem termB;

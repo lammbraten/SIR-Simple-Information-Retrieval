@@ -35,7 +35,7 @@ public abstract class QueryItem {
 		try{
 			return ProximityQuery.create(name);
 		}catch(IllegalArgumentException e) {}
-		return QueryTerm.create(name);
+		return ConcreteQueryTerm.create(name);
 	}
 	 
 	@Override
