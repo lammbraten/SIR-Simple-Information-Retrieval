@@ -1,9 +1,12 @@
 package de.hsnr.inr.sir.query;
 
+import de.hsnr.inr.sir.algorithm.Intersect;
+import de.hsnr.inr.sir.dictionary.Index;
+
 public class ProximityQuery extends AbstractQueryTerm {
 	
-	private QueryItem termA;
-	private QueryItem termB;
+	private AbstractQueryTerm termA;
+	private AbstractQueryTerm termB;
 	private int dist;
 	
 	private static final String DISTANCE_SEPERATOR_PATTERN = "\\\\";
@@ -17,9 +20,9 @@ public class ProximityQuery extends AbstractQueryTerm {
 		int seperator = name.indexOf("\\");
 		int distanceEnd = name.indexOf(' ', seperator);
 		
-		termA = QueryItem.create(name.substring(0, seperator));
+		termA = (AbstractQueryTerm) QueryItem.create(name.substring(0, seperator));
 		dist = Integer.parseInt(name.substring(seperator+1, distanceEnd));
-		termA = QueryItem.create(name.substring(distanceEnd));
+		termA = (AbstractQueryTerm) QueryItem.create(name.substring(distanceEnd));
 	}
 
 	@Override
@@ -42,5 +45,17 @@ public class ProximityQuery extends AbstractQueryTerm {
 
 	public static boolean isParseable(String name) {
 		return name.matches(NAME_PATTERN);
+	}
+
+	@Override
+	public void setPostingsFromIndex(Index index) {
+		if(isGhost()){
+			termA.setPostingsFromIndex(index);
+			termB.setPostingsFromIndex(index);
+			
+			setPostings(Intersect.positional(termA.getPostings(), termB.getPostings(), dist));
+		}
+		
+		
 	}
 }

@@ -95,8 +95,8 @@ public class Intersect {
 	 * @param k: maximum distance
 	 * @return list of matched postings;
 	 */
-	public static LinkedList<Occurrence> positional(LinkedList<Posting> pl1, LinkedList<Posting> pl2, int k){
-		LinkedList<Occurrence> answer = new LinkedList<Occurrence>();
+	public static LinkedList<Posting> positional(LinkedList<Posting> pl1, LinkedList<Posting> pl2, int k){
+		LinkedList<Posting> answer = new LinkedList<Posting>();
 		Iterator<Posting> p1 = pl1.iterator();
 		Iterator<Posting> p2 = pl2.iterator();
 		

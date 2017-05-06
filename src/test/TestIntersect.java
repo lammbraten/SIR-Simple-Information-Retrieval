@@ -130,7 +130,7 @@ public class TestIntersect {
 		
 		pl1.add(new Posting("Test4", new LinkedList<Integer>(Arrays.asList(11))));
 		
-		LinkedList<Occurrence> occurrences = Intersect.positional(pl1, pl2, 2);
+		LinkedList<Posting> occurrences = Intersect.positional(pl1, pl2, 2);
 		
 		System.out.println("Positional: " + occurrences);
 

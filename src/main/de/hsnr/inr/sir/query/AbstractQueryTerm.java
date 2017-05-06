@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import com.google.common.collect.TreeMultiset;
 
+import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public abstract class AbstractQueryTerm extends QueryItem {
@@ -58,4 +59,5 @@ public abstract class AbstractQueryTerm extends QueryItem {
 		ghost = false;
 	}
 	
+	public abstract void setPostingsFromIndex(Index index);
 }

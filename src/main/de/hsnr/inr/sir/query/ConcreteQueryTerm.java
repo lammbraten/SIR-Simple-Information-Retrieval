@@ -1,6 +1,8 @@
 package de.hsnr.inr.sir.query;
 
 import java.util.LinkedList;
+
+import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public class ConcreteQueryTerm extends AbstractQueryTerm {
@@ -40,6 +42,13 @@ public class ConcreteQueryTerm extends AbstractQueryTerm {
 		if(positive)
 			return name + " ";
 		return "NOT " + name + " ";
+	}
+
+	@Override
+	public void setPostingsFromIndex(Index index) {
+		if(isGhost())
+			setPostings(index.getTerm(getName()).getPostings());
+		
 	}
 
 

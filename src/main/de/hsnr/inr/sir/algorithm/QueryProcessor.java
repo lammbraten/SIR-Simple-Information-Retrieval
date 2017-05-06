@@ -102,8 +102,8 @@ public class QueryProcessor {
 		if(qi1 instanceof ConcreteQueryTerm && qi2 instanceof ConcreteQueryTerm){
 			ConcreteQueryTerm qt0 = (ConcreteQueryTerm) qi1;	
 			ConcreteQueryTerm qt1 = (ConcreteQueryTerm) qi2;	
-			getPostingList(qt0);
-			getPostingList(qt1);
+			qt0.setPostingsFromIndex(index);
+			qt1.setPostingsFromIndex(index);
 			
 			return decideAndCallAndMethod(qt0, qt1);
 		}
@@ -113,7 +113,7 @@ public class QueryProcessor {
 	private LinkedList<Posting> processSingleQueryItem(QueryItem qi) {
 		if(qi instanceof ConcreteQueryTerm){
 			ConcreteQueryTerm qt = (ConcreteQueryTerm) qi;
-			getPostingList(qt);
+			qt.setPostingsFromIndex(index);
 			if(qt.isPositive())
 				return qt.getPostings();
 			else
@@ -133,7 +133,7 @@ public class QueryProcessor {
 		PriorityQueue<ConcreteQueryTerm> terms = new PriorityQueue<ConcreteQueryTerm>(new QueryTermFrequencyCompartor());
 		
 		for(ConcreteQueryTerm qt : qtl){
-			getPostingList(qt);
+			qt.setPostingsFromIndex(index);
 			terms.add(qt);
 		}
 				
@@ -152,10 +152,12 @@ public class QueryProcessor {
 		throw new IllegalStateException("Something went terrible wrong!");
 	}
 
+	/*
 	private void getPostingList(ConcreteQueryTerm qt){
 		if(qt.isGhost())
 			qt.setPostings(index.getTerm(qt.getName()).getPostings());
 	}
+	*/
 	
 	/*
 	private String tupleIntersect(List<QueryTerm> qtl) {

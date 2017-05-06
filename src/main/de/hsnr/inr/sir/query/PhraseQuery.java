@@ -7,14 +7,18 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
+import de.hsnr.inr.sir.algorithm.Intersect;
+import de.hsnr.inr.sir.dictionary.Index;
+import de.hsnr.inr.sir.dictionary.Posting;
+
 public class PhraseQuery extends AbstractQueryTerm{
 
-	LinkedList<QueryItem> terms = new LinkedList<QueryItem>();
+	LinkedList<AbstractQueryTerm> terms = new LinkedList<AbstractQueryTerm>();
 	
 	PhraseQuery(String name) {
 		super(name);
 		for(String termName : split(name))
-			terms.add(ConcreteQueryTerm.create(termName));
+			terms.add((AbstractQueryTerm) ConcreteQueryTerm.create(termName));
 	}
 
 	@Override
@@ -49,6 +53,23 @@ public class PhraseQuery extends AbstractQueryTerm{
 				.omitEmptyStrings()
 				.trimResults()
 				.split(str));
+	}
+
+	@Override
+	public void setPostingsFromIndex(Index index) {
+		if(isGhost()){
+			for(AbstractQueryTerm qt : terms)
+				qt.setPostingsFromIndex(index);
+			this.setPostings(intersectPostings());
+		}
+	}
+
+	private LinkedList<Posting> intersectPostings() {
+		LinkedList<Posting> postings = new LinkedList<Posting>();
+		for(int i = 0; i < terms.size()-1; i++){ //TODO: FIX for false positives(add iterate by distance)
+			Intersect.positional(terms.get(i).getPostings(), terms.get(i).getPostings(), 1);
+		}
+		return postings;
 	}
 	
 	
