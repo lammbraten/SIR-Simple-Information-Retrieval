@@ -54,6 +54,15 @@ public class SIR_Testcases {
 	
 //	@Ignore("temporary")
 	@Test
+	public void testTupleTerms3() {
+		sir.setQuery("Kuchen AND Wolf AND Wein");
+
+		HashSet<Posting> answer = sir.startInformationRetrieval();
+		assertTrue(answer.contains(new Posting("Rotkäppchen")));
+	}
+	
+//	@Ignore("temporary")
+	@Test
 	public void testDNFTerms() {
 		sir.setQuery("Hexe AND Prinzessin OR Frosch AND König AND Tellerlein");
 
@@ -90,6 +99,25 @@ public class SIR_Testcases {
 
 		HashSet<Posting> answer = sir.startInformationRetrieval();
 		assertTrue(answer.contains(new Posting("Schneewittchen")));
+	}
+
+//	@Ignore("temporary")
+	@Test
+	public void testProximityQueries() {
+		sir.setQuery("\"Kuchen /5 Wein\"");
+
+		HashSet<Posting> answer = sir.startInformationRetrieval();
+		assertTrue(answer.contains(new Posting("Rotkäppchen")));
+		assertTrue(answer.contains(new Posting("Die goldene Gans")));
+	}
+	
+	@Test
+	public void testCombinedQueries() {
+		sir.setQuery("\"Kuchen /5 Wein\" AND Wolf");
+
+		HashSet<Posting> answer = sir.startInformationRetrieval();
+		assertTrue(answer.contains(new Posting("Rotkäppchen")));
+		assertFalse(answer.contains(new Posting("Die goldene Gans")));
 	}
 
 }

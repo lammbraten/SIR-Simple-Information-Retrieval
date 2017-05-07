@@ -107,9 +107,9 @@ public class QueryProcessor {
 	}
 
 	private LinkedList<Posting> processTupleQueryItemList(QueryItem qi1, QueryItem qi2) {
-		if(qi1 instanceof ConcreteQueryTerm && qi2 instanceof ConcreteQueryTerm){
-			ConcreteQueryTerm qt0 = (ConcreteQueryTerm) qi1;	
-			ConcreteQueryTerm qt1 = (ConcreteQueryTerm) qi2;	
+		if(qi1 instanceof AbstractQueryTerm && qi2 instanceof AbstractQueryTerm){
+			AbstractQueryTerm qt0 = (AbstractQueryTerm) qi1;	
+			AbstractQueryTerm qt1 = (AbstractQueryTerm) qi2;	
 			qt0.setPostingsFromIndex(index);
 			qt1.setPostingsFromIndex(index);
 			

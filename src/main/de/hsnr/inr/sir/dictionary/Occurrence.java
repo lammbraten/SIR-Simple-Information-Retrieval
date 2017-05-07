@@ -20,13 +20,16 @@ public class Occurrence extends Posting{
 	public boolean equals(Object o){
 		if(o == null)
 			return false;
-		if(!(o instanceof Occurrence))
+		if((o instanceof Occurrence)){
+			Occurrence occ = (Occurrence) o;
+			if(this.name.equals(occ.name) &&
+					this.pos1 == occ.pos1 &&
+					this.pos2 == occ.pos2)
+				return true;
 			return false;
-		Occurrence occ = (Occurrence) o;
-		if(this.name.equals(occ.name) &&
-				this.pos1 == occ.pos1 &&
-				this.pos2 == occ.pos2)
-			return true;
+		}
+		if(o instanceof Posting)
+			return ((Posting) o).equals(this);
 		return false;
 	}
 	

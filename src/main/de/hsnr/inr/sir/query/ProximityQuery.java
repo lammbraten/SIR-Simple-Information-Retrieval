@@ -3,13 +3,14 @@ package de.hsnr.inr.sir.query;
 import de.hsnr.inr.sir.algorithm.Intersect;
 import de.hsnr.inr.sir.dictionary.Index;
 
+
 public class ProximityQuery extends AbstractQueryTerm {
 	
 	private AbstractQueryTerm termA;
 	private AbstractQueryTerm termB;
 	private int dist;
 	
-	private static final String DISTANCE_SEPERATOR_PATTERN = "\\\\";
+	private static final String DISTANCE_SEPERATOR_PATTERN = "/";
 	private static final String DISTANCE_PATTERN = " "+DISTANCE_SEPERATOR_PATTERN+"\\d+ ";
 	private static final String NAME_PATTERN = "\".+"+DISTANCE_PATTERN+".+\"";
 
@@ -17,7 +18,7 @@ public class ProximityQuery extends AbstractQueryTerm {
 	ProximityQuery(String name) {
 		super(name);
 		
-		int seperator = name.indexOf("\\");
+		int seperator = name.indexOf(DISTANCE_SEPERATOR_PATTERN);
 		int distanceEnd = name.indexOf(' ', seperator);
 		
 		termA = (AbstractQueryTerm) QueryItem.create(name.substring(1, seperator));
@@ -34,7 +35,7 @@ public class ProximityQuery extends AbstractQueryTerm {
 	
 	@Override
 	public String toString(){
-		return termA + " \\" + dist + " " + termB;
+		return termA + DISTANCE_SEPERATOR_PATTERN + dist + " " + termB;
 	}
 	
 	public static QueryItem create(String name){
@@ -43,6 +44,11 @@ public class ProximityQuery extends AbstractQueryTerm {
 		return new ProximityQuery(name.toLowerCase());
 	}
 
+	/**
+	 * Proximity Queries have to be in this form: </br>
+	 * "TERMA_A /k TERM_B" </br>
+	 * with k as distance, to be parseable.
+	 */
 	public static boolean isParseable(String name) {
 		return name.matches(NAME_PATTERN);
 	}
