@@ -1,6 +1,7 @@
 package de.hsnr.inr.sir.query;
 
 public abstract class QueryItem {
+	
 	String name;
 	
 	public QueryItem(String name) {
@@ -42,6 +43,4 @@ public abstract class QueryItem {
 	public String toString(){
 		return name + " ";
 	}
-	
-
 }

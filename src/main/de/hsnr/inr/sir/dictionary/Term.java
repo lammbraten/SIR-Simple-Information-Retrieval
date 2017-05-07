@@ -8,8 +8,6 @@ public class Term implements Comparable<Term>{
 	
 	public Term(String value){
 		this.value = value;
-		
-		//postings = TreeMultiset.create();
 		postings = new LinkedList<Posting>();
 	}
 	
@@ -31,8 +29,7 @@ public class Term implements Comparable<Term>{
 		return postings;
 	}
 
-	public void append(LinkedList<Posting> postings) {
-		//this.postings.addAll(postings);		
+	public void append(LinkedList<Posting> postings) {	
 		for(Posting p : postings){
 			int pIndex = this.postings.indexOf(p);
 			if(pIndex != -1)

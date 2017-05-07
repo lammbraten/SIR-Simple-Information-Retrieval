@@ -25,7 +25,6 @@ public class Index {
 				if(!postings.contains(p))
 					postings.add(p);
 		
-		//postings.sort(new PostingComparator());
 	}
 
 	public void add(Term t){

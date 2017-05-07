@@ -8,7 +8,6 @@ public class Occurrence extends Posting{
 		super(docId);
 		setPos1(pos1);
 		setPos2(pos2);
-		
 	}
 	
 	@Override
@@ -32,8 +31,6 @@ public class Occurrence extends Posting{
 			return ((Posting) o).equals(this);
 		return false;
 	}
-	
-	
 	
 	public String getDocId() {
 		return name;

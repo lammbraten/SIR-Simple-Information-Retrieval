@@ -14,14 +14,12 @@ import com.google.common.collect.Lists;
  *
  */
 public class QueryTokenizer {
+	
 	public static final String DEFAULT_SPLIT_CHARS = " ";
 	public static final String DEFAULT_PHRASE_SPLIT_CHARS = "\"";
 	public static final String DEFAULT_PROXIMITY_SPLIT_CHARS = "/";
 	
 	public static List<String> tokenize(String str) {
-		//return split(str);
-		//return parseForPhrases(split(str));
-
 		return parseForProximity(parseForPhrases(split(str)));
 	}
 	
@@ -29,6 +27,7 @@ public class QueryTokenizer {
 		LinkedList<String> l = new LinkedList<String>();
 		String merged = "";
 		boolean mergeStarted = false;
+		
 		for(String token : tokens){
 			if(token.startsWith(DEFAULT_PROXIMITY_SPLIT_CHARS)){
 				merged = l.getLast();

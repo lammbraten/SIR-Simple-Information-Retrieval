@@ -6,10 +6,7 @@ import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public class ConcreteQueryTerm extends AbstractQueryTerm {
-
-
-
-		
+	
 	ConcreteQueryTerm(String name){
 		super(name);
 	}
@@ -46,7 +43,4 @@ public class ConcreteQueryTerm extends AbstractQueryTerm {
 			setPostings(index.getTerm(getName()).getPostings());
 		
 	}
-
-
-	
 }

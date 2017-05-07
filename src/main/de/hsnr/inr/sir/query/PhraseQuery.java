@@ -71,7 +71,4 @@ public class PhraseQuery extends AbstractQueryTerm{
 		}
 		return postings;
 	}
-	
-	
-	
 }

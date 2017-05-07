@@ -60,12 +60,9 @@ public class Intersect {
 		return answer;
 	}
 
-	//TODO OR
-
 	public static LinkedList<Posting> notAndNot(LinkedList<Posting> pl1, LinkedList<Posting> pl2, LinkedList<Posting> plAll) {
 		return andNot(not(pl1, plAll), pl2);
 	}
-
 
 	public static LinkedList<Posting> not(LinkedList<Posting> pl, LinkedList<Posting> plAll) {
 		LinkedList<Posting> answer = new LinkedList<Posting>(plAll); 
@@ -136,7 +133,6 @@ public class Intersect {
 		
 		return answer;
 	}
-	
 	
 	private static Posting hasNextSetNext(Iterator<Posting> p){
 		if(p.hasNext())

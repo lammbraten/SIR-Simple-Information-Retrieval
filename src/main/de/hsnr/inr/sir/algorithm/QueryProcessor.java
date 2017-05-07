@@ -25,9 +25,8 @@ public class QueryProcessor {
 	public HashSet<Posting> process(Query query){
 		LinkedList<Posting> documents = new LinkedList<Posting>();
 		
-		for(LinkedList<QueryItem> qil : query.getAndConjunctions()){
+		for(LinkedList<QueryItem> qil : query.getAndConjunctions())
 			documents.addAll(intersectQueryTerm(qil));
-		}
 		
 		return new HashSet<Posting>(documents);
 	}
@@ -41,31 +40,18 @@ public class QueryProcessor {
 			case 0: throw new IllegalArgumentException("EmptyQuery");
 			case 1: return processSingleQueryItem(qil.getFirst());
 			case 2: return processTupleQueryItemList(qil.get(0), qil.get(1));
-			default: return processMuliQueryItemList(qil);
-				
+			default: return processMuliQueryItemList(qil);	
 		}
 	}
 
 	private LinkedList<Posting> processMuliQueryItemList(LinkedList<QueryItem> qil) {
-		//Filtern
-
-		LinkedList<ConcreteQueryTerm> qtl = new LinkedList<ConcreteQueryTerm>();
-		LinkedList<PhraseQuery> phql = new LinkedList<PhraseQuery>();
-		LinkedList<ProximityQuery> pql = new LinkedList<ProximityQuery>();
 		LinkedList<Posting> result = new LinkedList<Posting>();
-		
-		assignQueryItemToMatchingList(qil, qtl, phql, pql);
-		//process queryterms
-
 		LinkedList<AbstractQueryTerm> aqtl = new LinkedList<AbstractQueryTerm>();
-		aqtl.addAll(qtl);
-		aqtl.addAll(phql);
-		aqtl.addAll(pql);
 		
+		for(QueryItem qi : qil)
+			aqtl.add((AbstractQueryTerm) qi);
+
 		PriorityQueue<AbstractQueryTerm> terms = getTermsSortedByFrequency(aqtl);
-		//process phrasequeries
-		//process proximityqueries
-		
 
 		while(!terms.isEmpty()){
 			AbstractQueryTerm qt0 = terms.poll();
@@ -77,33 +63,6 @@ public class QueryProcessor {
 			}
 		}
 		return result;
-	}
-
-
-	/**
-	 * Filters the list of query items to process them separately
-	 * @param queryItems
-	 * @param queryTerms
-	 * @param phraseQueries
-	 * @param proximityQueries
-	 */
-	private void assignQueryItemToMatchingList(LinkedList<QueryItem> queryItems, LinkedList<ConcreteQueryTerm> queryTerms,
-			LinkedList<PhraseQuery> phraseQueries, LinkedList<ProximityQuery> proximityQueries){
-		for(QueryItem qi : queryItems){
-			try {
-				if(qi instanceof ConcreteQueryTerm)
-					queryTerms.add((ConcreteQueryTerm) qi);
-				else if(qi instanceof PhraseQuery)
-					phraseQueries.add((PhraseQuery) qi);
-				else if(qi instanceof ProximityQuery)
-					proximityQueries.add((ProximityQuery) qi);
-				else
-					throw new Exception("Couldn't assign QueryItem to a processing list");
-			} catch (Exception e) {
-				System.err.println(e);
-				e.printStackTrace();
-			}
-		}
 	}
 
 	private LinkedList<Posting> processTupleQueryItemList(QueryItem qi1, QueryItem qi2) {
@@ -161,20 +120,6 @@ public class QueryProcessor {
 			return Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), index.getPostings());
 		throw new IllegalStateException("Something went terrible wrong!");
 	}
-
-	/*
-	private void getPostingList(ConcreteQueryTerm qt){
-		if(qt.isGhost())
-			qt.setPostings(index.getTerm(qt.getName()).getPostings());
-	}
-	*/
-	
-	/*
-	private String tupleIntersect(List<QueryTerm> qtl) {
-		TreeMultiset<Posting> p1 = index.getTerm(qtl.get(1).getName()).getPostings();
-		//TODO merge(QUERYTERM qt1, QUERYTERM qt2);
-		return Intersect.merge(p0, p1);
-	}*/
 
 	public Index getIndex() {
 		return index;

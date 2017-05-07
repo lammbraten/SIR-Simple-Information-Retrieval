@@ -14,7 +14,6 @@ public class ProximityQuery extends AbstractQueryTerm {
 	private static final String DISTANCE_PATTERN = " "+DISTANCE_SEPERATOR_PATTERN+"\\d+ ";
 	private static final String NAME_PATTERN = "\".+"+DISTANCE_PATTERN+".+\"";
 
-
 	ProximityQuery(String name) {
 		super(name);
 		
@@ -61,7 +60,5 @@ public class ProximityQuery extends AbstractQueryTerm {
 			
 			setPostings(Intersect.positional(termA.getPostings(), termB.getPostings(), dist));
 		}
-		
-		
 	}
 }

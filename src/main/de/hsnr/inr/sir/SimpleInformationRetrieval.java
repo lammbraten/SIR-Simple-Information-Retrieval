@@ -82,9 +82,6 @@ public class SimpleInformationRetrieval {
 	private void checkIfDir() {
 		if(!corpus.isDirectory())
 			throw new IllegalArgumentException("Quelldatei muss ein Ordner sein!");
-		
-		//for(File f : corpus.listFiles())
-		//	System.out.println(f);
 	}
 
 

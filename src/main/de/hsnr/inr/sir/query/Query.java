@@ -3,6 +3,7 @@ package de.hsnr.inr.sir.query;
 import java.util.LinkedList;
 
 public class Query {
+	
 	private LinkedList<QueryItem> queryitems;
 	
 	public Query(LinkedList<QueryItem> queryitems){
@@ -52,8 +53,8 @@ public class Query {
 		
 		lstStr += ";";
 		return lstStr;
-		
 	}
+	
 	public boolean isEmpty() {
 		return queryitems.isEmpty();
 	}
