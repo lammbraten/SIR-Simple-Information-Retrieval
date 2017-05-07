@@ -11,7 +11,7 @@ public class ProximityQuery extends AbstractQueryTerm {
 	
 	private static final String DISTANCE_SEPERATOR_PATTERN = "\\\\";
 	private static final String DISTANCE_PATTERN = " "+DISTANCE_SEPERATOR_PATTERN+"\\d+ ";
-	private static final String NAME_PATTERN = ".+"+DISTANCE_PATTERN+".+";
+	private static final String NAME_PATTERN = "\".+"+DISTANCE_PATTERN+".+\"";
 
 
 	ProximityQuery(String name) {
@@ -20,9 +20,9 @@ public class ProximityQuery extends AbstractQueryTerm {
 		int seperator = name.indexOf("\\");
 		int distanceEnd = name.indexOf(' ', seperator);
 		
-		termA = (AbstractQueryTerm) QueryItem.create(name.substring(0, seperator));
+		termA = (AbstractQueryTerm) QueryItem.create(name.substring(1, seperator));
 		dist = Integer.parseInt(name.substring(seperator+1, distanceEnd));
-		termA = (AbstractQueryTerm) QueryItem.create(name.substring(distanceEnd));
+		termB = (AbstractQueryTerm) QueryItem.create(name.substring(distanceEnd, name.length()-1));
 	}
 
 	@Override

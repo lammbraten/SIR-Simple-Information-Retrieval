@@ -30,7 +30,7 @@ public class ConcreteQueryTerm extends AbstractQueryTerm {
 	}
 	
 	public static QueryItem create(String name){
-		return new ConcreteQueryTerm(name.toLowerCase());
+		return new ConcreteQueryTerm(name.toLowerCase().replaceAll("\\s", ""));
 	}
 	
 	@Override

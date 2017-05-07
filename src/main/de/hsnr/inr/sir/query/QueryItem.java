@@ -30,10 +30,10 @@ public abstract class QueryItem {
 			return QueryConjunction.create(name);
 		}catch(IllegalArgumentException e) {}
 		try{
-			return PhraseQuery.create(name);
+			return ProximityQuery.create(name);
 		}catch(IllegalArgumentException e) {}
 		try{
-			return ProximityQuery.create(name);
+			return PhraseQuery.create(name);
 		}catch(IllegalArgumentException e) {}
 		return ConcreteQueryTerm.create(name);
 	}
