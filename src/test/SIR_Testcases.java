@@ -83,7 +83,7 @@ public class SIR_Testcases {
 		assertTrue(answer.isEmpty());	
 	}
 	
-	@Ignore("temporary")
+//	@Ignore("temporary")
 	@Test
 	public void testPhraseQueries() {
 		sir.setQuery("\"sieben Zwerge\"");

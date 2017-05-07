@@ -7,7 +7,7 @@ import de.hsnr.inr.sir.dictionary.Posting;
 
 public class ConcreteQueryTerm extends AbstractQueryTerm {
 
-	private boolean positive = true;
+
 
 		
 	ConcreteQueryTerm(String name){
@@ -29,10 +29,6 @@ public class ConcreteQueryTerm extends AbstractQueryTerm {
 			positive = true;		
 	}
 	
-	public boolean isPositive(){
-		return positive;
-	}
-		
 	public static QueryItem create(String name){
 		return new ConcreteQueryTerm(name.toLowerCase());
 	}

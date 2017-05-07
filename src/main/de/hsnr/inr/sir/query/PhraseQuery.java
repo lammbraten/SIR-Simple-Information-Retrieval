@@ -67,7 +67,7 @@ public class PhraseQuery extends AbstractQueryTerm{
 	private LinkedList<Posting> intersectPostings() {
 		LinkedList<Posting> postings = new LinkedList<Posting>();
 		for(int i = 0; i < terms.size()-1; i++){ //TODO: FIX for false positives(add iterate by distance)
-			Intersect.positional(terms.get(i).getPostings(), terms.get(i).getPostings(), 1);
+			postings.addAll(Intersect.positional(terms.get(i).getPostings(), terms.get(i+1).getPostings(), 1));
 		}
 		return postings;
 	}

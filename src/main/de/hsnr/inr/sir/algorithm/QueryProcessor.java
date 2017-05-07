@@ -10,6 +10,7 @@ import de.hsnr.inr.sir.query.PhraseQuery;
 import de.hsnr.inr.sir.query.ProximityQuery;
 import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryItem;
+import de.hsnr.inr.sir.query.AbstractQueryTerm;
 import de.hsnr.inr.sir.query.ConcreteQueryTerm;
 
 public class QueryProcessor {
@@ -47,6 +48,7 @@ public class QueryProcessor {
 
 	private LinkedList<Posting> processMuliQueryItemList(LinkedList<QueryItem> qil) {
 		//Filtern
+
 		LinkedList<ConcreteQueryTerm> qtl = new LinkedList<ConcreteQueryTerm>();
 		LinkedList<PhraseQuery> phql = new LinkedList<PhraseQuery>();
 		LinkedList<ProximityQuery> pql = new LinkedList<ProximityQuery>();
@@ -54,16 +56,22 @@ public class QueryProcessor {
 		
 		assignQueryItemToMatchingList(qil, qtl, phql, pql);
 		//process queryterms
-		PriorityQueue<ConcreteQueryTerm> terms = getTermsSortedByFrequency(qtl);
+
+		LinkedList<AbstractQueryTerm> aqtl = new LinkedList<AbstractQueryTerm>();
+		aqtl.addAll(qtl);
+		aqtl.addAll(phql);
+		aqtl.addAll(pql);
+		
+		PriorityQueue<AbstractQueryTerm> terms = getTermsSortedByFrequency(aqtl);
 		//process phrasequeries
 		//process proximityqueries
 		
 
 		while(!terms.isEmpty()){
-			ConcreteQueryTerm qt0 = terms.poll();
+			AbstractQueryTerm qt0 = terms.poll();
 			result = qt0.getPostings();
 			if(!terms.isEmpty()){
-				ConcreteQueryTerm qt1 = terms.poll();
+				AbstractQueryTerm qt1 = terms.poll();
 				result = decideAndCallAndMethod(qt0, qt1);
 				terms.add(new ConcreteQueryTerm(result));
 			}
@@ -120,19 +128,21 @@ public class QueryProcessor {
 				return Intersect.not(qt.getPostings(), index.getPostings());
 		}else if(qi instanceof PhraseQuery){
 			PhraseQuery phq = (PhraseQuery) qi;
-			//TODO: implement this
+			phq.setPostingsFromIndex(index);
+			return phq.getPostings();
 		}else if(qi instanceof ProximityQuery){
 			ProximityQuery pq = (ProximityQuery) qi;
-			//TODO: implement this
+			pq.setPostingsFromIndex(index);
+			return pq.getPostings();
 		}
 		throw new IllegalArgumentException("Couldn't process QueryItem");
 	}
 
 
-	private PriorityQueue<ConcreteQueryTerm> getTermsSortedByFrequency(LinkedList<ConcreteQueryTerm> qtl) {
-		PriorityQueue<ConcreteQueryTerm> terms = new PriorityQueue<ConcreteQueryTerm>(new QueryTermFrequencyCompartor());
+	private PriorityQueue<AbstractQueryTerm> getTermsSortedByFrequency(LinkedList<AbstractQueryTerm> qtl) {
+		PriorityQueue<AbstractQueryTerm> terms = new PriorityQueue<AbstractQueryTerm>(new QueryTermFrequencyCompartor());
 		
-		for(ConcreteQueryTerm qt : qtl){
+		for(AbstractQueryTerm qt : qtl){
 			qt.setPostingsFromIndex(index);
 			terms.add(qt);
 		}
@@ -140,7 +150,7 @@ public class QueryProcessor {
 		return terms;
 	}
 
-	private LinkedList<Posting> decideAndCallAndMethod(ConcreteQueryTerm qt0, ConcreteQueryTerm qt1) {
+	private LinkedList<Posting> decideAndCallAndMethod(AbstractQueryTerm qt0, AbstractQueryTerm qt1) {
 		if(qt0.isPositive() && qt1.isPositive()) //both positive
 			return Intersect.and(qt0.getPostings(), qt1.getPostings());
 		else if(qt0.isPositive() && !qt1.isPositive()) //qt0 positive, qt1 negative

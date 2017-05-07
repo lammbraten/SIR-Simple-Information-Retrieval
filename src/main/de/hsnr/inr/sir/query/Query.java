@@ -28,7 +28,7 @@ public class Query {
 					terms = new LinkedList<QueryItem>();
 				}
 			} else 
-				terms.add((ConcreteQueryTerm) qui);
+				terms.add(qui);
 		}
 		conjunctions.add(terms);
 		return conjunctions;

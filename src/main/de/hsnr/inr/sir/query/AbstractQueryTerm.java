@@ -12,6 +12,7 @@ public abstract class AbstractQueryTerm extends QueryItem {
 	
 	private LinkedList<Posting> postings;	
 	private boolean ghost = true;
+	protected boolean positive = true;
 	
 	AbstractQueryTerm(String name){
 		super(name);
@@ -29,10 +30,8 @@ public abstract class AbstractQueryTerm extends QueryItem {
 		this.ghost = false;
 	}
 	
-	@Override
-	public void invert() {
-		// TODO Auto-generated method stub
-
+	public boolean isPositive(){
+		return positive;
 	}
 	
 	public boolean isGhost(){
@@ -60,4 +59,6 @@ public abstract class AbstractQueryTerm extends QueryItem {
 	}
 	
 	public abstract void setPostingsFromIndex(Index index);
+	@Override
+	public abstract void invert();
 }
