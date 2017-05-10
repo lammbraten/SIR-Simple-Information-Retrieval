@@ -10,7 +10,7 @@ public class Index {
 	/**
 	 * TODO: Baum implementieren?
 	 */
-	private LinkedList<Term> dictionary;
+	protected LinkedList<Term> dictionary;
 	private LinkedList<Posting> postings;
 
 	
