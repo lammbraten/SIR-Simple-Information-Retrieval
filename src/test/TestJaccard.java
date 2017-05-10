@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,13 +13,14 @@ import com.google.common.io.Files;
 
 import de.hsnr.inr.sir.SimpleInformationRetrieval;
 import de.hsnr.inr.sir.dictionary.Index;
+import de.hsnr.inr.sir.dictionary.JaccardDegree;
 import de.hsnr.inr.sir.dictionary.JaccardIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
 import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class TestJaccard {
-	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8-small";
+	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";
 	private static JaccardIndex index;
 	private static File corpus;
 
@@ -31,7 +33,10 @@ public class TestJaccard {
 	@Test
 	public void test() {
 		index.calcJaccardDegreeMatrix();
-		assertFalse(index.getPostings().isEmpty());
+			
+		//System.out.println(index.getDegreeList());
+		System.out.println(index.getDegreeList().size());
+		assertFalse(index.getDegreeList().isEmpty());
 	}
 
 	

@@ -9,42 +9,20 @@ public class JaccardDegree {
 	private float degree;
 	
 	
-	public JaccardDegree(Term termT, Term termU, String value, float dgree){
-		if(termT.equals(termU))
-			throw new IllegalArgumentException("termT equals termU");
-		
+	public JaccardDegree(Term termT, Term termU, String value, float degree){
 		this.termT = termT;
 		this.termU = termU;
-		
-		this.degree = calcDegree(termT, termU);
+		this.degree = degree;
 		
 		setValue(value);
 	}
 	
 	public JaccardDegree(Term termT, Term termU, String value){
-		if(termT.equals(termU))
-			throw new IllegalArgumentException("termT equals termU");
-		
-		this.termT = termT;
-		this.termU = termU;
-		
-		this.degree = calcDegree(termT, termU);
-		
-		setValue(value);
+		this(termT, termU, value, calcDegree(termT, termU));
+
 	}
 	
 	public JaccardDegree(Term termT, Term termU){
-		/*
-		if(termT.equals(termU))
-			throw new IllegalArgumentException("termT equals termU");
-		
-		this.termT = termT;
-		this.termU = termU;
-		
-		this.degree = calcDegree(termT, termU);
-		
-		setValue(calcValue(termT, termU));
-		*/
 		this(termT, termU, calcValue(termT, termU));
 	}
 
@@ -56,8 +34,8 @@ public class JaccardDegree {
 	}
 	
 	public static float calcDegree(Term termT, Term termU){
-		int docsWithTAndU = calcIntersectionSize(termT, termU);		
-		int docsWithTOrU = termT.getFrequence() + termU.getFrequence();
+		float docsWithTAndU = calcIntersectionSize(termT, termU);		
+		float docsWithTOrU = termT.getFrequence() + termU.getFrequence() - docsWithTAndU;
 		
 		float degree = docsWithTAndU / docsWithTOrU;
 		
@@ -75,7 +53,7 @@ public class JaccardDegree {
 	
 	@Override 
 	public String toString(){
-		return value;		
+		return value +": " + degree;		
 	}
 
 	public Term getTermT() {
@@ -92,5 +70,9 @@ public class JaccardDegree {
 
 	private void setValue(String val) {
 		value = val;
+	}
+	
+	public String getValue() {
+		return value;
 	}
 }
