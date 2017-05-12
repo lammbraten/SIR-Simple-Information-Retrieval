@@ -42,12 +42,14 @@ public class TestJaccard {
 		index.calcFuzzyAffiliationDegreeMatrix();
 
 		LinkedList<Posting> postings = index.getPostings();
-		Posting p = postings.getLast();
-
-		for(Term t : index.getAllTermsIn(p)){
-			System.out.println(index.getOgawaDegreeOf(p, t));
+		Posting p1 = postings.getLast();
+		Posting p2 = postings.getFirst();
+		
+		for(Term t : index.getAllTermsIn(p1)){
+			System.out.println(t.getValue() + ": " + index.getOgawaDegreeOf(p2, t));
 		}
-		System.out.println(p.getName());
+		System.out.println(p1.getName());
+		System.out.println(p2.getName());
 	}
 
 	

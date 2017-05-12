@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class FuzzyIndex extends Index{
 
-	public static final float JACCARD_THRESHOLD = 0.05f;
+	public static final float JACCARD_THRESHOLD = 0.00f;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
 	private HashMap<Posting, HashMap<Term, Float>> fuzzyAffiliationDegree = new HashMap<Posting, HashMap<Term, Float>>();
 
@@ -24,12 +24,40 @@ public class FuzzyIndex extends Index{
 		}
 	}
 	
+	/*	
+
 	public void calcFuzzyAffiliationDegreeMatrix(){
 		for(Posting p : this.postings){
 			fuzzyAffiliationDegree.put(p, new HashMap<Term, Float>());
 			for(Term t : this.dictionary){
 				fuzzyAffiliationDegree.get(p).put(t, calcOgawa(p, t));
 			}			
+		}
+	}
+
+*/	
+
+	public void calcFuzzyAffiliationDegreeMatrix(){
+		for(Posting p : this.postings){
+			fuzzyAffiliationDegree.put(p, new HashMap<Term, Float>());
+		}
+	
+		float product;
+		for(Term u : this.dictionary){	
+			for(Term t : this.dictionary){
+				for(Posting p : u.getPostings()){
+					if(u.hasPosting(p)){
+
+						if(fuzzyAffiliationDegree.get(p).get(t) == null)
+							product = 1f;
+						else
+							product = fuzzyAffiliationDegree.get(p).get(t);
+						product *= 1f - getJaccardDegreeOf(u, t); 
+						fuzzyAffiliationDegree.get(p).put(t, 1f-product);
+					}
+					
+				}				
+			}
 		}
 	}
 
@@ -58,6 +86,7 @@ public class FuzzyIndex extends Index{
 	 * W(D,t) = 1 - (PRODUCT(1-c(u,t)) (for each Term u in Document d))
 	 * @return
 	 */
+	/*
 	private float calcOgawa(Posting p, Term t){
 		float product = 1f;
 		
@@ -65,6 +94,16 @@ public class FuzzyIndex extends Index{
 			product *= 1 - getJaccardDegreeOf(u, t); 
 		
 		return 1 - product;
+	}
+	*/
+	private float calcOgawa(Posting p, Term t){
+		float product = 1f;
+		
+		for(Term u : dictionary)
+			if(u.hasPosting(p))
+				product *= 1f - getJaccardDegreeOf(u, t); 
+		
+		return 1f - product;
 	}
 
 }
