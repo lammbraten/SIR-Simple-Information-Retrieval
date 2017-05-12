@@ -14,14 +14,14 @@ import com.google.common.io.Files;
 import de.hsnr.inr.sir.SimpleInformationRetrieval;
 import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.JaccardDegree;
-import de.hsnr.inr.sir.dictionary.JaccardIndex;
+import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
 import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class TestJaccard {
 	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";
-	private static JaccardIndex index;
+	private static FuzzyIndex index;
 	private static File corpus;
 
 	@BeforeClass
@@ -42,7 +42,7 @@ public class TestJaccard {
 	
 	private static void buildIndex() {
 		System.out.println("Decke das Tischlein!");
-		index = new JaccardIndex();
+		index = new FuzzyIndex();
 		for(File f : corpus.listFiles()){
 			try {
 				index.addAll(extractTerms(f));

@@ -3,7 +3,7 @@ package de.hsnr.inr.sir.dictionary;
 public class JaccardDegree {
 	
 	private static final String SEPARATOR = "<->";
-	private String value;
+	private String key;
 	private Term termT;
 	private Term termU;
 	private float degree;
@@ -14,7 +14,7 @@ public class JaccardDegree {
 		this.termU = termU;
 		this.degree = degree;
 		
-		setValue(value);
+		setKey(value);
 	}
 	
 	public JaccardDegree(Term termT, Term termU, String value){
@@ -23,10 +23,10 @@ public class JaccardDegree {
 	}
 	
 	public JaccardDegree(Term termT, Term termU){
-		this(termT, termU, calcValue(termT, termU));
+		this(termT, termU, calcKey(termT, termU));
 	}
 
-	public static String calcValue(Term termT, Term termU) {
+	public static String calcKey(Term termT, Term termU) {
 		if((termT.getValue().compareTo(termU.getValue()) < 0))
 			return termT.getValue() + SEPARATOR + termU.getValue();
 		else
@@ -53,7 +53,7 @@ public class JaccardDegree {
 	
 	@Override 
 	public String toString(){
-		return value +": " + degree;		
+		return key +": " + degree;		
 	}
 
 	public Term getTermT() {
@@ -68,11 +68,11 @@ public class JaccardDegree {
 		return degree;
 	}
 
-	private void setValue(String val) {
-		value = val;
+	private void setKey(String key) {
+		this.key = key;
 	}
 	
-	public String getValue() {
-		return value;
+	public String getKey() {
+		return key;
 	}
 }
