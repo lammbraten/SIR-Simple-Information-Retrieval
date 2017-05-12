@@ -2,6 +2,7 @@ package de.hsnr.inr.sir.dictionary;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class Index {
 	 * TODO: Baum implementieren?
 	 */
 	protected LinkedList<Term> dictionary;
-	private LinkedList<Posting> postings;
+	protected LinkedList<Posting> postings;
 
 	
 	public Index(){
@@ -76,5 +77,14 @@ public class Index {
 
 	public void setPostings(LinkedList<Posting> postings) {
 		this.postings = postings;
+	}
+	
+	public LinkedList<Term> getAllTermsIn(Posting p){
+		LinkedList<Term> termlist = new LinkedList<Term>();
+		for(Term t : dictionary)
+			if(t.hasPosting(p))
+				termlist.add(t);
+		
+		return termlist;
 	}
 }

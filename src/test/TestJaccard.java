@@ -30,13 +30,24 @@ public class TestJaccard {
 		buildIndex();
 	}
 
+	
 	@Test
 	public void test() {
 		index.calcJaccardDegreeMatrix();
 			
 		//System.out.println(index.getDegreeList());
-		System.out.println(index.getDegreeList().size());
-		assertFalse(index.getDegreeList().isEmpty());
+		System.out.println(index.getJaccardDegreeMap().size());
+		assertFalse(index.getJaccardDegreeMap().isEmpty());
+		
+		index.calcFuzzyAffiliationDegreeMatrix();
+
+		LinkedList<Posting> postings = index.getPostings();
+		Posting p = postings.getLast();
+
+		for(Term t : index.getAllTermsIn(p)){
+			System.out.println(index.getOgawaDegreeOf(p, t));
+		}
+		System.out.println(p.getName());
 	}
 
 	
