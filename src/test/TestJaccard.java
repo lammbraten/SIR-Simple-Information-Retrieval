@@ -20,7 +20,7 @@ import de.hsnr.inr.sir.dictionary.Term;
 import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class TestJaccard {
-	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";
+	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8-small";
 	private static FuzzyIndex index;
 	private static File corpus;
 
@@ -41,13 +41,14 @@ public class TestJaccard {
 		
 		index.calcFuzzyAffiliationDegreeMatrix();
 
+		System.out.println(index);
 		LinkedList<Posting> postings = index.getPostings();
 		Posting p1 = postings.getLast();
 		Posting p2 = postings.getFirst();
 		
-		for(Term t : index.getAllTermsIn(p1)){
-			System.out.println(t.getValue() + ": " + index.getOgawaDegreeOf(p2, t));
-		}
+	//	for(Term t : index.getAllTermsIn(p1)){
+	//		System.out.println(t.getValue() + ": " + index.getOgawaDegreeOf(p2, t));
+	//	}
 		System.out.println(p1.getName());
 		System.out.println(p2.getName());
 	}
