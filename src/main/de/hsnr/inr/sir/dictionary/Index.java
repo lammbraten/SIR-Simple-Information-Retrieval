@@ -1,24 +1,52 @@
 package de.hsnr.inr.sir.dictionary;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.io.Files;
+
+import de.hsnr.inr.sir.textprocessing.Tokenizer;
+
 public class Index {
 	
-	/**
-	 * TODO: Baum implementieren?
-	 */
+	//TODO: implement tree or other magic?
 	protected LinkedList<Term> dictionary;
 	protected LinkedList<Posting> postings;
 
 	
-	public Index(){
-		this.dictionary =  new LinkedList<Term>();
+	public Index(File corpus){
+		this();
+		for(File f : corpus.listFiles()){
+			try {
+				addAll(extractTerms(f));
+			} catch (IOException e) {
+				System.err.println("Couldn't open file " + f + "\n" + e);
+			}
+		}
+		
+		buildPostingList();
+		//write("TestIndex.txt");
+		
 	}
 	
+	public Index() {
+		this.dictionary =  new LinkedList<Term>();
+	}
+
+	private List<Term> extractTerms(File f) throws IOException{
+		LinkedList<Term> terms = new LinkedList<Term>(); 
+		int position = 0; 
+		for(String termStr : Tokenizer.tokenize(f)){
+			terms.add(new Term(termStr, new Posting(Files.getNameWithoutExtension(f.getName()), position)));
+			position++;
+		}
+		return terms;
+	}
+
 	public void buildPostingList(){
 		postings = new LinkedList<Posting>();
 		for(Term t : dictionary)

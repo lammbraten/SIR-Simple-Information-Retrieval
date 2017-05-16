@@ -1,25 +1,52 @@
 package de.hsnr.inr.sir.dictionary;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class FuzzyIndex extends Index{
-
+	
 	public static final float JACCARD_THRESHOLD = 0.05f;
-	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
+	private static final int DEFAULT_HISTOGRAMM_SIZE = 20;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
 	private HashMap<Posting, HashMap<Term, Float>> fuzzyAffiliationDegree = new HashMap<Posting, HashMap<Term, Float>>();
 	private int jaccardRejected = 0;
 	private int[] jaccardHistogramm;
 	private int[] fuzzyAffiliationHistogramm;
 	
+	
+	public FuzzyIndex(File corpus) {
+		super(corpus);
+
+		calcJaccardDegreeMatrix();
+		calcFuzzyAffiliationDegreeMatrix();
+		
+		buildJaccardHistogram(DEFAULT_HISTOGRAMM_SIZE);
+		buildfuzzyAffiliationHistogram(DEFAULT_HISTOGRAMM_SIZE);
+	}
+
+
+	
+	public FuzzyIndex() {
+		super();
+	}
+
+
+
 	@Override
 	public String toString(){
-		String str = fuzzyAffiliationDegree.toString() + "\n";
-		buildJaccardHistogram(DEFAULT_HISTOGRAMM_SIZE);
+		String str = ""/*= fuzzyAffiliationDegree.toString() + "\n"*/;
+
 		for(int i = 0; i < jaccardHistogramm.length; i++){
 			str += String.format("%02d", i) + ") " + String.format("%08d",jaccardHistogramm[i]) + "\n";
 		}
+		
+		str += "\n\n\n";
+		
+		for(int i = 0; i < fuzzyAffiliationHistogramm.length; i++){
+			str += String.format("%02d", i) + ") " + String.format("%08d",fuzzyAffiliationHistogramm[i]) + "\n";
+		}
+		
 		return str;
 
 	}
@@ -53,18 +80,19 @@ public class FuzzyIndex extends Index{
 	}
 	
 	//TODO: Implement this
-	/*
+	
 	private void buildfuzzyAffiliationHistogram(int size){
 		fuzzyAffiliationHistogramm = new int[size];
 		for(int i = 0; i < size; i++)
 			fuzzyAffiliationHistogramm[i] = 0;
-		int pos;
-		//fuzzyAffiliationHistogramm[0] = jaccardRejected;
-		for(Posting pkey : fuzzyAffiliationDegree.keySet()){
-			pos = calcHistogrammPosition(size, fuzzyAffiliationDegree.get(pkey)..getDegree());
-			fuzzyAffiliationHistogramm[pos] += 1;
-		}
-	}*/
+		
+		int pos;		
+		for(HashMap<Term, Float> p : fuzzyAffiliationDegree.values())
+			for(Term t : p.keySet()){
+				pos = calcHistogrammPosition(size, p.get(t));
+				fuzzyAffiliationHistogramm[pos] += 1;
+			}
+	}
 	
 	private static int calcHistogrammPosition(int size, float value){
 		int pos = (int) (value * size);
@@ -74,18 +102,9 @@ public class FuzzyIndex extends Index{
 	}
 	
 	
-/*
-	public void calcFuzzyAffiliationDegreeMatrix(){
-		for(Posting p : this.postings){
-			fuzzyAffiliationDegree.put(p, new HashMap<Term, Float>());
-			for(Term t : this.dictionary){
-				fuzzyAffiliationDegree.get(p).put(t, calcOgawa(p, t));
-			}			
-		}
-	}
-*/
-
-	
+	/**
+	 * W(D,t) = 1 - (PRODUCT(1-c(u,t)) (for each Term u in Document d))
+	 */
 
 	public void calcFuzzyAffiliationDegreeMatrix(){
 		for(Posting p : this.postings){
@@ -96,22 +115,18 @@ public class FuzzyIndex extends Index{
 		for(Term u : this.dictionary){	
 			for(Term t : this.dictionary){
 				for(Posting p : u.getPostings()){
-					//if(u.hasPosting(p)){
-
-						if(fuzzyAffiliationDegree.get(p).get(t) == null)
-							product = 1f;
-						else
-							product = fuzzyAffiliationDegree.get(p).get(t);
-						product *= 1f - getJaccardDegreeOf(u, t); 
+					if(fuzzyAffiliationDegree.get(p).get(t) == null){
+						product = 1f - (1f - getJaccardDegreeOf(u, t)); 
 						fuzzyAffiliationDegree.get(p).put(t, product);
-					//}
-					
+					}else{
+						product = 1f - fuzzyAffiliationDegree.get(p).get(t);
+						product = 1f - (product * (1f - getJaccardDegreeOf(u, t))); 
+						fuzzyAffiliationDegree.get(p).put(t, product);
+					}
+
 				}				
 			}
 		}
-		for(HashMap<Term, Float> p : fuzzyAffiliationDegree.values())
-			for(Term t : p.keySet())
-				p.put(t, 1 -p.get(t));
 	}
 
 	public HashMap<String, JaccardDegree> getJaccardDegreeMap() {
@@ -133,30 +148,6 @@ public class FuzzyIndex extends Index{
 	
 	public float getOgawaDegreeOf(Posting p, Term t){
 		return fuzzyAffiliationDegree.get(p).get(t);
-	}
-	
-	/**
-	 * W(D,t) = 1 - (PRODUCT(1-c(u,t)) (for each Term u in Document d))
-	 * @return
-	 */
-	/*
-	private float calcOgawa(Posting p, Term t){
-		float product = 1f;
-		
-		for(Term u : getAllTermsIn(p))
-			product *= 1 - getJaccardDegreeOf(u, t); 
-		
-		return 1 - product;
-	}
-	*/
-	private float calcOgawa(Posting p, Term t){
-		float product = 1f;
-		
-		for(Term u : dictionary)
-			if(u.hasPosting(p))
-				product *= 1f - getJaccardDegreeOf(u, t); 
-		
-		return 1f - product;
 	}
 
 }

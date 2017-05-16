@@ -33,28 +33,6 @@ public class TestJaccard {
 		buildIndex();
 	}
 
-//	@Ignore
-	@Test
-	public void test() {
-		index.calcJaccardDegreeMatrix();
-			
-		//System.out.println(index.getDegreeList());
-		System.out.println(index.getJaccardDegreeMap().size());
-		assertFalse(index.getJaccardDegreeMap().isEmpty());
-		
-		index.calcFuzzyAffiliationDegreeMatrix();
-
-		System.out.println(index);
-		LinkedList<Posting> postings = index.getPostings();
-		Posting p1 = postings.getLast();
-		Posting p2 = postings.getFirst();
-		
-	//	for(Term t : index.getAllTermsIn(p1)){
-	//		System.out.println(t.getValue() + ": " + index.getOgawaDegreeOf(p2, t));
-	//	}
-		System.out.println(p1.getName());
-		System.out.println(p2.getName());
-	}
 
 	@Test
 	public void quickTest() {
@@ -83,7 +61,31 @@ public class TestJaccard {
 		
 		System.out.println(index);
 		
-	}	
+	}		
+	
+//	@Ignore
+	@Test
+	public void test() {
+		index.calcJaccardDegreeMatrix();
+			
+		//System.out.println(index.getDegreeList());
+		System.out.println(index.getJaccardDegreeMap().size());
+		assertFalse(index.getJaccardDegreeMap().isEmpty());
+		
+		index.calcFuzzyAffiliationDegreeMatrix();
+
+		System.out.println(index);
+		LinkedList<Posting> postings = index.getPostings();
+		Posting p1 = postings.getLast();
+		Posting p2 = postings.getFirst();
+		
+	//	for(Term t : index.getAllTermsIn(p1)){
+	//		System.out.println(t.getValue() + ": " + index.getOgawaDegreeOf(p2, t));
+	//	}
+		System.out.println(p1.getName());
+		System.out.println(p2.getName());
+	}
+
 	
 	
 	private static void buildIndex() {
