@@ -1,6 +1,7 @@
 package de.hsnr.inr.sir.dictionary;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class FuzzyIndex extends Index{
 
@@ -14,7 +15,7 @@ public class FuzzyIndex extends Index{
 	
 	@Override
 	public String toString(){
-		String str = "";
+		String str = fuzzyAffiliationDegree.toString() + "\n";
 		buildJaccardHistogram(DEFAULT_HISTOGRAMM_SIZE);
 		for(int i = 0; i < jaccardHistogramm.length; i++){
 			str += String.format("%02d", i) + ") " + String.format("%08d",jaccardHistogramm[i]) + "\n";
@@ -72,8 +73,8 @@ public class FuzzyIndex extends Index{
 		return pos;
 	}
 	
-	/*	
-
+	
+/*
 	public void calcFuzzyAffiliationDegreeMatrix(){
 		for(Posting p : this.postings){
 			fuzzyAffiliationDegree.put(p, new HashMap<Term, Float>());
@@ -82,8 +83,8 @@ public class FuzzyIndex extends Index{
 			}			
 		}
 	}
+*/
 
-*/	
 	
 
 	public void calcFuzzyAffiliationDegreeMatrix(){
@@ -95,19 +96,22 @@ public class FuzzyIndex extends Index{
 		for(Term u : this.dictionary){	
 			for(Term t : this.dictionary){
 				for(Posting p : u.getPostings()){
-					if(u.hasPosting(p)){
+					//if(u.hasPosting(p)){
 
 						if(fuzzyAffiliationDegree.get(p).get(t) == null)
 							product = 1f;
 						else
 							product = fuzzyAffiliationDegree.get(p).get(t);
 						product *= 1f - getJaccardDegreeOf(u, t); 
-						fuzzyAffiliationDegree.get(p).put(t, 1f-product);
-					}
+						fuzzyAffiliationDegree.get(p).put(t, product);
+					//}
 					
 				}				
 			}
 		}
+		for(HashMap<Term, Float> p : fuzzyAffiliationDegree.values())
+			for(Term t : p.keySet())
+				p.put(t, 1 -p.get(t));
 	}
 
 	public HashMap<String, JaccardDegree> getJaccardDegreeMap() {

@@ -28,6 +28,7 @@ public class Index {
 		
 	}
 
+	
 	public void add(Term t){
 		int index = this.dictionary.indexOf(t);
 		if(index != -1)
@@ -37,6 +38,7 @@ public class Index {
 		}
 	}
 	
+
 	public void addAll(List<Term> terms){
 		for(Term t : terms)
 			add(t);

@@ -14,7 +14,7 @@ public class Posting implements Comparable<Object>{
 	
 	public Posting(String name, LinkedList<Integer> positions){
 		this(name);
-		this.setPositions(positions);
+		//this.setPositions(positions);
 	}
 	
 	public Posting(String name, int position) {

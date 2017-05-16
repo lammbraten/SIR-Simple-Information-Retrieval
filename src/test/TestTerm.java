@@ -18,7 +18,7 @@ public class TestTerm {
 		LinkedList<Posting> postings = new LinkedList<Posting>();
 		
 		postings.add(new Posting("Doc1"));
-		t.append(postings);
+		//t.append(postings);
 		assertFalse(t.getPostings().isEmpty());
 		assertTrue(t.hasPosting(new Posting("Doc1")));
 		assertFalse(t.hasPosting(new Posting("Doc2")));
