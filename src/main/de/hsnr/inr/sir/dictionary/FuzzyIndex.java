@@ -53,6 +53,8 @@ public class FuzzyIndex extends Index implements Serializable{
 				postingList.add(new WeightedPosting(p, hm.get(term)));
 		}
 
+		postingList.sort(new PostingNameComparator());
+		
 		return postingList;
 	}
 

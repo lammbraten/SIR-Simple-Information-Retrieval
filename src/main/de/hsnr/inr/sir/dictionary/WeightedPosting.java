@@ -25,6 +25,7 @@ public class WeightedPosting extends Posting {
 		return super.name + ", weight: " + weight; 
 	}
 	
+	/*
 	@Override
 	public int compareTo(Object o) {
 		if(o instanceof WeightedPosting){
@@ -39,5 +40,6 @@ public class WeightedPosting extends Posting {
 		}
 		throw new ClassCastException("Couldn't compare these classes");
 	}
+	*/
 
 }

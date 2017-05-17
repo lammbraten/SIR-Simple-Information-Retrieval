@@ -33,6 +33,8 @@ public class SIR_FuzzyTestcases {
 		
 		System.out.println(fqp.process(q));
 		
+		System.out.println(index.fuzzyAffiliationHistogrammToString());
+		
 		
 	}
 	
