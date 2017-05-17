@@ -3,7 +3,6 @@ package de.hsnr.inr.sir.dictionary;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +15,10 @@ public class Index {
 	//TODO: implement tree or other magic?
 	protected LinkedList<Term> dictionary;
 	protected LinkedList<Posting> postings;
-
+	
+	public Index() {
+		this.dictionary =  new LinkedList<Term>();
+	}
 	
 	public Index(File corpus){
 		this();
@@ -31,10 +33,6 @@ public class Index {
 		buildPostingList();
 		//write("TestIndex.txt");
 		
-	}
-	
-	public Index() {
-		this.dictionary =  new LinkedList<Term>();
 	}
 
 	private List<Term> extractTerms(File f) throws IOException{
@@ -56,7 +54,6 @@ public class Index {
 		
 	}
 
-	
 	public void add(Term t){
 		int index = this.dictionary.indexOf(t);
 		if(index != -1)
@@ -65,7 +62,6 @@ public class Index {
 			dictionary.add(t);
 		}
 	}
-	
 
 	public void addAll(List<Term> terms){
 		for(Term t : terms)

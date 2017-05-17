@@ -5,18 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.google.common.io.Files;
-
 import de.hsnr.inr.sir.algorithm.QueryProcessor;
 import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
-import de.hsnr.inr.sir.dictionary.Term;
 import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryHandler;
-import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class SimpleInformationRetrieval {
 

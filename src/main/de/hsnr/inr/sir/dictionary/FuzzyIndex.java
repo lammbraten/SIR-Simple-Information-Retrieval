@@ -2,7 +2,6 @@ package de.hsnr.inr.sir.dictionary;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 public class FuzzyIndex extends Index{
 	
