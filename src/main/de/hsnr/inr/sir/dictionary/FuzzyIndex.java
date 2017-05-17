@@ -17,7 +17,7 @@ public class FuzzyIndex extends Index implements Serializable{
 
 	private static final long serialVersionUID = -8843673026522862647L;
 
-	public static final float JACCARD_THRESHOLD = 0.5f;
+	public static final float JACCARD_THRESHOLD = 0.05f;
 	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
 	private static final int DEFAULT_NUMBER_OF_POSTINGS = 10;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
@@ -42,6 +42,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		super();
 	}
 	
+	/*
 	@Override
 	public LinkedList<Posting> getPostings(String name) {
 		LinkedList<Posting> postingList = new LinkedList<Posting>();
@@ -57,7 +58,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		
 		return postingList;
 	}
-
+*/
 	
 	
 	public String jaccardHistogrammToString(){
@@ -139,7 +140,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		float product;
 		for(Term u : this.dictionary){	
 			for(Term t : this.dictionary){
-				for(Posting p : t.getPostings()){
+				for(Posting p : u.getPostings()){
 					if(fuzzyAffiliationDegree.get(p).get(t) == null){
 						product = 1f - (1f - getJaccardDegreeOf(u, t)); 
 						fuzzyAffiliationDegree.get(p).put(t, product);

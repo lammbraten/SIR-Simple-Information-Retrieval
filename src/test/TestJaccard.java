@@ -69,8 +69,8 @@ public class TestJaccard {
 		assertFalse(index.getJaccardDegreeMap().isEmpty());
 		
 
-		
-		System.out.println(index);
+		System.out.println(index.jaccardHistogrammToString());		
+		System.out.println(index.fuzzyAffiliationHistogrammToString());
 		LinkedList<Posting> postings = index.getPostings();
 		Posting p1 = postings.getLast();
 		Posting p2 = postings.getFirst();

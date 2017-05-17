@@ -12,7 +12,7 @@ import de.hsnr.inr.sir.query.QueryHandler;
 public class SIR_FuzzyTestcases {
 
 	FuzzyQueryProcessor fqp;
-	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8-smaller";
+	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";
 
 	//@Ignore
 	@Test
@@ -32,7 +32,8 @@ public class SIR_FuzzyTestcases {
 		Query q = QueryHandler.parseQuery("Hexe AND Wald");
 		
 		System.out.println(fqp.process(q));
-		
+
+		System.out.println(index.jaccardHistogrammToString());
 		System.out.println(index.fuzzyAffiliationHistogrammToString());
 		
 		
