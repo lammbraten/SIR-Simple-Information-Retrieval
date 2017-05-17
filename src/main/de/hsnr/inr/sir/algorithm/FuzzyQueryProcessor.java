@@ -47,7 +47,7 @@ public class FuzzyQueryProcessor extends QueryProcessor {
 		System.out.println("decide-Method @ Fuzzy");
 		
 		if(qt0.isPositive() && qt1.isPositive()) //both positive
-			return FuzzyIntersect.and(qt0.getPostings(), qt1.getPostings());
+			return FuzzyIntersect.and(qt0, qt1, getIndex());
 		else if(qt0.isPositive() && !qt1.isPositive()) //qt0 positive, qt1 negative
 			return FuzzyIntersect.andNot(qt0.getPostings(), qt1.getPostings());
 		else if(!qt0.isPositive() && qt1.isPositive()) //qt0 negative, qt1 positive

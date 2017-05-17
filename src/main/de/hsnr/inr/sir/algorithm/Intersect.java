@@ -80,10 +80,8 @@ public class Intersect {
 				answer.remove(doc1);
 				doc0 = hasNextSetNext(p0);
 				doc1 = hasNextSetNext(p1);
-			} else //if(doc0.compareTo(doc1) < 1){
-				//answer.add(doc0);
+			} else 
 				doc0 = hasNextSetNext(p0);
-			//}
 		}
 		
 		return answer;

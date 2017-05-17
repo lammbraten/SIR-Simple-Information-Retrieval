@@ -3,6 +3,8 @@ package de.hsnr.inr.sir.dictionary;
 import java.io.File;
 import java.util.HashMap;
 
+import de.hsnr.inr.sir.query.QueryItem;
+
 public class FuzzyIndex extends Index{
 	
 	public static final float JACCARD_THRESHOLD = 0.05f;
@@ -146,6 +148,7 @@ public class FuzzyIndex extends Index{
 	}
 	
 	/**
+	 * (Ogawa)
 	 * W(D,t)
 	 * @param Posting p <-> document D
 	 * @param Term t
@@ -154,6 +157,17 @@ public class FuzzyIndex extends Index{
 	public float getFuzzyAffiliationDegree(Posting p, Term t){
 		return fuzzyAffiliationDegree.get(p).get(t);
 		
+	}
+	
+	/**
+	 * (Ogawa)
+	 * W(D,t)
+	 * @param Posting p <-> document D
+	 * @param Term t
+	 * @return
+	 */
+	public float getFuzzyAffiliationDegree(Posting p, QueryItem i){
+		return getFuzzyAffiliationDegree(p, new Term(i.getName()));
 	}
 	
 }

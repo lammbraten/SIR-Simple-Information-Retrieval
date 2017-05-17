@@ -22,7 +22,8 @@ public class SIR_FuzzyTestcases {
 		
 		Query q = QueryHandler.parseQuery("Hexe AND Wald");
 		
-		fqp.process(q);
+		System.out.println(fqp.process(q));
+		
 		
 	}
 
