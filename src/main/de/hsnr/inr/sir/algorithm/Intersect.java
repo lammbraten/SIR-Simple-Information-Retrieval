@@ -7,6 +7,10 @@ import java.util.List;
 import de.hsnr.inr.sir.dictionary.Occurrence;
 import de.hsnr.inr.sir.dictionary.Posting;
 
+/**
+ * Class that contains the boolean operators for query processing: 
+ *
+ */
 public class Intersect {
 	
 	public static LinkedList<Posting> and(List<Posting> pl1, List<Posting> pl2){

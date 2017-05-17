@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class FuzzyIndex extends Index{
 	
 	public static final float JACCARD_THRESHOLD = 0.05f;
-	private static final int DEFAULT_HISTOGRAMM_SIZE = 20;
+	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
 	private HashMap<Posting, HashMap<Term, Float>> fuzzyAffiliationDegree = new HashMap<Posting, HashMap<Term, Float>>();
 	private int jaccardRejected = 0;

@@ -50,6 +50,9 @@ public class TestJaccard {
 		index.calcJaccardDegreeMatrix();
 		index.calcFuzzyAffiliationDegreeMatrix();
 		
+		index.calcJaccardDegreeMatrix();
+		index.calcFuzzyAffiliationDegreeMatrix();
+		
 		System.out.println(index);
 		
 	}		
