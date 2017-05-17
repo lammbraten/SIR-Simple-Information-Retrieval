@@ -1,7 +1,10 @@
 package de.hsnr.inr.sir.dictionary;
 
-public class JaccardDegree {
+import java.io.Serializable;
+
+public class JaccardDegree implements Serializable{
 	
+	private static final long serialVersionUID = -8267748628120370796L;
 	private static final String SEPARATOR = "<->";
 	private String key;
 	private Term termT;

@@ -1,9 +1,12 @@
 package de.hsnr.inr.sir.dictionary;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class Posting implements Comparable<Object>{
+public class Posting implements Comparable<Object>, Serializable{
+
+	private static final long serialVersionUID = -8564533988573737034L;
 	protected String name;
 	private LinkedList<Integer> positions;
 	

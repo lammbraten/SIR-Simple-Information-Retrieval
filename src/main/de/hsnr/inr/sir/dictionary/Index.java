@@ -1,18 +1,26 @@
 package de.hsnr.inr.sir.dictionary;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.imageio.IIOException;
 
 import com.google.common.io.Files;
 
 import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
-public class Index {
+public class Index implements Serializable{
 	
-	//TODO: implement tree or other magic?
+	private static final long serialVersionUID = -5184828260058698090L;
+
 	protected LinkedList<Term> dictionary;
 	protected LinkedList<Posting> postings;
 	
@@ -79,6 +87,7 @@ public class Index {
 		throw new IllegalArgumentException("No such term found");
 	}
 	
+	
 	@Override
 	public String toString(){
 		String dict = "";
@@ -113,4 +122,24 @@ public class Index {
 		
 		return termlist;
 	}
+	
+	public void writeToFile(String path) {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path+".bin") );
+			oos.writeObject(this);
+			oos.close();				
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static Index readFromFile(String path) throws IOException, ClassNotFoundException {
+
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+		Index active = (Index) ois.readObject();
+		ois.close();
+		return active;
+
+	}
+
 }

@@ -43,18 +43,44 @@ public class FuzzyIntersect extends Intersect {
 	 * @return
 	 */
 	public static LinkedList<Posting> and(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
-		LinkedList<Posting> answer  = new LinkedList<Posting>();
+		/*LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
 		for(Posting d : Intersect.and(qt0.getPostings(), qt1.getPostings())){
 			float myA = fi.getFuzzyAffiliationDegree(d, qt0);
-			float myB = fi.getFuzzyAffiliationDegree(d, qt0);
+			float myB = fi.getFuzzyAffiliationDegree(d, qt1);
 			
 			answer.add(new WeightedPosting(d, Math.min(myA, myB)));
 		}
 		
 		Collections.sort(answer);
 		
+		return answer;*/
+		LinkedList<Posting> answer = new LinkedList<Posting>();
+		Iterator<Posting> p1 = qt0.getPostings().iterator();
+		Iterator<Posting> p2 = qt1.getPostings().iterator();
+		
+		Posting doc1 = hasNextSetNext(p1);
+		Posting doc2 = hasNextSetNext(p2);
+		
+		while(doc1 != null && doc2 != null){
+			if(doc1.equals(doc2)){
+				float myA = fi.getFuzzyAffiliationDegree(doc1, qt0);
+				float myB = fi.getFuzzyAffiliationDegree(doc1, qt1);
+				
+				answer.add(new WeightedPosting(doc1, Math.min(myA, myB)));				
+				//answer.add(doc1);
+				doc1 = hasNextSetNext(p1);
+				doc2 = hasNextSetNext(p2);
+			} else if(doc1.compareTo(doc2) < 1){
+				doc1 = hasNextSetNext(p1);
+			}else{
+				doc2 = hasNextSetNext(p2);
+			}
+		}
+		
 		return answer;
+		
+		
 	}
 
 }

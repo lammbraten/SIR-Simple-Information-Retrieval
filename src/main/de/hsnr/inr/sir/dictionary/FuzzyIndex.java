@@ -1,12 +1,16 @@
 package de.hsnr.inr.sir.dictionary;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 
 import de.hsnr.inr.sir.query.QueryItem;
 
-public class FuzzyIndex extends Index{
+public class FuzzyIndex extends Index implements Serializable{
 	
+
+	private static final long serialVersionUID = -8843673026522862647L;
+
 	public static final float JACCARD_THRESHOLD = 0.05f;
 	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
@@ -26,17 +30,16 @@ public class FuzzyIndex extends Index{
 		buildfuzzyAffiliationHistogram(DEFAULT_HISTOGRAMM_SIZE);
 	}
 
-
 	
 	public FuzzyIndex() {
 		super();
 	}
 
 
-
+/*
 	@Override
 	public String toString(){
-		String str = ""/*= fuzzyAffiliationDegree.toString() + "\n"*/;
+		String str = "";
 
 		for(int i = 0; i < jaccardHistogramm.length; i++){
 			str += String.format("%02d", i) + ") " + String.format("%08d",jaccardHistogramm[i]) + "\n";
@@ -50,6 +53,23 @@ public class FuzzyIndex extends Index{
 		
 		return str;
 
+	}*/
+	
+	public String jaccardHistogrammToString(){
+		String str = "";
+		for(int i = 0; i < jaccardHistogramm.length; i++){
+			str += String.format("%02d", i) + ") " + String.format("%08d",jaccardHistogramm[i]) + "\n";
+		}
+		return str;
+	}
+	
+	public String fuzzyAffiliationHistogrammToString(){
+		String str = "";
+		
+		for(int i = 0; i < fuzzyAffiliationHistogramm.length; i++){
+			str += String.format("%02d", i) + ") " + String.format("%08d",fuzzyAffiliationHistogramm[i]) + "\n";
+		}
+		return str;
 	}
 	
 	public void calcJaccardDegreeMatrix(){

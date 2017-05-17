@@ -1,8 +1,11 @@
 package de.hsnr.inr.sir.dictionary;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Term implements Comparable<Term>{
+public class Term implements Comparable<Term>, Serializable{
+
+	private static final long serialVersionUID = -4996120355775824452L;
 	private String value;
 	private LinkedList<Posting> postings; 
 	
