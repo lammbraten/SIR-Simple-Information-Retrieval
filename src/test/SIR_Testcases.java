@@ -13,7 +13,7 @@ import de.hsnr.inr.sir.dictionary.Posting;
 public class SIR_Testcases {
 
 	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";
-	QueryProcessor qp;
+
 	static SimpleInformationRetrieval sir;
 	
 	@BeforeClass

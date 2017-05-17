@@ -138,13 +138,13 @@ public class Intersect {
 		return answer;
 	}
 	
-	private static Posting hasNextSetNext(Iterator<Posting> p){
+	protected static Posting hasNextSetNext(Iterator<Posting> p){
 		if(p.hasNext())
 			return p.next();
 		return null;
 	}	
 
-	private static void concatenate(LinkedList<Posting> answer, Iterator<Posting> p) {
+	protected static void concatenate(LinkedList<Posting> answer, Iterator<Posting> p) {
 		while(p.hasNext())
 			answer.add(p.next());
 	}

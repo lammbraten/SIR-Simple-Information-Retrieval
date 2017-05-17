@@ -66,7 +66,7 @@ public class FuzzyIndex extends Index{
 		}
 	}
 	
-	private void buildJaccardHistogram(int size){
+	public void buildJaccardHistogram(int size){
 		jaccardHistogramm = new int[size];
 		for(int i = 0; i < size; i++)
 			jaccardHistogramm[i] = 0;
@@ -80,7 +80,7 @@ public class FuzzyIndex extends Index{
 	
 	//TODO: Implement this
 	
-	private void buildfuzzyAffiliationHistogram(int size){
+	public void buildfuzzyAffiliationHistogram(int size){
 		fuzzyAffiliationHistogramm = new int[size];
 		for(int i = 0; i < size; i++)
 			fuzzyAffiliationHistogramm[i] = 0;
@@ -145,8 +145,15 @@ public class FuzzyIndex extends Index{
 		return jaccardDegree.getDegree();
 	}
 	
-	public float getOgawaDegreeOf(Posting p, Term t){
+	/**
+	 * W(D,t)
+	 * @param Posting p <-> document D
+	 * @param Term t
+	 * @return
+	 */
+	public float getFuzzyAffiliationDegree(Posting p, Term t){
 		return fuzzyAffiliationDegree.get(p).get(t);
+		
 	}
-
+	
 }

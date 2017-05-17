@@ -44,7 +44,7 @@ public class QueryProcessor {
 		}
 	}
 
-	private LinkedList<Posting> processMuliQueryItemList(LinkedList<QueryItem> qil) {
+	protected LinkedList<Posting> processMuliQueryItemList(LinkedList<QueryItem> qil) {
 		LinkedList<Posting> result = new LinkedList<Posting>();
 		LinkedList<AbstractQueryTerm> aqtl = new LinkedList<AbstractQueryTerm>();
 		
@@ -65,7 +65,7 @@ public class QueryProcessor {
 		return result;
 	}
 
-	private LinkedList<Posting> processTupleQueryItemList(QueryItem qi1, QueryItem qi2) {
+	protected LinkedList<Posting> processTupleQueryItemList(QueryItem qi1, QueryItem qi2) {
 		if(qi1 instanceof AbstractQueryTerm && qi2 instanceof AbstractQueryTerm){
 			AbstractQueryTerm qt0 = (AbstractQueryTerm) qi1;	
 			AbstractQueryTerm qt1 = (AbstractQueryTerm) qi2;	
@@ -77,7 +77,7 @@ public class QueryProcessor {
 		throw new IllegalArgumentException("Couldn't process tuple QueryItem");
 	}
 
-	private LinkedList<Posting> processSingleQueryItem(QueryItem qi) {
+	protected LinkedList<Posting> processSingleQueryItem(QueryItem qi) {
 		if(qi instanceof ConcreteQueryTerm){
 			ConcreteQueryTerm qt = (ConcreteQueryTerm) qi;
 			qt.setPostingsFromIndex(index);
@@ -109,7 +109,7 @@ public class QueryProcessor {
 		return terms;
 	}
 
-	private LinkedList<Posting> decideAndCallAndMethod(AbstractQueryTerm qt0, AbstractQueryTerm qt1) {
+	protected LinkedList<Posting> decideAndCallAndMethod(AbstractQueryTerm qt0, AbstractQueryTerm qt1) {
 		if(qt0.isPositive() && qt1.isPositive()) //both positive
 			return Intersect.and(qt0.getPostings(), qt1.getPostings());
 		else if(qt0.isPositive() && !qt1.isPositive()) //qt0 positive, qt1 negative
