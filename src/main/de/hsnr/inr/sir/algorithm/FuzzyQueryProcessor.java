@@ -3,7 +3,6 @@ package de.hsnr.inr.sir.algorithm;
 import java.util.LinkedList;
 
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
-import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.query.AbstractQueryTerm;
 import de.hsnr.inr.sir.query.ConcreteQueryTerm;

@@ -29,11 +29,15 @@ public class JaccardDegree implements Serializable{
 		this(termT, termU, calcKey(termT, termU));
 	}
 
-	public static String calcKey(Term termT, Term termU) {
-		if((termT.getValue().compareTo(termU.getValue()) < 0))
-			return termT.getValue() + SEPARATOR + termU.getValue();
+	public static String calcKey(Term t, Term u) {
+		return calcKey(t.getValue(), u.getValue());
+	}
+	
+	public static String calcKey(String t, String u) {
+		if((t.compareTo(u) < 0))
+			return t + SEPARATOR + u;
 		else
-			return termU.getValue() + SEPARATOR + termT.getValue();
+			return u + SEPARATOR + t;
 	}
 	
 	public static float calcDegree(Term termT, Term termU){

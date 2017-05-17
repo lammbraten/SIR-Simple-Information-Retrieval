@@ -63,9 +63,9 @@ public class Index implements Serializable{
 	}
 
 	public void add(Term t){
-		int index = this.dictionary.indexOf(t);
-		if(index != -1)
-			dictionary.get(index).append(t.getPostings());
+		int termIndex = this.dictionary.indexOf(t);
+		if(termIndex != -1)
+			dictionary.get(termIndex).append(t.getPostings());
 		else{
 			dictionary.add(t);
 		}
@@ -108,6 +108,10 @@ public class Index implements Serializable{
 
 	public LinkedList<Posting> getPostings() {
 		return postings;
+	}
+
+	public LinkedList<Posting> getPostings(String name) {
+		return getTerm(name).getPostings();
 	}
 
 	public void setPostings(LinkedList<Posting> postings) {

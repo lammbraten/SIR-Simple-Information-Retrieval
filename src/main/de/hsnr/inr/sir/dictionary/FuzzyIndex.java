@@ -1,8 +1,14 @@
 package de.hsnr.inr.sir.dictionary;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import de.hsnr.inr.sir.query.QueryItem;
 
@@ -11,8 +17,9 @@ public class FuzzyIndex extends Index implements Serializable{
 
 	private static final long serialVersionUID = -8843673026522862647L;
 
-	public static final float JACCARD_THRESHOLD = 0.05f;
+	public static final float JACCARD_THRESHOLD = 0.5f;
 	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
+	private static final int DEFAULT_NUMBER_OF_POSTINGS = 10;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
 	private HashMap<Posting, HashMap<Term, Float>> fuzzyAffiliationDegree = new HashMap<Posting, HashMap<Term, Float>>();
 	private int jaccardRejected = 0;
@@ -34,26 +41,22 @@ public class FuzzyIndex extends Index implements Serializable{
 	public FuzzyIndex() {
 		super();
 	}
-
-
-/*
+	
 	@Override
-	public String toString(){
-		String str = "";
-
-		for(int i = 0; i < jaccardHistogramm.length; i++){
-			str += String.format("%02d", i) + ") " + String.format("%08d",jaccardHistogramm[i]) + "\n";
+	public LinkedList<Posting> getPostings(String name) {
+		LinkedList<Posting> postingList = new LinkedList<Posting>();
+		Term term = new Term(name);
+		
+		for(Posting p : postings){
+			HashMap<Term, Float> hm = fuzzyAffiliationDegree.get(p);
+			if(hm.get(term) != null)
+				postingList.add(new WeightedPosting(p, hm.get(term)));
 		}
-		
-		str += "\n\n\n";
-		
-		for(int i = 0; i < fuzzyAffiliationHistogramm.length; i++){
-			str += String.format("%02d", i) + ") " + String.format("%08d",fuzzyAffiliationHistogramm[i]) + "\n";
-		}
-		
-		return str;
 
-	}*/
+		return postingList;
+	}
+
+	
 	
 	public String jaccardHistogrammToString(){
 		String str = "";
@@ -100,7 +103,6 @@ public class FuzzyIndex extends Index implements Serializable{
 		}
 	}
 	
-	//TODO: Implement this
 	
 	public void buildfuzzyAffiliationHistogram(int size){
 		fuzzyAffiliationHistogramm = new int[size];
@@ -135,7 +137,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		float product;
 		for(Term u : this.dictionary){	
 			for(Term t : this.dictionary){
-				for(Posting p : u.getPostings()){
+				for(Posting p : t.getPostings()){
 					if(fuzzyAffiliationDegree.get(p).get(t) == null){
 						product = 1f - (1f - getJaccardDegreeOf(u, t)); 
 						fuzzyAffiliationDegree.get(p).put(t, product);
@@ -188,6 +190,15 @@ public class FuzzyIndex extends Index implements Serializable{
 	 */
 	public float getFuzzyAffiliationDegree(Posting p, QueryItem i){
 		return getFuzzyAffiliationDegree(p, new Term(i.getName()));
+	}
+	
+	public static FuzzyIndex readFromFile(String path) throws IOException, ClassNotFoundException {
+
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+		FuzzyIndex active = (FuzzyIndex) ois.readObject();
+		ois.close();
+		return active;
+
 	}
 	
 }

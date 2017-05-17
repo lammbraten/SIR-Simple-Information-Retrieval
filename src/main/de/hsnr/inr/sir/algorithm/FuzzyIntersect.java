@@ -1,14 +1,10 @@
 package de.hsnr.inr.sir.algorithm;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.WeightedPosting;
-import de.hsnr.inr.sir.dictionary.WeightedPostingComparator;
 import de.hsnr.inr.sir.query.AbstractQueryTerm;
 
 /**

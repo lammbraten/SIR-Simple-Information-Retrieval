@@ -40,7 +40,7 @@ public class ConcreteQueryTerm extends AbstractQueryTerm {
 	@Override
 	public void setPostingsFromIndex(Index index) {
 		if(isGhost())
-			setPostings(index.getTerm(getName()).getPostings());
+			setPostings(index.getPostings(getName()));
 		
 	}
 }

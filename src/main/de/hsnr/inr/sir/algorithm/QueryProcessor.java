@@ -31,10 +31,6 @@ public class QueryProcessor {
 		return new HashSet<Posting>(documents);
 	}
 	
-	
-	
-
-
 	private LinkedList<Posting> intersectQueryTerm(LinkedList<QueryItem> qil) {
 		switch(qil.size()){
 			case 0: throw new IllegalArgumentException("EmptyQuery");
