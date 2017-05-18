@@ -1,11 +1,9 @@
 package de.hsnr.inr.sir.algorithm;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.WeightedPosting;
-import de.hsnr.inr.sir.dictionary.WeightedPostingComparator;
 import de.hsnr.inr.sir.query.AbstractQueryTerm;
 
 /**
@@ -16,23 +14,29 @@ import de.hsnr.inr.sir.query.AbstractQueryTerm;
  */
 public class FuzzyIntersect extends Intersect {
 	
-
-
+	/**
+	 * Fuzzy negation
+	 * @param qt0
+	 * @param qt1
+	 * @param fi
+	 * @return
+	 */
+	public static LinkedList<Posting> or(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
 	
-	//TODO: Disjunction
-	//TODO: Negation
+		LinkedList<Posting> answer  = new LinkedList<Posting>();
+		
+		for(Posting d : Intersect.or(qt0.getPostings(), qt1.getPostings())){
+			float myA = fi.getFuzzyAffiliationDegree(d, qt0);
+			float myB = fi.getFuzzyAffiliationDegree(d, qt1);
+			
+			answer.add(new WeightedPosting(d, Math.max(myA, myB)));
+		}
 	
-	public static LinkedList<Posting> not(LinkedList<Posting> postings, FuzzyIndex index) {
-		LinkedList<Posting> answer  = Intersect.not(postings, index.getPostings());
-
 		return answer;
 	}
-	//TODO: ANDNOT?
-	//TODO: POSITIONAL?
-
-
-
+	
 	/**
+	 * Fuzzy conjunction
 	 * answer = min(my(A), my(B))
 	 * @param qt0
 	 * @param qt1
@@ -40,7 +44,7 @@ public class FuzzyIntersect extends Intersect {
 	 * @return
 	 */
 	public static LinkedList<Posting> and(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
-		/*
+	
 		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
 		for(Posting d : Intersect.and(qt0.getPostings(), qt1.getPostings())){
@@ -49,38 +53,53 @@ public class FuzzyIntersect extends Intersect {
 			
 			answer.add(new WeightedPosting(d, Math.min(myA, myB)));
 		}
-		
-		//answer.sort(new WeightedPostingComparator());
-		
+	
 		return answer;
-		*/
+	}
 
-		LinkedList<Posting> answer = new LinkedList<Posting>();
-		Iterator<Posting> p1 = qt0.getPostings().iterator();
-		Iterator<Posting> p2 = qt1.getPostings().iterator();
+	/**
+	 * Fuzzy disjunction
+	 * @param postings
+	 * @param index
+	 * @return
+	 */
+	public static LinkedList<Posting> not(AbstractQueryTerm qt, FuzzyIndex index) {
+		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
-		Posting doc1 = hasNextSetNext(p1);
-		Posting doc2 = hasNextSetNext(p2);
-		
-		while(doc1 != null && doc2 != null){
-			if(doc1.equals(doc2)){
-				float myA = fi.getFuzzyAffiliationDegree(doc1, qt0);
-				float myB = fi.getFuzzyAffiliationDegree(doc1, qt1);
-				
-				answer.add(new WeightedPosting(doc1, Math.min(myA, myB)));				
-				//answer.add(doc1);
-				doc1 = hasNextSetNext(p1);
-				doc2 = hasNextSetNext(p2);
-			} else if(doc1.compareTo(doc2) < 1){
-				doc1 = hasNextSetNext(p1);
-			}else{
-				doc2 = hasNextSetNext(p2);
-			}
+		for(Posting d : Intersect.not(qt.getPostings(), index.getPostings())){
+			float my = index.getFuzzyAffiliationDegree(d, qt);
+			
+			answer.add(new WeightedPosting(d, 1- my));
 		}
 		
 		return answer;
-		
-		
 	}
-
+	
+	public static LinkedList<Posting> andNot(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
+		
+		LinkedList<Posting> answer  = new LinkedList<Posting>();
+		
+		for(Posting d : Intersect.andNot(qt0.getPostings(), qt1.getPostings())){
+			float myA = fi.getFuzzyAffiliationDegree(d, qt0);
+			float myB = 1- fi.getFuzzyAffiliationDegree(d, qt1);
+			
+			answer.add(new WeightedPosting(d, Math.min(myA, myB)));
+		}
+	
+		return answer;
+	}
+	
+	public static LinkedList<Posting> notAndNot(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
+		
+		LinkedList<Posting> answer  = new LinkedList<Posting>();
+		
+		for(Posting d : Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), fi.getPostings())){
+			float myA = fi.getFuzzyAffiliationDegree(d, qt0);
+			float myB = 1- fi.getFuzzyAffiliationDegree(d, qt1);
+			
+			answer.add(new WeightedPosting(d, Math.min(myA, myB)));
+		}
+	
+		return answer;
+	}
 }

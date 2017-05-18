@@ -22,7 +22,7 @@ public class FuzzyQueryProcessor extends QueryProcessor {
 		LinkedList<Posting> documents = new LinkedList<Posting>();
 		
 		for(LinkedList<QueryItem> qil : query.getAndConjunctions())
-			documents.addAll(intersectQueryTerm(qil));
+			documents = FuzzyIntersect.or(documents, intersectQueryTerm(qil));
 		
 		documents.sort(new WeightedPostingComparator());
 		return documents;
@@ -30,14 +30,15 @@ public class FuzzyQueryProcessor extends QueryProcessor {
 	
 	@Override
 	protected LinkedList<Posting> processSingleQueryItem(QueryItem qi) {
-		System.out.println("process single query items on fuzzy");
+		//System.out.println("process single query items on fuzzy");
+		
 		if(qi instanceof ConcreteQueryTerm){
 			ConcreteQueryTerm qt = (ConcreteQueryTerm) qi;
 			qt.setPostingsFromIndex(getIndex());
 			if(qt.isPositive())
 				return qt.getPostings();
 			else
-				return FuzzyIntersect.not(qt.getPostings(), getIndex());
+				return FuzzyIntersect.not(qt, getIndex());
 		}else if(qi instanceof PhraseQuery){
 			PhraseQuery phq = (PhraseQuery) qi;
 			phq.setPostingsFromIndex(getIndex());
@@ -53,7 +54,7 @@ public class FuzzyQueryProcessor extends QueryProcessor {
 	
 	@Override
 	protected LinkedList<Posting> decideAndCallAndMethod(AbstractQueryTerm qt0, AbstractQueryTerm qt1) {
-		System.out.println("decide-Method @ Fuzzy");
+		//System.out.println("decide-Method @ Fuzzy");
 		
 		if(qt0.isPositive() && qt1.isPositive()) //both positive
 			return FuzzyIntersect.and(qt0, qt1, getIndex());

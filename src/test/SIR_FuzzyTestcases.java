@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import de.hsnr.inr.sir.algorithm.FuzzyQueryProcessor;
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
-import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryHandler;
 
 public class SIR_FuzzyTestcases {
@@ -20,22 +19,16 @@ public class SIR_FuzzyTestcases {
 		File corpus = new File(TEST_DIR);
 		FuzzyIndex index = new FuzzyIndex(corpus);
 		
-		/*FuzzyIndex index = null;
-		try {
-			index = FuzzyIndex.readFromFile("..\\Index.bin");
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-		*/
-		fqp = new FuzzyQueryProcessor(index);
-		
-		Query q = QueryHandler.parseQuery("Hexe AND Wald");
-		
-		System.out.println(fqp.process(q));
-
 		System.out.println(index.jaccardHistogrammToString());
-		System.out.println(index.fuzzyAffiliationHistogrammToString());
-		
+		System.out.println(index.fuzzyAffiliationHistogrammToString());		
+
+		fqp = new FuzzyQueryProcessor(index);
+	
+		System.out.println("Hexe:" + fqp.process(QueryHandler.parseQuery("Hexe")));		
+		System.out.println("Hexe AND Wald" + fqp.process(QueryHandler.parseQuery("Hexe AND Wald")));		
+		System.out.println("Hexe OR Wald" + fqp.process(QueryHandler.parseQuery("Hexe OR Wald")));	
+		System.out.println("Prinzessin AND Frosch" + fqp.process(QueryHandler.parseQuery("Prinzessin AND Frosch")));	
+		System.out.println("Hexe OR (Frosch AND Prinzessin)" + fqp.process(QueryHandler.parseQuery("Hexe OR (Frosch AND Prinzessin)")));	
 		
 	}
 	

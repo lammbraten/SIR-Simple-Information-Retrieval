@@ -1,5 +1,6 @@
 package de.hsnr.inr.sir.algorithm;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,15 @@ import de.hsnr.inr.sir.dictionary.Posting;
  */
 public class Intersect {
 	
+	public static LinkedList<Posting> or(LinkedList<Posting> pl1, LinkedList<Posting> pl2) {
+		HashSet<Posting> postings = new HashSet<Posting>();
+		
+		postings.addAll(pl1);
+		postings.addAll(pl2);
+		
+		return new LinkedList<Posting>(postings);
+	}
+
 	public static LinkedList<Posting> and(List<Posting> pl1, List<Posting> pl2){
 		LinkedList<Posting> answer = new LinkedList<Posting>();
 		Iterator<Posting> p1 = pl1.iterator();

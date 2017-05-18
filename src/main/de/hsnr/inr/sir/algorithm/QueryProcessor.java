@@ -26,7 +26,7 @@ public class QueryProcessor {
 		LinkedList<Posting> documents = new LinkedList<Posting>();
 		
 		for(LinkedList<QueryItem> qil : query.getAndConjunctions())
-			documents.addAll(intersectQueryTerm(qil));
+			documents = Intersect.or(documents, intersectQueryTerm(qil));
 		
 		return documents;
 	}
