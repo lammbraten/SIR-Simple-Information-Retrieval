@@ -22,16 +22,16 @@ public class QueryProcessor {
 	}
 	
 	
-	public HashSet<Posting> process(Query query){
+	public LinkedList<Posting> process(Query query){
 		LinkedList<Posting> documents = new LinkedList<Posting>();
 		
 		for(LinkedList<QueryItem> qil : query.getAndConjunctions())
 			documents.addAll(intersectQueryTerm(qil));
 		
-		return new HashSet<Posting>(documents);
+		return documents;
 	}
 	
-	private LinkedList<Posting> intersectQueryTerm(LinkedList<QueryItem> qil) {
+	protected LinkedList<Posting> intersectQueryTerm(LinkedList<QueryItem> qil) {
 		switch(qil.size()){
 			case 0: throw new IllegalArgumentException("EmptyQuery");
 			case 1: return processSingleQueryItem(qil.getFirst());

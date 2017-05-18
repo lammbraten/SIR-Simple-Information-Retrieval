@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.LinkedList;
+
 import de.hsnr.inr.sir.algorithm.QueryProcessor;
 import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
@@ -68,7 +70,7 @@ public class SimpleInformationRetrieval {
 		} while(query == null || query.isEmpty());
 	}
 
-	public HashSet<Posting> startInformationRetrieval() {
+	public LinkedList<Posting> startInformationRetrieval() {
 		 return qp.process(query);
 	}
 

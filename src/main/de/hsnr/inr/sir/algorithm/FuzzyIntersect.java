@@ -40,6 +40,7 @@ public class FuzzyIntersect extends Intersect {
 	 * @return
 	 */
 	public static LinkedList<Posting> and(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
+		/*
 		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
 		for(Posting d : Intersect.and(qt0.getPostings(), qt1.getPostings())){
@@ -52,8 +53,8 @@ public class FuzzyIntersect extends Intersect {
 		//answer.sort(new WeightedPostingComparator());
 		
 		return answer;
-		
-		/*
+		*/
+
 		LinkedList<Posting> answer = new LinkedList<Posting>();
 		Iterator<Posting> p1 = qt0.getPostings().iterator();
 		Iterator<Posting> p2 = qt1.getPostings().iterator();
@@ -77,7 +78,7 @@ public class FuzzyIntersect extends Intersect {
 			}
 		}
 		
-		return answer;*/
+		return answer;
 		
 		
 	}

@@ -17,7 +17,7 @@ public class FuzzyIndex extends Index implements Serializable{
 
 	private static final long serialVersionUID = -8843673026522862647L;
 
-	public static final float JACCARD_THRESHOLD = 0.05f;
+	public static final float JACCARD_THRESHOLD = 0.5f;
 	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
 	private static final int DEFAULT_NUMBER_OF_POSTINGS = 10;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
@@ -142,16 +142,19 @@ public class FuzzyIndex extends Index implements Serializable{
 		for(Term u : this.dictionary){	
 			for(Term t : this.dictionary){
 				for(Posting p : u.getPostings()){
-					degrees = fuzzyAffiliationDegree.get(p);
-					if(degrees.get(t) == null){
-						product = 1f - (1f - getJaccardDegreeOf(u, t)); 
-						degrees.put(t, product);
-					}else{
-						product = 1f - degrees.get(t);
-						product = 1f - (product * (1f - getJaccardDegreeOf(u, t))); 
-						degrees.put(t, product);
-					}
-
+					//if(t.hasPosting(p)) //t is in D, so W(D,t) must be 1
+					//	fuzzyAffiliationDegree.get(p).put(t, 1f);
+					//else{
+						degrees = fuzzyAffiliationDegree.get(p);
+						if(degrees.get(t) == null){
+							product = 1f - (1f - getJaccardDegreeOf(u, t)); 
+							degrees.put(t, product);
+						}else{
+							product = 1f - degrees.get(t);
+							product = 1f - (product * (1f - getJaccardDegreeOf(u, t))); 
+							degrees.put(t, product);
+						}
+					//}
 				}				
 			}
 		}
@@ -183,7 +186,6 @@ public class FuzzyIndex extends Index implements Serializable{
 	 */
 	public float getFuzzyAffiliationDegree(Posting p, Term t){
 		return fuzzyAffiliationDegree.get(p).get(t);
-		
 	}
 	
 	/**
@@ -198,7 +200,6 @@ public class FuzzyIndex extends Index implements Serializable{
 	}
 	
 	public static FuzzyIndex readFromFile(String path) throws IOException, ClassNotFoundException {
-
 		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
 		FuzzyIndex active = (FuzzyIndex) ois.readObject();
 		ois.close();

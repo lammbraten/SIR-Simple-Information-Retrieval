@@ -4,20 +4,30 @@ import java.util.LinkedList;
 
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
+import de.hsnr.inr.sir.dictionary.WeightedPostingComparator;
 import de.hsnr.inr.sir.query.AbstractQueryTerm;
 import de.hsnr.inr.sir.query.ConcreteQueryTerm;
 import de.hsnr.inr.sir.query.PhraseQuery;
 import de.hsnr.inr.sir.query.ProximityQuery;
+import de.hsnr.inr.sir.query.Query;
 import de.hsnr.inr.sir.query.QueryItem;
 
 public class FuzzyQueryProcessor extends QueryProcessor {
 
 	public FuzzyQueryProcessor(FuzzyIndex index) {
 		super(index);
-		// TODO Auto-generated constructor stub
 	}
 
-
+	public LinkedList<Posting> process(Query query){
+		LinkedList<Posting> documents = new LinkedList<Posting>();
+		
+		for(LinkedList<QueryItem> qil : query.getAndConjunctions())
+			documents.addAll(intersectQueryTerm(qil));
+		
+		documents.sort(new WeightedPostingComparator());
+		return documents;
+	}
+	
 	@Override
 	protected LinkedList<Posting> processSingleQueryItem(QueryItem qi) {
 		System.out.println("process single query items on fuzzy");
