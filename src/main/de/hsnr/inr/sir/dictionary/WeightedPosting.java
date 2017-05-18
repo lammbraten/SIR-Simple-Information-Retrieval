@@ -2,6 +2,7 @@ package de.hsnr.inr.sir.dictionary;
 
 public class WeightedPosting extends Posting {
 	
+	private static final long serialVersionUID = -8269367322267871714L;
 	private float weight;
 	
 

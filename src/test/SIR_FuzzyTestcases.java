@@ -13,7 +13,7 @@ public class SIR_FuzzyTestcases {
 	FuzzyQueryProcessor fqp;
 	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void testFuzzyQueryProcessor() {
 		File corpus = new File(TEST_DIR);
@@ -32,7 +32,7 @@ public class SIR_FuzzyTestcases {
 		
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void testWrite(){
 		File corpus = new File(TEST_DIR);

@@ -1,6 +1,8 @@
 package de.hsnr.inr.sir.dictionary;
 
 public class Occurrence extends Posting{
+	
+	private static final long serialVersionUID = -1879996042216288027L;
 	private int pos1;
 	private int pos2;
 	

@@ -94,7 +94,7 @@ public class FuzzyIntersect extends Intersect {
 		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
 		for(Posting d : Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), fi.getPostings())){
-			float myA = fi.getFuzzyAffiliationDegree(d, qt0);
+			float myA = 1 -fi.getFuzzyAffiliationDegree(d, qt0);
 			float myB = 1- fi.getFuzzyAffiliationDegree(d, qt1);
 			
 			answer.add(new WeightedPosting(d, Math.min(myA, myB)));

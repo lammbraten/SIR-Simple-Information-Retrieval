@@ -11,8 +11,6 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.imageio.IIOException;
-
 import com.google.common.io.Files;
 
 import de.hsnr.inr.sir.textprocessing.Tokenizer;

@@ -5,11 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map.Entry;
-
 import de.hsnr.inr.sir.query.QueryItem;
 
 public class FuzzyIndex extends Index implements Serializable{
@@ -19,7 +16,6 @@ public class FuzzyIndex extends Index implements Serializable{
 
 	public static final float JACCARD_THRESHOLD = 0.5f;
 	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
-	private static final int DEFAULT_NUMBER_OF_POSTINGS = 10;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
 	private HashMap<Posting, HashMap<Term, Float>> fuzzyAffiliationDegree = new HashMap<Posting, HashMap<Term, Float>>();
 	private int jaccardRejected = 0;
