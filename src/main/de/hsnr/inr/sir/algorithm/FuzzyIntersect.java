@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.WeightedPosting;
+import de.hsnr.inr.sir.dictionary.WeightedPostingComparator;
 import de.hsnr.inr.sir.query.AbstractQueryTerm;
 
 /**
@@ -39,7 +40,7 @@ public class FuzzyIntersect extends Intersect {
 	 * @return
 	 */
 	public static LinkedList<Posting> and(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
-		/*LinkedList<Posting> answer  = new LinkedList<Posting>();
+		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
 		for(Posting d : Intersect.and(qt0.getPostings(), qt1.getPostings())){
 			float myA = fi.getFuzzyAffiliationDegree(d, qt0);
@@ -48,9 +49,11 @@ public class FuzzyIntersect extends Intersect {
 			answer.add(new WeightedPosting(d, Math.min(myA, myB)));
 		}
 		
-		Collections.sort(answer);
+		//answer.sort(new WeightedPostingComparator());
 		
-		return answer;*/
+		return answer;
+		
+		/*
 		LinkedList<Posting> answer = new LinkedList<Posting>();
 		Iterator<Posting> p1 = qt0.getPostings().iterator();
 		Iterator<Posting> p2 = qt1.getPostings().iterator();
@@ -74,7 +77,7 @@ public class FuzzyIntersect extends Intersect {
 			}
 		}
 		
-		return answer;
+		return answer;*/
 		
 		
 	}

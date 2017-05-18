@@ -42,7 +42,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		super();
 	}
 	
-	/*
+	
 	@Override
 	public LinkedList<Posting> getPostings(String name) {
 		LinkedList<Posting> postingList = new LinkedList<Posting>();
@@ -58,7 +58,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		
 		return postingList;
 	}
-*/
+
 	
 	
 	public String jaccardHistogrammToString(){
@@ -138,16 +138,18 @@ public class FuzzyIndex extends Index implements Serializable{
 		}
 	
 		float product;
+		HashMap<Term, Float> degrees;
 		for(Term u : this.dictionary){	
 			for(Term t : this.dictionary){
 				for(Posting p : u.getPostings()){
-					if(fuzzyAffiliationDegree.get(p).get(t) == null){
+					degrees = fuzzyAffiliationDegree.get(p);
+					if(degrees.get(t) == null){
 						product = 1f - (1f - getJaccardDegreeOf(u, t)); 
-						fuzzyAffiliationDegree.get(p).put(t, product);
+						degrees.put(t, product);
 					}else{
-						product = 1f - fuzzyAffiliationDegree.get(p).get(t);
+						product = 1f - degrees.get(t);
 						product = 1f - (product * (1f - getJaccardDegreeOf(u, t))); 
-						fuzzyAffiliationDegree.get(p).put(t, product);
+						degrees.put(t, product);
 					}
 
 				}				
