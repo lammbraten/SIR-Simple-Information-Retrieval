@@ -1,5 +1,6 @@
 package de.hsnr.inr.sir.algorithm;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
@@ -44,7 +45,6 @@ public class FuzzyIntersect extends Intersect {
 	 * @return
 	 */
 	public static LinkedList<Posting> and(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
-	
 		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
 		for(Posting d : Intersect.and(qt0.getPostings(), qt1.getPostings())){
@@ -76,17 +76,17 @@ public class FuzzyIntersect extends Intersect {
 	}
 	
 	public static LinkedList<Posting> andNot(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {
-		
 		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
-		for(Posting d : Intersect.andNot(qt0.getPostings(), qt1.getPostings())){
+		for(Posting d : Intersect.and(qt0.getPostings(), qt1.getPostings())){
 			float myA = fi.getFuzzyAffiliationDegree(d, qt0);
-			float myB = 1- fi.getFuzzyAffiliationDegree(d, qt1);
-			
+			Float myB = 1- fi.getFuzzyAffiliationDegree(d, qt1);
+
 			answer.add(new WeightedPosting(d, Math.min(myA, myB)));
 		}
 	
 		return answer;
+
 	}
 	
 	public static LinkedList<Posting> notAndNot(AbstractQueryTerm qt0, AbstractQueryTerm qt1, FuzzyIndex fi) {

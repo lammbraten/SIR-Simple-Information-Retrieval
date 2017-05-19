@@ -13,7 +13,7 @@ public class SIR_FuzzyTestcases {
 	FuzzyQueryProcessor fqp;
 	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testFuzzyQueryProcessor() {
 		File corpus = new File(TEST_DIR);
@@ -25,14 +25,18 @@ public class SIR_FuzzyTestcases {
 		fqp = new FuzzyQueryProcessor(index);
 	
 		System.out.println("Hexe:" + fqp.process(QueryHandler.parseQuery("Hexe")));		
+		System.out.println("Wald:" + fqp.process(QueryHandler.parseQuery("Wald")));	
+		System.out.println("Gretel:" + fqp.process(QueryHandler.parseQuery("Gretel")));	
 		System.out.println("Hexe AND Wald" + fqp.process(QueryHandler.parseQuery("Hexe AND Wald")));		
+		System.out.println("Hexe AND NOT Wald" + fqp.process(QueryHandler.parseQuery("Hexe AND NOT Wald")));
+		System.out.println("Hexe AND NOT Gretel" + fqp.process(QueryHandler.parseQuery("Hexe AND NOT Gretel")));
 		System.out.println("Hexe OR Wald" + fqp.process(QueryHandler.parseQuery("Hexe OR Wald")));	
 		System.out.println("Prinzessin AND Frosch" + fqp.process(QueryHandler.parseQuery("Prinzessin AND Frosch")));	
-		System.out.println("Hexe OR (Frosch AND Prinzessin)" + fqp.process(QueryHandler.parseQuery("Hexe OR (Frosch AND Prinzessin)")));	
+		System.out.println("Hexe OR Frosch AND Prinzessin" + fqp.process(QueryHandler.parseQuery("Hexe OR Frosch AND Prinzessin")));	
 		
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void testWrite(){
 		File corpus = new File(TEST_DIR);

@@ -16,6 +16,7 @@ public class FuzzyIndex extends Index implements Serializable{
 
 	public static final float JACCARD_THRESHOLD = 0.5f;
 	private static final int DEFAULT_HISTOGRAMM_SIZE = 10;
+	private static final Float OGAWA_THRESHOLD = 0.5f;
 	private HashMap<String, JaccardDegree> jaccardDegreeMap = new HashMap<String, JaccardDegree>();
 	private HashMap<Posting, HashMap<Term, Float>> fuzzyAffiliationDegree = new HashMap<Posting, HashMap<Term, Float>>();
 	private int jaccardRejected = 0;
@@ -46,7 +47,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		
 		for(Posting p : postings){
 			HashMap<Term, Float> hm = fuzzyAffiliationDegree.get(p);
-			if(hm.get(term) != null)
+			if(hm.get(term) != null && hm.get(term) > OGAWA_THRESHOLD)
 				postingList.add(new WeightedPosting(p, hm.get(term)));
 		}
 
@@ -127,7 +128,6 @@ public class FuzzyIndex extends Index implements Serializable{
 	/**
 	 * W(D,t) = 1 - (PRODUCT(1-c(u,t)) (for each Term u in Document d))
 	 */
-
 	public void calcFuzzyAffiliationDegreeMatrix(){
 		for(Posting p : this.postings){
 			fuzzyAffiliationDegree.put(p, new HashMap<Term, Float>());
@@ -138,19 +138,15 @@ public class FuzzyIndex extends Index implements Serializable{
 		for(Term u : this.dictionary){	
 			for(Term t : this.dictionary){
 				for(Posting p : u.getPostings()){
-					//if(t.hasPosting(p)) //t is in D, so W(D,t) must be 1
-					//	fuzzyAffiliationDegree.get(p).put(t, 1f);
-					//else{
-						degrees = fuzzyAffiliationDegree.get(p);
-						if(degrees.get(t) == null){
-							product = 1f - (1f - getJaccardDegreeOf(u, t)); 
-							degrees.put(t, product);
-						}else{
-							product = 1f - degrees.get(t);
-							product = 1f - (product * (1f - getJaccardDegreeOf(u, t))); 
-							degrees.put(t, product);
-						}
-					//}
+					degrees = fuzzyAffiliationDegree.get(p);
+					if(degrees.get(t) == null){
+						product = 1f - (1f - getJaccardDegreeOf(u, t)); 
+						degrees.put(t, product);
+					}else{
+						product = 1f - degrees.get(t);
+						product = 1f - (product * (1f - getJaccardDegreeOf(u, t))); 
+						degrees.put(t, product);
+					}
 				}				
 			}
 		}
