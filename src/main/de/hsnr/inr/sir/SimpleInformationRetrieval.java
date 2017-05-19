@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 
+import de.hsnr.inr.sir.algorithm.FuzzyQueryProcessor;
 import de.hsnr.inr.sir.algorithm.QueryProcessor;
+import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.query.Query;
@@ -32,13 +34,25 @@ public class SimpleInformationRetrieval {
 		this.query = QueryHandler.parseQuery(query);
 	}
 
-	public SimpleInformationRetrieval(String dirPath){
+	public SimpleInformationRetrieval(String dirPath, boolean fuzzy){
 		this.dirPath = dirPath;
 		System.out.println("Fülle Froschteich!");
 		handleFiles();
 		System.out.println("Hänge Spieglein an die Wand!");
-		index = new Index(corpus);
+		if(fuzzy)
+			initFuzzy();
+		else
+			initBoolean();
 		System.out.println("Alle Wesen an ihren Platz!");
+	}
+	
+	private void initFuzzy(){
+		index = new FuzzyIndex(corpus);
+		qp = new FuzzyQueryProcessor((FuzzyIndex) index);
+	}
+	
+	private void initBoolean(){
+		index = new Index(corpus);
 		qp = new QueryProcessor(index);
 	}
 

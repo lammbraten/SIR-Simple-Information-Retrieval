@@ -1,14 +1,11 @@
 import static org.junit.Assert.*;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.hsnr.inr.sir.SimpleInformationRetrieval;
-import de.hsnr.inr.sir.algorithm.QueryProcessor;
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public class SIR_Testcases {
@@ -19,7 +16,7 @@ public class SIR_Testcases {
 	
 	@BeforeClass
 	public static void build(){
-		sir = new SimpleInformationRetrieval(TEST_DIR);
+		sir = new SimpleInformationRetrieval(TEST_DIR, false);
 	}
 	
 //	@Ignore("temporary")

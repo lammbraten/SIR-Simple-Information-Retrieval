@@ -1,6 +1,5 @@
 package de.hsnr.inr.sir.algorithm;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;

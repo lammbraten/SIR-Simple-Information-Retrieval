@@ -1,26 +1,14 @@
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.google.common.io.Files;
-
-import de.hsnr.inr.sir.SimpleInformationRetrieval;
-import de.hsnr.inr.sir.dictionary.Index;
-import de.hsnr.inr.sir.dictionary.JaccardDegree;
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
-import de.hsnr.inr.sir.textprocessing.Tokenizer;
 
 public class TestJaccard {
 	private static final String TEST_DIR = "C:\\Users\\lammbraten\\Dropbox\\Master\\2.Semester\\INR\\Praktikum\\P1\\CorpusUTF8";

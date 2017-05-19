@@ -54,7 +54,6 @@ public class SIR_FuzzyTestcases {
 		try {
 			i = FuzzyIndex.readFromFile("..\\Index.bin");
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
