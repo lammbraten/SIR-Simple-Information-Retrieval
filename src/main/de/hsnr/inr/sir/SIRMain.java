@@ -1,5 +1,7 @@
 package de.hsnr.inr.sir;
 
+import java.util.LinkedList;
+
 import de.hsnr.inr.sir.dictionary.Posting;
 
 public class SIRMain {
@@ -29,9 +31,17 @@ public class SIRMain {
 		while(true){
 			sir.askForQuery();
 			System.out.println("Spieglein, Spieglein an der Wand, hast du solche Märchen zur Hand? \n" + sir.getQuery());
+			try{
+			LinkedList<Posting> result = sir.startInformationRetrieval();
 			System.out.println("\nFolgende Märchen habe ich für dich:");
-			for(Posting p : sir.startInformationRetrieval())
+			for(Posting p : result)
 				System.out.println("\t"+p);
+			}catch(IllegalArgumentException e){
+				System.out.println("\"" + e.getMessage() + "\" nicht im Corpus gefunden. Vertippt?");
+			}catch(Exception e){
+				System.err.println("Unerwarteter Fehler!");
+				e.printStackTrace();
+			}
 		}
 	}
 	

@@ -19,6 +19,20 @@ public class SIR_Testcases {
 		sir = new SimpleInformationRetrieval(TEST_DIR, false);
 	}
 	
+	@Test
+	public void testException(){
+		sir.setQuery("DiesenTermGibtEsNicht");
+		
+		try{
+			sir.startInformationRetrieval();
+			fail("Should throw IllegalArgumentException");
+		}catch(IllegalArgumentException e){
+			//passed
+		}catch(Exception e){
+			fail("Should throw IllegalArgumentException");			
+		}
+	}
+	
 //	@Ignore("temporary")
 	@Test
 	public void testAtomTerms() {

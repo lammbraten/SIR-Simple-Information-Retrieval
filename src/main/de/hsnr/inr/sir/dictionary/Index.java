@@ -82,7 +82,7 @@ public class Index implements Serializable{
 		int index = this.dictionary.indexOf(t);
 		if(index != -1)
 			return this.dictionary.get(index);
-		throw new IllegalArgumentException("No such term found");
+		throw new IllegalArgumentException(t.getValue());
 	}
 	
 	
