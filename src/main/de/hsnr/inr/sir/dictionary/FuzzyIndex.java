@@ -45,7 +45,7 @@ public class FuzzyIndex extends Index implements Serializable{
 		LinkedList<Posting> postingList = new LinkedList<Posting>();
 		Term term = new Term(name);
 		
-		for(Posting p : postings){
+		for(Posting p : documents){
 			HashMap<Term, Float> hm = fuzzyAffiliationDegree.get(p);
 			if(hm.get(term) != null && hm.get(term) > OGAWA_THRESHOLD)
 				postingList.add(new WeightedPosting(p, hm.get(term)));
@@ -129,7 +129,7 @@ public class FuzzyIndex extends Index implements Serializable{
 	 * W(D,t) = 1 - (PRODUCT(1-c(u,t)) (for each Term u in Document d))
 	 */
 	public void calcFuzzyAffiliationDegreeMatrix(){
-		for(Posting p : this.postings){
+		for(Posting p : this.documents){
 			fuzzyAffiliationDegree.put(p, new HashMap<Term, Float>());
 		}
 	

@@ -25,7 +25,7 @@ public class SIRMain {
 			throw new IllegalArgumentException("Leider konnte ich keine Märchen finden. :-( Probier's doch mal so: -p C:\\pfad\\zum\\Märchenordner");
 		
 		System.out.println("Die Märchen liegen in: " + dir_path);
-		
+		System.out.println("Fuzzy: "  + fuzzy);
 		SimpleInformationRetrieval sir = new SimpleInformationRetrieval(dir_path, fuzzy);
 		
 		while(true){

@@ -65,7 +65,7 @@ public class FuzzyIntersect extends Intersect {
 	public static LinkedList<Posting> not(AbstractQueryTerm qt, FuzzyIndex index) {
 		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
-		for(Posting d : Intersect.not(qt.getPostings(), index.getPostings())){
+		for(Posting d : Intersect.not(qt.getPostings(), index.getDocuments())){
 			float my = index.getFuzzyAffiliationDegree(d, qt);
 			
 			answer.add(new WeightedPosting(d, 1- my));
@@ -92,7 +92,7 @@ public class FuzzyIntersect extends Intersect {
 		
 		LinkedList<Posting> answer  = new LinkedList<Posting>();
 		
-		for(Posting d : Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), fi.getPostings())){
+		for(Posting d : Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), fi.getDocuments())){
 			float myA = 1 -fi.getFuzzyAffiliationDegree(d, qt0);
 			float myB = 1- fi.getFuzzyAffiliationDegree(d, qt1);
 			

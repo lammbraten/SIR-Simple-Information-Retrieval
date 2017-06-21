@@ -20,7 +20,7 @@ public class Index implements Serializable{
 	private static final long serialVersionUID = -5184828260058698090L;
 
 	protected LinkedList<Term> dictionary;
-	protected LinkedList<Posting> postings;
+	protected LinkedList<Posting> documents;
 	
 	public Index() {
 		this.dictionary =  new LinkedList<Term>();
@@ -36,7 +36,7 @@ public class Index implements Serializable{
 			}
 		}
 		
-		buildPostingList();
+		buildDocumentList();
 		//write("TestIndex.txt");
 		
 	}
@@ -51,12 +51,12 @@ public class Index implements Serializable{
 		return terms;
 	}
 
-	public void buildPostingList(){
-		postings = new LinkedList<Posting>();
+	public void buildDocumentList(){
+		documents = new LinkedList<Posting>();
 		for(Term t : dictionary)
 			for(Posting p : t.getPostings())
-				if(!postings.contains(p))
-					postings.add(p);
+				if(!documents.contains(p))
+					documents.add(p);
 		
 	}
 
@@ -104,16 +104,16 @@ public class Index implements Serializable{
 		}
 	}
 
-	public LinkedList<Posting> getPostings() {
-		return postings;
+	public LinkedList<Posting> getDocuments() {
+		return documents;
 	}
 
 	public LinkedList<Posting> getPostings(String name) {
 		return getTerm(name).getPostings();
 	}
 
-	public void setPostings(LinkedList<Posting> postings) {
-		this.postings = postings;
+	public void setDocuments(LinkedList<Posting> postings) {
+		this.documents = postings;
 	}
 	
 	public LinkedList<Term> getAllTermsIn(Posting p){

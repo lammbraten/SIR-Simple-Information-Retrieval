@@ -7,7 +7,7 @@ public class Term implements Comparable<Term>, Serializable{
 
 	private static final long serialVersionUID = -4996120355775824452L;
 	private String value;
-	private LinkedList<Posting> postings; 
+	protected LinkedList<Posting> postings; 
 	
 	public Term(String value){
 		this.value = value;

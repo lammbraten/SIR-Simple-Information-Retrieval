@@ -79,7 +79,7 @@ public class QueryProcessor {
 			if(qt.isPositive())
 				return qt.getPostings();
 			else
-				return Intersect.not(qt.getPostings(), index.getPostings());
+				return Intersect.not(qt.getPostings(), index.getDocuments());
 		}else if(qi instanceof PhraseQuery){
 			PhraseQuery phq = (PhraseQuery) qi;
 			phq.setPostingsFromIndex(index);
@@ -112,7 +112,7 @@ public class QueryProcessor {
 		else if(!qt0.isPositive() && qt1.isPositive()) //qt0 negative, qt1 positive
 			return Intersect.andNot(qt1.getPostings(), qt0.getPostings());
 		else if(!qt0.isPositive() && !qt1.isPositive()) //qt0 negative, qt1 negative
-			return Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), index.getPostings());
+			return Intersect.notAndNot(qt0.getPostings(), qt1.getPostings(), index.getDocuments());
 		throw new IllegalStateException("Something went terrible wrong!");
 	}
 

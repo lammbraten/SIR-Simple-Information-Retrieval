@@ -34,7 +34,7 @@ public class TestJaccard {
 		index.add(t3);
 		index.add(t4);
 		
-		index.buildPostingList();
+		index.buildDocumentList();
 		index.calcJaccardDegreeMatrix();
 		index.calcFuzzyAffiliationDegreeMatrix();
 		
@@ -59,7 +59,7 @@ public class TestJaccard {
 
 		System.out.println(index.jaccardHistogrammToString());		
 		System.out.println(index.fuzzyAffiliationHistogrammToString());
-		LinkedList<Posting> postings = index.getPostings();
+		LinkedList<Posting> postings = index.getDocuments();
 		Posting p1 = postings.getLast();
 		Posting p2 = postings.getFirst();
 		
