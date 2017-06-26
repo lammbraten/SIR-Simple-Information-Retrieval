@@ -1,17 +1,22 @@
 package de.hsnr.inr.sir.dictionary;
 
+import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import de.hsnr.inr.sir.query.Query;
+import java.util.Map.Entry;
 
 public class VectorIndex extends Index {
 
 	private static final long serialVersionUID = -4056771211575350476L;
 
 	//protected LinkedList<WeightedTerm> dictionary;
-		
+	
+	public VectorIndex(File corpus){
+		super(corpus);
+	}
+	
 	private int getNumberOfDocs(){
 		return documents.size();
 	}
@@ -19,7 +24,7 @@ public class VectorIndex extends Index {
 
 	
 	public float calcW_td(WeightedTerm t, Posting d){
-		return (float) (1+ Math.log10(t.getTf_td(d)) * (Math.log(getNumberOfDocs()/t.getDf_t())));
+		return (float) (1+ Math.log10(t.getTf_td(d)) * (Math.log((float)getNumberOfDocs()/t.getDf_t())));
 	}
 	
 	/**
@@ -31,29 +36,43 @@ public class VectorIndex extends Index {
 	 * @return
 	 */
 	public float calcW_tq(WeightedTerm t){
-		return (float)  (Math.log(getNumberOfDocs()/t.getDf_t()));
+		return (float) (Math.log((float)getNumberOfDocs()/t.getDf_t()));
 	}
 	
 
-	public void cosineScore(LinkedList<Term> q){
+	public List<Entry<Posting, Float>> cosineScore(LinkedList<Term> q, int topK){
 		HashMap<Posting, Float> scores = new HashMap<Posting, Float>();
+		List<Entry<Posting, Float>> returnVal = new LinkedList<Entry<Posting, Float>>();
+				
 		for(Posting p : documents)
 			scores.put(p, 0f);
 		//float Scores[] = new float[getNumberOfDocs()]; //Sollte laut java-spec mit 0 initialisiert weden.
 		
 		for(Term t : q){
-			WeightedTerm indexTerm = (WeightedTerm) this.getTerm(t);
+			WeightedTerm indexTerm = new WeightedTerm(this.getTerm(t));
 			float w_tq = calcW_tq(indexTerm);
 			
 	
 			for(Posting p : indexTerm.getPostings()){
 				float w_td = calcW_td(indexTerm, p);
-				scores.put(p, scores.get(p) + (w_tq * w_td));
+				float n_val = scores.get(p) + (w_tq * w_td);
+				scores.put(p, n_val);
 			}
 		}
 		
-		for(Posting d : scores.keySet())
-			scores.put(d, scores.get(d)/this.getAllTermsIn(d).size());
+		for(Entry<Posting, Float> e : scores.entrySet()){
+			Posting d = e.getKey();
+			float val = e.getValue();
+			
+			
+			scores.put(d, val/this.getAllTermsIn(d).size());
+			returnVal.add(e);
+		}
+		
+		returnVal.sort(new EntryComparator());
+		
+		return returnVal;
 		
 	}
+
 }

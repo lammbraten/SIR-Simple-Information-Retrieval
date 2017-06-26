@@ -18,8 +18,9 @@ public class WeightedTerm extends Term implements Serializable {
 	private int df_t = 0;
 
 
-	public WeightedTerm(String value) {
-		super(value);
+	public WeightedTerm(Term term) {
+		super(term.getValue());
+		append(term.getPostings());
 	}
 	
 	public WeightedTerm(String value, Posting posting){
