@@ -1,6 +1,6 @@
 package de.hsnr.inr.sir;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import de.hsnr.inr.sir.dictionary.Posting;
 
@@ -9,11 +9,13 @@ public class SIRMain {
 	private static final String DIR_PATH_PAR = "-p";
 	private static final String FUZZY_PAR = "-f";
 	private static final String BOOLEAN_PAR = "-b";
+	private static final String VECTOR_PAR = "-v";
 	private static final String HELP_PAR = "-h";
 
 	private static String dir_path;
 	private static boolean fuzzy;
 	private static boolean help = false;
+	private static boolean vector = false;
 
 	public static void main(String[] args) {
 		System.out.println("Hallo Märchenwelt!");
@@ -26,13 +28,17 @@ public class SIRMain {
 		
 		System.out.println("Die Märchen liegen in: " + dir_path);
 		System.out.println("Fuzzy: "  + fuzzy);
-		SimpleInformationRetrieval sir = new SimpleInformationRetrieval(dir_path, fuzzy);
+		SimpleInformationRetrieval sir;
+		if(vector)
+			sir = new VectorInformationRetrieval(dir_path);
+		else
+			sir = new SimpleInformationRetrieval(dir_path, fuzzy);
 		
 		while(true){
 			sir.askForQuery();
 			System.out.println("Spieglein, Spieglein an der Wand, hast du solche Märchen zur Hand? \n" + sir.getQuery());
 			try{
-			LinkedList<Posting> result = sir.startInformationRetrieval();
+			List<Posting> result = sir.startInformationRetrieval();
 			System.out.println("\nFolgende Märchen habe ich für dich:");
 			for(Posting p : result)
 				System.out.println("\t"+p);
@@ -69,6 +75,8 @@ public class SIRMain {
 			return true;
 		if(isBoolSetBool(key, value))
 			return true;
+		if(isVectorSetVector(key, value))
+			return true;
 		return false;
 	}
 
@@ -103,5 +111,14 @@ public class SIRMain {
 		}
 		return false;
 	}
+	
+	private static boolean isVectorSetVector(String key, String value) {
+		if(key.equals(VECTOR_PAR)){
+			vector = Boolean.parseBoolean(value);
+			return true;
+		}
+		return false;
+	}
+
 
 }

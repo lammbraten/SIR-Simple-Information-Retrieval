@@ -2,11 +2,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.LinkedList;
-import java.util.Map.Entry;
-
 import org.junit.Test;
 
-import de.hsnr.inr.sir.dictionary.Index;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.dictionary.Term;
 import de.hsnr.inr.sir.dictionary.VectorIndex;
@@ -33,8 +30,8 @@ public class TestVectorIndex {
 
 		
 		
-		for(Entry<Posting, Float> e : index.cosineScore(q, 10))
-			System.out.println(e.getKey().getName() + ": " + e.getValue());
+		for(Posting e : index.cosineScore(q, 10))
+			System.out.println(e);
 	}
 
 }

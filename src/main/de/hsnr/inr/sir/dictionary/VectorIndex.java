@@ -1,7 +1,6 @@
 package de.hsnr.inr.sir.dictionary;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,8 +9,6 @@ import java.util.Map.Entry;
 public class VectorIndex extends Index {
 
 	private static final long serialVersionUID = -4056771211575350476L;
-
-	//protected LinkedList<WeightedTerm> dictionary;
 	
 	public VectorIndex(File corpus){
 		super(corpus);
@@ -48,9 +45,8 @@ public class VectorIndex extends Index {
 		return (float) (1+ Math.log10(tf_td) * Math.log((float)getNumberOfDocs()/(t.getDf_t()+1)));
 	}
 	
-	public List<Entry<Posting, Float>> cosineScore(LinkedList<Term> q, int topK){
+	public 	List<Posting> cosineScore(LinkedList<Term> q, int topK){
 		HashMap<Posting, Float> scores = new HashMap<Posting, Float>();
-		List<Entry<Posting, Float>> returnVal = new LinkedList<Entry<Posting, Float>>();
 				
 		for(Posting p : documents)
 			scores.put(p, 0f);
@@ -68,25 +64,11 @@ public class VectorIndex extends Index {
 			}
 		}
 		
-		for(Entry<Posting, Float> e : scores.entrySet()){
-			Posting d = e.getKey();
-			float val = e.getValue();
-			
-			
-			scores.put(d, val/this.getAllTermsIn(d).size());
-			returnVal.add(e);
-		}
-		
-		//TODO: implement Queue for speedup
-		returnVal.sort(new EntryComparator());
-
-		return returnVal;
+		return sortList(topK, scores);
 	}
-	
-	
-	public List<Entry<Posting, Float>> fastCosineScore(LinkedList<Term> q, int topK){
+
+	public List<Posting> fastCosineScore(LinkedList<Term> q, int topK){
 		HashMap<Posting, Float> scores = new HashMap<Posting, Float>();
-		List<Entry<Posting, Float>> returnVal = new LinkedList<Entry<Posting, Float>>();
 				
 		for(Posting p : documents)
 			scores.put(p, 0f);
@@ -101,20 +83,31 @@ public class VectorIndex extends Index {
 			}
 		}
 		
+		return sortList(topK, scores);
+		
+	}
+
+	private List<Posting> sortList(int topK, HashMap<Posting, Float> scores) {
+		LinkedList<Posting> returnVal = new LinkedList<Posting>();
+		
 		for(Entry<Posting, Float> e : scores.entrySet()){
 			Posting d = e.getKey();
 			float val = e.getValue();
 			
+			if(val <= 0)
+				continue;
 			
 			scores.put(d, val/this.getAllTermsIn(d).size());
-			returnVal.add(e);
+			returnVal.add(new WeightedPosting(d, e.getValue()));
+			
 		}
 		
 		//TODO: implement Queue for speedup
-		returnVal.sort(new EntryComparator());
+		returnVal.sort(new WeightedPostingComparator());
 		
-		return returnVal;
-		
+		if(returnVal.size() < topK)		
+			return returnVal;
+		return returnVal.subList(0, topK-1);
 	}
 
 }

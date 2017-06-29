@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.List;
 
 import de.hsnr.inr.sir.algorithm.FuzzyQueryProcessor;
 import de.hsnr.inr.sir.algorithm.QueryProcessor;
@@ -47,23 +47,23 @@ public class SimpleInformationRetrieval {
 	}
 	
 	private void initFuzzy(){
-		index = new FuzzyIndex(corpus);
-		qp = new FuzzyQueryProcessor((FuzzyIndex) index);
+		setIndex(new FuzzyIndex(getCorpus()));
+		setQueryProcessor(new FuzzyQueryProcessor((FuzzyIndex) getIndex()));
 	}
 	
-	private void initBoolean(){
-		index = new Index(corpus);
-		qp = new QueryProcessor(index);
+	void initBoolean(){
+		setIndex(new Index(getCorpus()));
+		setQueryProcessor(new QueryProcessor(getIndex()));
 	}
 
 	private void handleFiles() {
 		System.out.println("Lerne Geschichten auswendig!");
-		corpus = new File(dirPath);
+		setCorpus(new File(dirPath));
 		checkIfDir();
 	}
 	
 	private void checkIfDir() {
-		if(!corpus.isDirectory())
+		if(!getCorpus().isDirectory())
 			throw new IllegalArgumentException("Quelldatei muss ein Ordner sein!");
 	}
 
@@ -83,8 +83,32 @@ public class SimpleInformationRetrieval {
 		} while(query == null || query.isEmpty());
 	}
 
-	public LinkedList<Posting> startInformationRetrieval() {
-		 return qp.process(query);
+	public List<Posting> startInformationRetrieval() {
+		 return getQueryProcessor().process(query);
+	}
+
+	public Index getIndex() {
+		return index;
+	}
+
+	public void setIndex(Index index) {
+		this.index = index;
+	}
+
+	public File getCorpus() {
+		return corpus;
+	}
+
+	public void setCorpus(File corpus) {
+		this.corpus = corpus;
+	}
+
+	public QueryProcessor getQueryProcessor() {
+		return qp;
+	}
+
+	public void setQueryProcessor(QueryProcessor qp) {
+		this.qp = qp;
 	}
 
 
