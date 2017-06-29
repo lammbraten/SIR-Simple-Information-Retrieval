@@ -68,6 +68,7 @@ public class Index implements Serializable{
 			dictionary.add(t);
 		}
 	}
+	
 
 	public void addAll(List<Term> terms){
 		for(Term t : terms)

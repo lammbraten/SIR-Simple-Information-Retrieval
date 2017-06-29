@@ -32,9 +32,9 @@ public class WeightedTerm extends Term implements Serializable {
 	private void updateTf_td(Posting p){
 		Integer tf = tf_td.get(p);
 		if(tf == null)
-			tf_td.put(p, 1);
+			tf_td.put(p, p.getPositions().size());
 		else
-			tf_td.put(p, tf + 1);
+			tf_td.put(p, tf + p.getPositions().size());
 	}
 	
 	@Override

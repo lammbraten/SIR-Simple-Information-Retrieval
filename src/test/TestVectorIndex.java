@@ -30,6 +30,8 @@ public class TestVectorIndex {
 		q.add(new Term("gretel"));
 		q.add(new Term("prinzessin"));
 		q.add(new Term("frosch"));
+
+		
 		
 		for(Entry<Posting, Float> e : index.cosineScore(q, 10))
 			System.out.println(e.getKey().getName() + ": " + e.getValue());
