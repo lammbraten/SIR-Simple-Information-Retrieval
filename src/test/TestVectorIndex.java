@@ -27,8 +27,6 @@ public class TestVectorIndex {
 		q.add(new Term("gretel"));
 		q.add(new Term("prinzessin"));
 		q.add(new Term("frosch"));
-
-		
 		
 		for(Posting e : index.cosineScore(q, 10))
 			System.out.println(e);
