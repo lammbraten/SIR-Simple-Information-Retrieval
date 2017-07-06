@@ -10,15 +10,18 @@ import de.hsnr.inr.sir.algorithm.FuzzyQueryProcessor;
 import de.hsnr.inr.sir.algorithm.QueryProcessor;
 import de.hsnr.inr.sir.dictionary.FuzzyIndex;
 import de.hsnr.inr.sir.dictionary.Index;
+import de.hsnr.inr.sir.dictionary.KGramIndex;
 import de.hsnr.inr.sir.dictionary.Posting;
 import de.hsnr.inr.sir.query.Query;
+import de.hsnr.inr.sir.query.QueryConjunction;
 import de.hsnr.inr.sir.query.QueryHandler;
+import de.hsnr.inr.sir.query.QueryItem;
 
 public class SimpleInformationRetrieval {
 
 	private String dirPath;
 	private File corpus;
-	private Index index;
+	private KGramIndex index;
 	private Query query = null;
 	private QueryProcessor qp = null;
 	
@@ -52,7 +55,7 @@ public class SimpleInformationRetrieval {
 	}
 	
 	void initBoolean(){
-		setIndex(new Index(getCorpus()));
+		setIndex(new KGramIndex(getCorpus()));
 		setQueryProcessor(new QueryProcessor(getIndex()));
 	}
 
@@ -87,11 +90,24 @@ public class SimpleInformationRetrieval {
 		 return getQueryProcessor().process(query);
 	}
 
+	public String getAlternativeQueryTerms() {
+		String str = "";
+		
+		for(QueryItem qi : query.getQueryitems()){
+			if(qi instanceof QueryConjunction)
+				continue;
+			str += "Orginial Suchwort:" + qi.getName() + "\n";
+			for(String termStr :  index.getCorrectedTermsForString(qi.getName()))
+				str += "\t" + termStr + "\n";
+		}
+		return str;
+	}
+
 	public Index getIndex() {
 		return index;
 	}
 
-	public void setIndex(Index index) {
+	public void setIndex(KGramIndex index) {
 		this.index = index;
 	}
 

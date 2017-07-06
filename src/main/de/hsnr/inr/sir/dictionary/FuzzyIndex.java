@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import de.hsnr.inr.sir.query.QueryItem;
 
-public class FuzzyIndex extends Index implements Serializable{
+public class FuzzyIndex extends KGramIndex  implements Serializable{
 	
 
 	private static final long serialVersionUID = -8843673026522862647L;
@@ -33,12 +33,6 @@ public class FuzzyIndex extends Index implements Serializable{
 		buildJaccardHistogram(DEFAULT_HISTOGRAMM_SIZE);
 		buildfuzzyAffiliationHistogram(DEFAULT_HISTOGRAMM_SIZE);
 	}
-
-	
-	public FuzzyIndex() {
-		super();
-	}
-	
 	
 	@Override
 	public LinkedList<Posting> getPostings(String name) {

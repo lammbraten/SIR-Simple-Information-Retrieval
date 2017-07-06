@@ -28,13 +28,14 @@ public class Index implements Serializable{
 	
 	public Index(File corpus){
 		this();
-		for(File f : corpus.listFiles()){
-			try {
-				addAll(extractTerms(f));
-			} catch (IOException e) {
-				System.err.println("Couldn't open file " + f + "\n" + e);
+		if(corpus != null)
+			for(File f : corpus.listFiles()){
+				try {
+					addAll(extractTerms(f));
+				} catch (IOException e) {
+					System.err.println("Couldn't open file " + f + "\n" + e);
+				}
 			}
-		}
 		
 		buildDocumentList();
 		//write("TestIndex.txt");

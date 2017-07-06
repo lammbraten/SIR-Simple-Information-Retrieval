@@ -50,8 +50,6 @@ public class Query {
 				lstStr += "\n";
 			lstStr += qui.toString();
 		}
-		
-		lstStr += ";";
 		return lstStr;
 	}
 	

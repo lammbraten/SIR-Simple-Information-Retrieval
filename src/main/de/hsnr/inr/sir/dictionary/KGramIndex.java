@@ -14,7 +14,11 @@ public class KGramIndex extends Index {
 	private static final long serialVersionUID = 3719653519465517041L;
 	private HashMap<String, Set<Term>> kgrams;
 	private int k = 2;
-	private float treshold = 0.4f;
+	private float treshold = 0.2f;
+	
+	public KGramIndex(File corpus){
+		this(corpus, 2);
+	}
 	
 	public KGramIndex(File corpus, int k){
 		super(corpus);
@@ -27,7 +31,9 @@ public class KGramIndex extends Index {
 		if(kgram.length() != k)
 			throw new IndexOutOfBoundsException("Has to be the length of k");
 		
-		return kgrams.get(kgram);
+		if(kgrams.containsKey(kgram))
+			return kgrams.get(kgram);
+		return new HashSet<Term>();
 	}
 	
 	public Set<String> getCorrectedTermsForString(String q){
@@ -87,7 +93,6 @@ public class KGramIndex extends Index {
 					Set<Term> terms = new HashSet<Term>();
 					kgrams.put(kgram_t, terms);				
 				}
-
 			}
 		}
 		

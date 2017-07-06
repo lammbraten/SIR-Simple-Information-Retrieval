@@ -3,6 +3,8 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
@@ -15,7 +17,7 @@ public class TestJaccard {
 
 	@Test
 	public void quickTest() {
-		FuzzyIndex index = new FuzzyIndex();
+		FuzzyIndex index = new FuzzyIndex(null);
 		Posting d1 = new Posting("D1");
 		Posting d2 = new Posting("D2");
 		Posting d3 = new Posting("D3");
@@ -45,7 +47,7 @@ public class TestJaccard {
 		
 	}		
 	
-//	@Ignore
+	@Ignore
 	@Test
 	public void test() {
 		File corpus = new File(TEST_DIR);

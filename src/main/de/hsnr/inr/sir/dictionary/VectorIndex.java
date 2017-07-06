@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class VectorIndex extends Index {
+public class VectorIndex extends KGramIndex {
 
 	private static final long serialVersionUID = -4056771211575350476L;
 	

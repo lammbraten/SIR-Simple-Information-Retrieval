@@ -44,6 +44,7 @@ public class SIRMain {
 				System.out.println("\t"+p);
 			}catch(IllegalArgumentException e){
 				System.out.println("\"" + e.getMessage() + "\" nicht im Corpus gefunden. Vertippt?");
+				System.out.println("Meintest du vielleich: \n" + sir.getAlternativeQueryTerms());
 			}catch(Exception e){
 				System.err.println("Unerwarteter Fehler!");
 				e.printStackTrace();
