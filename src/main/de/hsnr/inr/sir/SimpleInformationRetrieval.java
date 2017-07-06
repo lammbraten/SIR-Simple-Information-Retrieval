@@ -24,6 +24,7 @@ public class SimpleInformationRetrieval {
 	private KGramIndex index;
 	private Query query = null;
 	private QueryProcessor qp = null;
+	private int r = 2;
 	
 	public Query getQuery() {
 		return query;
@@ -79,11 +80,25 @@ public class SimpleInformationRetrieval {
 		do {
 			System.out.println("Was soll im Märchen vorkommen?");
 			try {
-				 setQuery(br.readLine());
+				String input = br.readLine();
+				if(input.startsWith("/set_J:"))
+					setJ(input.substring(input.indexOf(':')+1));
+				else if(input.startsWith("/set_r:"))
+					setR(input.substring(input.indexOf(':')+1));
+				else
+				 setQuery(input);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} while(query == null || query.isEmpty());
+	}
+
+	private void setR(String str) {
+		this.r  = Integer.parseInt(str);
+	}
+
+	private void setJ(String str) {
+		index.setTreshold(Float.parseFloat(str));
 	}
 
 	public List<Posting> startInformationRetrieval() {
@@ -101,6 +116,10 @@ public class SimpleInformationRetrieval {
 				str += "\t" + termStr + "\n";
 		}
 		return str;
+	}
+	
+	public int getMinDocsPerQuery(){
+		return r;
 	}
 
 	public Index getIndex() {
@@ -127,6 +146,7 @@ public class SimpleInformationRetrieval {
 		this.qp = qp;
 	}
 
+	
 
 
 

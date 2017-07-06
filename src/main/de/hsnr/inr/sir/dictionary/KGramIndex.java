@@ -3,7 +3,6 @@ package de.hsnr.inr.sir.dictionary;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,6 +15,14 @@ public class KGramIndex extends Index {
 	private int k = 2;
 	private float treshold = 0.2f;
 	
+	public float getTreshold() {
+		return treshold;
+	}
+
+	public void setTreshold(float treshold) {
+		this.treshold = treshold;
+	}
+
 	public KGramIndex(File corpus){
 		this(corpus, 2);
 	}

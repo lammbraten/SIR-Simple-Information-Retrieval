@@ -40,8 +40,15 @@ public class SIRMain {
 			try{
 			List<Posting> result = sir.startInformationRetrieval();
 			System.out.println("\nFolgende Märchen habe ich für dich:");
+
 			for(Posting p : result)
 				System.out.println("\t"+p);
+			
+			if(result.size() < sir.getMinDocsPerQuery()){
+				System.out.println("Das sind sehr wenig Märchen, hast du dich vertippt?");
+				System.out.println("Meintest du vielleich: \n" + sir.getAlternativeQueryTerms());
+			}
+				
 			}catch(IllegalArgumentException e){
 				System.out.println("\"" + e.getMessage() + "\" nicht im Corpus gefunden. Vertippt?");
 				System.out.println("Meintest du vielleich: \n" + sir.getAlternativeQueryTerms());
